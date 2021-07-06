@@ -8,6 +8,8 @@ import floor from "./assets/icons/floor.svg";
 import zone from "./assets/icons/zone.svg";
 import PlayersPage from "./pages/PlayersPage";
 import InspectArenaPage from "./pages/InspectArenaPage";
+import ListWeaponsPage from "./pages/ListWeaponsPage";
+import WeaponEditorPage from "./pages/WeaponEditorPage";
 
 interface GamesHQRoute {
     name: string;
@@ -87,6 +89,12 @@ function App() {
                         </Route>
                         <Route exact path="/inspect/arena">
                             <InspectArenaPage />
+                        </Route>
+                        <Route exact path="/weapons">
+                            <ListWeaponsPage />
+                        </Route>
+                        <Route exact path="/weapons/new">
+                            <WeaponEditorPage />
                         </Route>
                     </Switch>
                 </div>
