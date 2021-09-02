@@ -10,6 +10,8 @@ import PlayersPage from "./pages/PlayersPage";
 import InspectArenaPage from "./pages/InspectArenaPage";
 import ListWeaponsPage from "./pages/ListWeaponsPage";
 import WeaponEditorPage from "./pages/WeaponEditorPage";
+import ListZonesPage from "./pages/ListZonesPage";
+import ZoneEditorPage from "./pages/ZoneEditorPage";
 
 interface GamesHQRoute {
     name: string;
@@ -24,6 +26,7 @@ const inspectRoutes = [
 const databaseRoutes = [
     { name: "Players", to: "/players", icon: playerSvg },
     { name: "Weapons", to: "/weapons", icon: sword },
+    { name: "Zones", to: "/zones", icon: sword },
     { name: "Traits", to: "/traits", icon: trait },
 ];
 
@@ -90,11 +93,20 @@ function App() {
                         <Route exact path="/inspect/arena">
                             <InspectArenaPage />
                         </Route>
+
                         <Route exact path="/weapons">
                             <ListWeaponsPage />
                         </Route>
                         <Route exact path="/weapons/new">
                             <WeaponEditorPage />
+                        </Route>
+
+                        <Route exact path="/zones">
+                            <ListZonesPage />
+                        </Route>
+
+                        <Route exact path="/zones/new">
+                            <ZoneEditorPage />
                         </Route>
                     </Switch>
                 </div>

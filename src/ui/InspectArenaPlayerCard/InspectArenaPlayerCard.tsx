@@ -1,10 +1,3 @@
-import {
-    PolarAngleAxis,
-    PolarGrid,
-    PolarRadiusAxis,
-    Radar,
-    RadarChart,
-} from "recharts";
 import { emojiToImageTag } from "../../helpers/emojiHelper";
 import { truncateText } from "../../helpers/textHelper";
 
@@ -15,42 +8,22 @@ interface IProps {
 const InspectArenaPlayerCard = function InspectArenaPlayerCard({
     player,
 }: IProps) {
-    const archetypeData = [
-        {
-            subject: "A",
-            A: 30,
-            fullMark: 100,
-        },
-        {
-            subject: "T",
-            A: 30,
-            fullMark: 100,
-        },
-        {
-            subject: "V",
-            A: 30,
-            fullMark: 100,
-        },
-    ];
-
     return (
         <span className="mr-2 mb-2">
             <div
                 className={`w-max bg-white rounded-lg border flex flex-col cursor-pointer ${
-                    player.readyForRound
-                        ? "border-xteamaccent"
-                        : "border-gray-200"
+                    player.health ? "border-xteamaccent" : "border-gray-200"
                 }`}
             >
                 <div className="flex">
                     <div className="w-24 flex flex-col justify-center items-center">
                         <img
                             className="w-12 h-12 rounded-full mb-1 "
-                            src={player.photoUrl}
-                            alt={player.name}
+                            src={player._user.profilePictureUrl}
+                            alt={player._user.displayName}
                         />
                         <div className="font-semibold text-center">
-                            {truncateText(player.name, 9)}
+                            {truncateText(player._user.displayName, 9)}
                         </div>
                         <div className="font-semibold text-lg text-center flex justify-center items-center">
                             {emojiToImageTag(":health-heart:", "w-4 h-4")}
@@ -79,16 +52,13 @@ const InspectArenaPlayerCard = function InspectArenaPlayerCard({
                         <div className="relative h-full flex flex-col">
                             <div className="absolute mt-2">
                                 <span className="text-gray-400 thin font-sans text-center flex justify-center items-center mb-2 opacity-5">
-                                    {emojiToImageTag(
-                                        player.team.emoji,
-                                        "h-32 w-32"
-                                    )}
+                                    {emojiToImageTag(":corgi:", "h-32 w-32")}
                                 </span>
                             </div>
 
                             <span className="text-gray-400 thin font-sans text-center flex ml-4">
                                 <div className="mt-2 flex flex-wrap">
-                                    {player.weapons.map((weapon) =>
+                                    {player._weapons.map((weapon) =>
                                         emojiToImageTag(weapon.emoji)
                                     )}
                                 </div>
@@ -117,7 +87,7 @@ const InspectArenaPlayerCard = function InspectArenaPlayerCard({
                             </div> */}
 
                             <div className="flex justify-center mt-auto mb-1">
-                                {player.readyForRound ? (
+                                {player.health ? (
                                     <span className="text-xteamaccent italic font-extrabold uppercase">
                                         READY
                                     </span>

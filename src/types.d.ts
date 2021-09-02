@@ -1,22 +1,51 @@
-interface IArenaPlayer {
+interface IUser {
+    id?: number;
+    email: string;
+    slackId: string;
+    displayName: string;
+    profilePictureUrl: string;
+    _team: ITeam;
+}
+
+interface ITeam {
+    id?: number;
     name: string;
-    photoUrl: string;
+    emoji: string;
     health: number;
-    weapons: IWeapon[];
-    team: IPlayerTeam;
+    isActive: boolean;
+    health: number;
+}
+interface IArenaPlayer {
+    _user: IUser;
+    health: number;
     isSpectator: boolean;
-    readyForRound: boolean;
+    isVisible: boolean;
+    isBoss: boolean;
+    luckBoost: number;
+    abilitiesJSON: {
+        [key: string]: number;
+    };
+    _team: ITeam;
+    _weapons: IWeapon[];
+    _userId: number;
+    _teamId: number;
+    _gameId: number;
+    _arenaZoneId: number | null;
+    _user: IUser;
 }
 
 interface IWeapon {
     name: string;
     emoji: string;
+    usageLimit: number | null;
+    isArchived: boolean;
+    _itemRarityId: TArenaRarity;
+    _weapon: IWeaponData;
+}
+
+interface IWeaponData {
     minorDamageRate: number;
     majorDamageRate: number;
-    usageLimit: number | null;
-    isActive: boolean;
-    arenaRarity: TArenaRarity;
-    isArchived: boolean;
 }
 
 type TArenaRarity = "COMMON" | "RARE" | "EPIC" | "LEGENDARY";
@@ -26,14 +55,22 @@ interface IPlayerTeam {
     emoji: string;
 }
 
-interface IArenaGame {
+interface IGame {
+    id?: number;
     name: string;
     isActive: boolean;
-    teamBased: boolean;
+    _arena: IArenaGame;
+}
+
+interface IArenaGame {
+    id?: number;
     hasZoneDeactivation: boolean;
+    teamBased: boolean;
+    ringSystemAlgorithm: string;
     currentRingDeactivation: number;
-    ringSystemAlgorithm: number;
     inactiveZonePenaltyPower: number;
+    _gameId: number;
+    _players: [IArenaPlayer];
 }
 
 interface IArenaRoundAction {

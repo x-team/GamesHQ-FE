@@ -2,58 +2,44 @@ import { emojiToImageTag } from "../helpers/emojiHelper";
 import { rarityToTextColor } from "../helpers/rarityHelper";
 import Button from "../ui/Button";
 
-const ListWeaponsPage = function ListWeaponsPage(props: any) {
-    const sortedWeapons = [].sort((a: IWeapon, b: IWeapon) => {
-        const rarityToNumber = {
-            COMMON: 0,
-            RARE: 1,
-            EPIC: 2,
-            LEGENDARY: 3,
-        };
-        const aRarityNumber = rarityToNumber[a._itemRarityId];
-        const bRarityNumber = rarityToNumber[b._itemRarityId];
-        if (aRarityNumber > bRarityNumber) return -1;
-        else if (bRarityNumber > aRarityNumber) return 1;
-        return 0;
-    });
+const ListZonesPage = function ListZonesPage(props: any) {
+    const zones: any = [];
 
     return (
         <div>
-            <h2 className="text-2xl font-bold italic font-sans mb-8">
-                WEAPONS
-            </h2>
+            <h2 className="text-2xl font-bold italic font-sans mb-8">ZONES</h2>
 
             <div className="mt-4">
-                <a href="/weapons/new">
-                    <Button>New Weapon</Button>
+                <a href="/zones/new">
+                    <Button>New Zone</Button>
                 </a>
             </div>
 
             <div className="mt-4">
-                {sortedWeapons.map((weapon: IWeapon, index) => (
+                {zones.map((zone: any, index: number) => (
                     <span key={index}>
                         <div
                             className={`grid grid-cols-4 justify-between font-bold uppercase ${
-                                weapon.isArchived ? "opacity-20" : ""
-                            } ${rarityToTextColor(weapon._itemRarityId)}`}
+                                zone.isArchived ? "opacity-20" : ""
+                            } ${rarityToTextColor(zone._itemRarityId)}`}
                         >
                             <div className="flex">
-                                {emojiToImageTag(weapon.emoji, "h-12 w-12")}
+                                {emojiToImageTag(zone.emoji, "h-12 w-12")}
                                 <div className={`ml-2 flex flex-col`}>
                                     <span>
-                                        {weapon.name}
-                                        {weapon.isArchived ? " (Archived)" : ""}
+                                        {zone.name}
+                                        {zone.isArchived ? " (Archived)" : ""}
                                     </span>
                                     <span className="font-normal text-sm">
-                                        {weapon._itemRarityId}
+                                        {zone._itemRarityId}
                                     </span>
                                 </div>
                             </div>
                             <div className="flex flex-col">
                                 <span className="text-gray-400">DAMAGE</span>
                                 <span className="text-xl text-black">
-                                    {weapon._weapon.minorDamageRate} ~{" "}
-                                    {weapon._weapon.majorDamageRate}
+                                    {zone._zone.minorDamageRate} ~{" "}
+                                    {zone._zone.majorDamageRate}
                                 </span>
                             </div>
 
@@ -62,7 +48,7 @@ const ListWeaponsPage = function ListWeaponsPage(props: any) {
                                     USAGE LIMIT
                                 </span>
                                 <span className="text-xl text-black">
-                                    {weapon.usageLimit || "∞"}
+                                    {zone.usageLimit || "∞"}
                                 </span>
                             </div>
 
@@ -81,4 +67,4 @@ const ListWeaponsPage = function ListWeaponsPage(props: any) {
     );
 };
 
-export default ListWeaponsPage;
+export default ListZonesPage;

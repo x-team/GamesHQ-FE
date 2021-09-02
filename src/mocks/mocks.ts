@@ -3,6 +3,8 @@ export const nightclawTeam: IPlayerTeam = {
     emoji: ":nightclaw:",
 };
 
+/*
+
 export const corgiTeam: IPlayerTeam = {
     name: "House Corgi",
     emoji: ":corgi:",
@@ -74,9 +76,9 @@ export const mockAllWeapons: IWeapon[] = [
     kadeDualpistols,
     rcEnvisioner,
     inactiveWeapon,
-];
+]; */
 
-export const mockArenaPlayers: IArenaPlayer[] = [
+/* export const mockArenaPlayers: IArenaPlayer[] = [
     {
         name: "Ed",
         photoUrl:
@@ -124,9 +126,9 @@ export const mockArenaPlayers: IArenaPlayer[] = [
         isSpectator: false,
         readyForRound: true,
     },
-];
+]; */
 
-export const mockArenaGame: IArenaGame = {
+/* export const mockArenaGame: IArenaGame = {
     name: "The Arena 2: Electric Boogaloo",
     currentRingDeactivation: 1,
     isActive: true,
@@ -135,3 +137,4 @@ export const mockArenaGame: IArenaGame = {
     inactiveZonePenaltyPower: 0,
     ringSystemAlgorithm: 5,
 };
+ */

@@ -15,6 +15,19 @@ const emojiToImageSrcMap: { [id: string]: string } = {
     ":loader-gun-gamma-26:":
         "https://emoji.slack-edge.com/T0257R0RP/loader-gun-gamma-26/a53f2e102e91a965.png",
 
+    ":br58-battle-rifle:":
+        "https://emoji.slack-edge.com/T0257R0RP/br58-battle-rifle/11e111ab1857e4d3.png",
+    ":nbl8-leviathan:":
+        "https://emoji.slack-edge.com/T0257R0RP/nbl8-leviathan/d9d7222293082421.png",
+    ":nossec's-prime:":
+        "https://emoji.slack-edge.com/T0257R0RP/nossec%2527s-prime/1b52aca513fbb904.png",
+    ":interceptor-viii:":
+        "https://emoji.slack-edge.com/T0257R0RP/interceptor-viii/3169eba065ee092c.png",
+    ":flare-blasters-m21:":
+        "https://emoji.slack-edge.com/T0257R0RP/flare-blasters-m21/1c256e330d689818.png",
+    ":kobol's-thunderbolt:":
+        "https://emoji.slack-edge.com/T0257R0RP/kobol%2527s-thunderbolt/dbf4814ca8141671.png",
+
     // ARMOR
     ":arena-armor-common:":
         "https://emoji.slack-edge.com/T0257R0RP/arena-armor-common/b596097e73185eac.png",

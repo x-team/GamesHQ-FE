@@ -1,7 +1,7 @@
 import PanelBox from "../PanelBox";
 
 interface IProps {
-    arenaGame: IArenaGame;
+    arenaGame: IGame;
 }
 
 const ArenaStatusCard = function ArenaStatusCard({ arenaGame }: IProps) {

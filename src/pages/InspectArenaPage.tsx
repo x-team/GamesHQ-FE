@@ -1,15 +1,38 @@
-import { mockArenaPlayers, mockArenaGame } from "../mocks/mocks";
+import { useEffect, useState } from "react";
+import { get } from "lodash";
+
+import { getActiveArenaGame } from "../api/admin";
 import ArenaStatusCard from "../ui/ArenaStatusCard";
 import InspectArenaPlayerCard from "../ui/InspectArenaPlayerCard";
 
 const InspectArenaPage = function InspectArenaPage(props: any) {
-    const alivePlayers = mockArenaPlayers.filter(
+    const [arenaGame, setArenaGame] = useState<IGame | undefined>(undefined);
+
+    useEffect(() => {
+        async function fetchArenaGame() {
+            const game = await getActiveArenaGame();
+            setArenaGame(game);
+        }
+
+        fetchArenaGame();
+    }, []);
+
+    const arenaPlayers = get(
+        arenaGame,
+        "_arena._players",
+        []
+    ) as IArenaPlayer[];
+
+    console.log(arenaGame);
+    console.log(arenaPlayers);
+
+    const alivePlayers = arenaPlayers.filter(
         (player) => player.health > 0 && !player.isSpectator
     );
-    const deadPlayers = mockArenaPlayers.filter(
+    const deadPlayers = arenaPlayers.filter(
         (player) => player.health <= 0 && !player.isSpectator
     );
-    const spectators = mockArenaPlayers.filter((player) => player.isSpectator);
+    const spectators = arenaPlayers.filter((player) => player.isSpectator);
 
     return (
         <div>
@@ -17,30 +40,39 @@ const InspectArenaPage = function InspectArenaPage(props: any) {
                 INSPECT ARENA
             </h2>
 
-            <ArenaStatusCard arenaGame={mockArenaGame} />
+            {arenaGame ? (
+                <>
+                    <ArenaStatusCard arenaGame={arenaGame} />
 
-            <div className="mt-4 text-lg font-bold">
-                {mockArenaPlayers.length} total players
-            </div>
-            <div className="text-sm font-thin mb-2">
-                {alivePlayers.length} alive, {deadPlayers.length} dead,{" "}
-                {spectators.length} spectators
-            </div>
+                    <div className="mt-4 text-lg font-bold">
+                        {arenaPlayers.length} total players
+                    </div>
+                    <div className="text-sm font-thin mb-2">
+                        {alivePlayers.length} alive, {deadPlayers.length} dead,{" "}
+                        {spectators.length} spectators
+                    </div>
 
-            <div className="flex flex-wrap">
-                {mockArenaPlayers.map((player, index) => (
-                    <InspectArenaPlayerCard key={index} player={player} />
-                ))}
-                {/* {mockArenaPlayers.map((player, index) => (
-                    <InspectArenaPlayerCard key={index} player={player} />
-                ))}
-                {mockArenaPlayers.map((player, index) => (
-                    <InspectArenaPlayerCard key={index} player={player} />
-                ))}
-                {mockArenaPlayers.map((player, index) => (
-                    <InspectArenaPlayerCard key={index} player={player} />
-                ))} */}
-            </div>
+                    <div className="flex flex-wrap">
+                        {arenaPlayers.map((player, index) => (
+                            <InspectArenaPlayerCard
+                                key={index}
+                                player={player}
+                            />
+                        ))}
+                        {/* {mockArenaPlayers.map((player, index) => (
+                            <InspectArenaPlayerCard key={index} player={player} />
+                        ))}
+                        {mockArenaPlayers.map((player, index) => (
+                            <InspectArenaPlayerCard key={index} player={player} />
+                        ))}
+                        {mockArenaPlayers.map((player, index) => (
+                            <InspectArenaPlayerCard key={index} player={player} />
+                        ))} */}
+                    </div>
+                </>
+            ) : (
+                <p>Loading</p>
+            )}
         </div>
     );
 };
