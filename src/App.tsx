@@ -12,6 +12,8 @@ import ListWeaponsPage from "./pages/ListWeaponsPage";
 import WeaponEditorPage from "./pages/WeaponEditorPage";
 import ListZonesPage from "./pages/ListZonesPage";
 import ZoneEditorPage from "./pages/ZoneEditorPage";
+import ListEnemiesPage from "./pages/ListEnemiesPage";
+import EnemyEditorPage from "./pages/EnemyEditorPage";
 
 interface GamesHQRoute {
     name: string;
@@ -104,9 +106,15 @@ function App() {
                         <Route exact path="/zones">
                             <ListZonesPage />
                         </Route>
-
                         <Route exact path="/zones/new">
                             <ZoneEditorPage />
+                        </Route>
+
+                        <Route exact path="/enemies">
+                            <ListEnemiesPage />
+                        </Route>
+                        <Route exact path="/enemies/new">
+                            <EnemyEditorPage />
                         </Route>
                     </Switch>
                 </div>

@@ -1,51 +1,28 @@
-import { useEffect, useState } from "react";
-import { getWeapons } from "../api/admin";
 import { emojiToImageTag } from "../helpers/emojiHelper";
 import { rarityToTextColor } from "../helpers/rarityHelper";
 import Button from "../ui/Button";
 
-const ListWeaponsPage = function ListWeaponsPage(props: any) {
-    const [itemWeapons, setItemWeapons] = useState<IWeapon[]>([]);
-
-    useEffect(() => {
-        async function fetchArenaGame() {
-            const itemWeapons = await getWeapons();
-            setItemWeapons(itemWeapons);
-        }
-
-        fetchArenaGame();
-    }, []);
-
-    const sortedWeapons = itemWeapons.sort((a: IWeapon, b: IWeapon) => {
-        const rarityToNumber = {
-            Common: 0,
-            Rare: 1,
-            Epic: 2,
-            Legendary: 3,
-        };
-        const aRarityNumber = rarityToNumber[a._itemRarityId];
-        const bRarityNumber = rarityToNumber[b._itemRarityId];
-        if (aRarityNumber > bRarityNumber) return -1;
-        else if (bRarityNumber > aRarityNumber) return 1;
+const ListFloorsPage = function ListFloorsPage(props: any) {
+    const sortedEnemies = [].sort((a: IEnemy, b: IEnemy) => {
         return 0;
     });
 
     return (
         <div>
             <h2 className="text-2xl font-bold italic font-sans mb-8">
-                WEAPONS
+                ENEMIES
             </h2>
 
             <div className="mt-4">
-                <a href="/weapons/new">
-                    <Button>New Weapon</Button>
+                <a href="/enemies/new">
+                    <Button>New Floor</Button>
                 </a>
             </div>
 
             <div className="mt-4">
-                {sortedWeapons.map((weapon: IWeapon, index) => (
+                {sortedEnemies.map((enemy: IEnemy, index) => (
                     <span key={index}>
-                        <div
+                        {/* <div
                             className={`grid grid-cols-4 justify-between font-bold uppercase ${
                                 weapon.isArchived ? "opacity-20" : ""
                             } ${rarityToTextColor(weapon._itemRarityId)}`}
@@ -60,14 +37,6 @@ const ListWeaponsPage = function ListWeaponsPage(props: any) {
                                     <span className="font-normal text-sm">
                                         {weapon._itemRarityId}
                                     </span>
-                                    <div className="flex text-xs text-gray-600">
-                                        {weapon._gameItemAvailability.reduce((acc, gameAvailability, index) => {
-                                            if (index === 0) {
-                                                return gameAvailability._gameTypeId
-                                            }
-                                            return acc + ", " + gameAvailability._gameTypeId
-                                        }, "")}
-                                    </div>
                                 </div>
                             </div>
                             <div className="flex flex-col">
@@ -90,15 +59,10 @@ const ListWeaponsPage = function ListWeaponsPage(props: any) {
                             <div className="flex flex-col">
                                 <span className="text-gray-400">TRAITS</span>
                                 <span className="text-sm font-n text-black">
-                                    {weapon._traits.reduce((acc, trait, index) => {
-                                        if (index === 0) {
-                                            return trait.displayName;
-                                        }
-                                        return acc + ", " + trait.displayName;
-                                    }, "")}
+                                    PRECISION, PIERCING
                                 </span>
                             </div>
-                        </div>
+                        </div> */}
                         <hr className="my-2" />
                     </span>
                 ))}
@@ -107,4 +71,4 @@ const ListWeaponsPage = function ListWeaponsPage(props: any) {
     );
 };
 
-export default ListWeaponsPage;
+export default ListFloorsPage;

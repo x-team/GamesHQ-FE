@@ -50,7 +50,7 @@ const emojiToImageSrcMap: { [id: string]: string } = {
 };
 
 export const emojiToImageSrc = (emoji: string) => {
-    return emojiToImageSrcMap[emoji] || "";
+    return emojiToImageSrcMap[emoji] || "https://via.placeholder.com/128x128";
 };
 
 export const emojiToImageTag = (emoji: string, className?: string) => (

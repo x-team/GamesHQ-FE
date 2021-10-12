@@ -41,6 +41,32 @@ interface IWeapon {
     isArchived: boolean;
     _itemRarityId: TArenaRarity;
     _weapon: IWeaponData;
+    _traits: ITrait[];
+    _gameItemAvailability: IGameItemAvailability[]
+}
+
+interface ITrait {
+    id: string;
+    displayName: string;
+    shortDescription: string;
+}
+
+interface IAvailableTrait {
+    id: string;
+    displayName: string;
+}
+
+interface IGameItemAvailability {
+    _gameTypeId: string;
+    _itemId: number;
+    isActive: boolean;
+    isArchived: boolean;
+    _gameType: GameType;
+}
+
+interface IEnemy {
+    name: string;
+    emoji: string;
 }
 
 interface IWeaponData {
@@ -48,7 +74,7 @@ interface IWeaponData {
     majorDamageRate: number;
 }
 
-type TArenaRarity = "COMMON" | "RARE" | "EPIC" | "LEGENDARY";
+type TArenaRarity = "Common" | "Rare" | "Epic" | "Legendary";
 
 interface IPlayerTeam {
     name: string;
@@ -76,4 +102,17 @@ interface IArenaGame {
 interface IArenaRoundAction {
     isCompleted: boolean;
     actionJson: any;
+}
+
+interface IWeaponEditorData {
+    id?: string;
+    name: string;
+    emoji: string;
+    rarity: string;
+    isArchived: boolean;
+    minorDamageRate: number;
+    majorDamageRate: number;
+    usageLimit: number | null;
+    traits: string[];
+    gameAvailability: string[];
 }
