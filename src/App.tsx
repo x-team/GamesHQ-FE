@@ -102,6 +102,9 @@ function App() {
                         <Route exact path="/weapons/new">
                             <WeaponEditorPage />
                         </Route>
+                        <Route exact path="/weapon/:weaponId">
+                            <WeaponEditorPage editMode={true} />
+                        </Route>
 
                         <Route exact path="/zones">
                             <ListZonesPage />

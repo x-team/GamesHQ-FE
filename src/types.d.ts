@@ -35,6 +35,7 @@ interface IArenaPlayer {
 }
 
 interface IWeapon {
+    id: number;
     name: string;
     emoji: string;
     usageLimit: number | null;
@@ -105,7 +106,7 @@ interface IArenaRoundAction {
 }
 
 interface IWeaponEditorData {
-    id?: string;
+    id?: number;
     name: string;
     emoji: string;
     rarity: string;

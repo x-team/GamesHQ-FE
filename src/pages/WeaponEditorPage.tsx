@@ -1,7 +1,10 @@
 import { FormikHelpers, useFormik } from "formik";
+import { useEffect, useState } from "react";
+import { useHistory, useParams } from "react-router";
+import { SyncLoader } from "react-spinners";
 import * as Yup from "yup";
 
-import { newWeapon } from "../api/admin";
+import { getWeapon, upsertWeapon } from "../api/admin";
 import { RARITY } from "../helpers/rarityHelper";
 import { AVAILABLE_TRAITS } from "../helpers/traitsHelper";
 import Button from "../ui/Button";
@@ -21,22 +24,39 @@ interface IForm {
     rarity: string;
 }
 
-const onSubmit = async (values: IForm, actions: FormikHelpers<IForm>) => {
-    console.log({ values });
-    await newWeapon({
-        name: values.weaponName,
-        emoji: values.emoji,
-        isArchived: values.isArchived,
-        minorDamageRate: values.minorDamageRate,
-        majorDamageRate: values.majorDamageRate,
-        usageLimit: values.usageLimit,
-        rarity: values.rarity,
-        gameAvailability: values.gameAvailability,
-        traits: values.traits,
-    });
-};
+interface IProps {
+    editMode?: boolean;
+}
 
-const WeaponEditorPage = function WeaponEditorPage(props: any) {
+const WeaponEditorPage = function WeaponEditorPage( { editMode }: IProps) {
+    const [isLoading, setLoading] = useState(false);
+    const [remoteWeaponItem, setRemoteWeaponItem] = useState<IWeapon | undefined>(undefined);
+
+    const history = useHistory();
+    const { weaponId } = useParams<{weaponId: string}>();
+
+    if (editMode && !isLoading && !remoteWeaponItem) {
+        setLoading(true);
+    }
+
+    const onSubmit = async (values: IForm, actions: FormikHelpers<IForm>) => {
+        setLoading(true);
+        const numericWeaponId = parseInt(weaponId);
+        await upsertWeapon({
+            ...(editMode && numericWeaponId && { id: numericWeaponId }),
+            name: values.weaponName,
+            emoji: values.emoji,
+            isArchived: values.isArchived,
+            minorDamageRate: values.minorDamageRate,
+            majorDamageRate: values.majorDamageRate,
+            usageLimit: values.usageLimit || null,
+            rarity: values.rarity,
+            gameAvailability: values.gameAvailability,
+            traits: values.traits,
+        });
+        history.push('/weapons')
+    };
+
     const initialForm: IForm = {
         weaponName: "",
         emoji: "",
@@ -51,9 +71,10 @@ const WeaponEditorPage = function WeaponEditorPage(props: any) {
 
     const validationSchema = Yup.object({
         weaponName: Yup.string().max(30).required().label("Weapon Name"),
-        emoji: Yup.string().max(30).required().label("Emoji"),
+        emoji: Yup.string().max(30).required().matches(/^:.*:$/, "Must begin and end with :, e.g :my-emoji:").label("Emoji"),
         gameAvailability: Yup.array()
             .of(Yup.string())
+            .min(1)
             .label("Game Availability"),
         traits: Yup.array().of(Yup.string()).label("Traits"),
         minorDamageRate: Yup.number().required().label("Minor Damage Rate"),
@@ -63,16 +84,49 @@ const WeaponEditorPage = function WeaponEditorPage(props: any) {
         isArchived: Yup.boolean().required().label("Is Archived"),
     });
 
-    const { getFieldProps, touched, errors, handleSubmit } = useFormik({
+    const { getFieldProps, getFieldMeta, touched, errors, handleSubmit, dirty, isValid, setValues, setFieldValue } = useFormik({
         initialValues: initialForm,
         onSubmit,
         validationSchema,
     });
 
+    useEffect(() => {
+        async function fetchWeapon() {
+            const weapon = await getWeapon(parseInt(weaponId) || 14);
+            setValues({
+                weaponName: weapon.name,
+                emoji: weapon.emoji,
+                gameAvailability: weapon._gameItemAvailability
+                    .map(gameAvailability => gameAvailability._gameTypeId),
+                isArchived: false,
+                minorDamageRate: weapon._weapon.minorDamageRate,
+                majorDamageRate: weapon._weapon.majorDamageRate,
+                rarity: weapon._itemRarityId,
+                traits: weapon._traits.map(trait => trait.id),
+                usageLimit: weapon.usageLimit,
+            } as IForm)
+
+            setRemoteWeaponItem(weapon);
+            setLoading(false);
+            console.log({weapon});
+            return weapon;
+        }
+
+        fetchWeapon()
+    }, [weaponId]);
+
+    if (isLoading) {
+        return (
+            <SyncLoader />
+        )
+    }
+
+    const isSubmitDisabled = !dirty || !isValid;
+
     const renderTraitCheckbox = (trait: IAvailableTrait) => {
         return (
             <div className="mt-2">
-                <Checkbox id={trait.id} fieldProps={getFieldProps("traits")}>
+                <Checkbox id={trait.id} {...getFieldProps('traits')}>
                     {trait.displayName}
                 </Checkbox>
             </div>
@@ -90,16 +144,16 @@ const WeaponEditorPage = function WeaponEditorPage(props: any) {
                     <div>
                         <TextInput
                             label="Weapon Name"
-                            fieldProps={getFieldProps("weaponName")}
-                            error={errors.weaponName}
-                            touched={touched.weaponName}
+                            {...getFieldProps("weaponName")}
+                            {...getFieldMeta('weaponName')}
                         />
                     </div>
 
                     <div>
                         <TextInput
                             label="Emoji"
-                            fieldProps={getFieldProps("emoji")}
+                            {...getFieldProps("emoji")}
+                            {...getFieldMeta('emoji')}
                             error={errors.emoji}
                             touched={touched.emoji}
                         />
@@ -110,7 +164,7 @@ const WeaponEditorPage = function WeaponEditorPage(props: any) {
                             className="block text-gray-700 text-sm font-bold mt-9"
                             htmlFor="isArchived"
                         >
-                            <Checkbox fieldProps={getFieldProps("isArchived")}>
+                            <Checkbox {...getFieldProps("isArchived")}>
                                 Archived{" "}
                                 <span className="text-xs font-normal">
                                     (won't show up on games by default)
@@ -146,9 +200,8 @@ const WeaponEditorPage = function WeaponEditorPage(props: any) {
                     <div>
                         <TextInput
                             label="Minor Damage Rate"
-                            error={errors.minorDamageRate}
-                            touched={touched.minorDamageRate}
-                            fieldProps={getFieldProps("minorDamageRate")}
+                            {...getFieldProps("minorDamageRate")}
+                            {...getFieldMeta('minorDamageRate')}
                             type="number"
                         />
                     </div>
@@ -156,9 +209,8 @@ const WeaponEditorPage = function WeaponEditorPage(props: any) {
                     <div>
                         <TextInput
                             label="Major Damage Rate"
-                            error={errors.majorDamageRate}
-                            touched={touched.majorDamageRate}
-                            fieldProps={getFieldProps("majorDamageRate")}
+                            {...getFieldProps("majorDamageRate")}
+                            {...getFieldMeta('majorDamageRate')}
                             type="number"
                         />
                     </div>
@@ -167,8 +219,8 @@ const WeaponEditorPage = function WeaponEditorPage(props: any) {
                         <TextInput
                             label="Usage Limit"
                             helperText="(blank for infinite)"
-                            error={errors.usageLimit}
-                            fieldProps={getFieldProps("usageLimit")}
+                            {...getFieldProps("usageLimit")}
+                            {...getFieldMeta('usageLimit')}
                             type="number"
                         />
                     </div>
@@ -185,18 +237,20 @@ const WeaponEditorPage = function WeaponEditorPage(props: any) {
 
                 <div className="mt-2">
                     <div>
-                        <strong className="text-sm">Game Availability</strong>
+                        <strong className="text-sm">Game Availability (min. 1)</strong>
                     </div>
                     <div className="mt-2">
                         <Checkbox
-                            fieldProps={getFieldProps("gameAvailability")}
+                            id="The Arena"
+                            {...getFieldProps("gameAvailability")}
                         >
                             The Arena
                         </Checkbox>
                     </div>
                     <div>
                         <Checkbox
-                            fieldProps={getFieldProps("gameAvailability")}
+                            id="The Tower"
+                            {...getFieldProps("gameAvailability")}
                         >
                             The Tower
                         </Checkbox>
@@ -204,7 +258,7 @@ const WeaponEditorPage = function WeaponEditorPage(props: any) {
                 </div>
 
                 <div className="mt-8">
-                    <Button type="submit">Create Weapon</Button>
+                    <Button disabled={isSubmitDisabled} type="submit">{ editMode ? 'Update Weapon' : 'Create Weapon'}</Button>
                 </div>
             </form>
         </div>

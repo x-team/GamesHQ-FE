@@ -1,8 +1,8 @@
 import { FieldInputProps } from "formik";
 
 interface IProps {
-    fieldProps: FieldInputProps<any>;
     error?: string;
+    name: string;
     touched?: boolean;
     label: string;
     type?: "text" | "number" | "password";
@@ -18,12 +18,13 @@ const renderInputError = (error?: string, touched?: boolean) => {
 };
 
 function TextInput({
-    fieldProps,
     helperText,
     error,
     touched,
     type,
     label,
+
+    ...props
 }: IProps) {
     const calculateColors = () => {
         const hasErrors = !!error;
@@ -41,7 +42,7 @@ function TextInput({
     return (
         <span>
             <label
-                htmlFor={fieldProps.name}
+                htmlFor={props.name}
                 className="block text-gray-700 text-sm font-bold mb-2"
             >
                 {label}
@@ -54,7 +55,7 @@ function TextInput({
             <input
                 type={type ?? "text"}
                 className={`shadow ${calculateColors()} border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline`}
-                {...fieldProps}
+                {...props}
             />
 
             {renderInputError(error, touched)}

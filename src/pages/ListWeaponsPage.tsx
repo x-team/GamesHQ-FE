@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { getWeapons } from "../api/admin";
 import { emojiToImageTag } from "../helpers/emojiHelper";
 import { rarityToTextColor } from "../helpers/rarityHelper";
@@ -44,63 +45,63 @@ const ListWeaponsPage = function ListWeaponsPage(props: any) {
 
             <div className="mt-4">
                 {sortedWeapons.map((weapon: IWeapon, index) => (
-                    <span key={index}>
-                        <div
-                            className={`grid grid-cols-4 justify-between font-bold uppercase ${
-                                weapon.isArchived ? "opacity-20" : ""
-                            } ${rarityToTextColor(weapon._itemRarityId)}`}
-                        >
-                            <div className="flex">
-                                {emojiToImageTag(weapon.emoji, "h-12 w-12")}
-                                <div className={`ml-2 flex flex-col`}>
-                                    <span>
-                                        {weapon.name}
-                                        {weapon.isArchived ? " (Archived)" : ""}
-                                    </span>
-                                    <span className="font-normal text-sm">
-                                        {weapon._itemRarityId}
-                                    </span>
-                                    <div className="flex text-xs text-gray-600">
-                                        {weapon._gameItemAvailability.reduce((acc, gameAvailability, index) => {
-                                            if (index === 0) {
-                                                return gameAvailability._gameTypeId
-                                            }
-                                            return acc + ", " + gameAvailability._gameTypeId
-                                        }, "")}
+                    <Link to={`weapon/${weapon.id}`} >
+                        <span key={index}>
+                            <div
+                                className={`grid grid-cols-4 justify-between font-bold uppercase ${
+                                    weapon.isArchived ? "opacity-20" : ""
+                                } ${rarityToTextColor(weapon._itemRarityId)}`}
+                            >
+                                <div className="flex">
+                                    {emojiToImageTag(weapon.emoji, "h-12 w-12")}
+                                    <div className={`ml-2 flex flex-col`}>
+                                        <span>
+                                            {weapon.name}
+                                            {weapon.isArchived ? " (Archived)" : ""}
+                                        </span>
+                                        <span className="font-normal text-sm">
+                                            {weapon._itemRarityId}
+                                        </span>
+                                        <div className="flex text-xs text-gray-600">
+                                            {weapon._gameItemAvailability.reduce((acc, gameAvailability, index) => {
+                                                if (index === 0) {
+                                                    return gameAvailability._gameTypeId
+                                                }
+                                                return acc + ", " + gameAvailability._gameTypeId
+                                            }, "")}
+                                        </div>
                                     </div>
                                 </div>
+                                <div className="flex flex-col">
+                                    <span className="text-gray-400">DAMAGE</span>
+                                    <span className="text-xl text-black">
+                                        {weapon._weapon.minorDamageRate} ~{" "}
+                                        {weapon._weapon.majorDamageRate}
+                                    </span>
+                                </div>
+                                <div className="flex flex-col">
+                                    <span className="text-gray-400">
+                                        USAGE LIMIT
+                                    </span>
+                                    <span className="text-xl text-black">
+                                        {weapon.usageLimit || "∞"}
+                                    </span>
+                                </div>
+                                <div className="flex flex-col">
+                                    <span className="text-gray-400">TRAITS</span>
+                                    <span className="text-sm font-n text-black">
+                                        {weapon._traits.reduce((acc, trait, index) => {
+                                            if (index === 0) {
+                                                return trait.displayName;
+                                            }
+                                            return acc + ", " + trait.displayName;
+                                        }, "")}
+                                    </span>
+                                </div>
                             </div>
-                            <div className="flex flex-col">
-                                <span className="text-gray-400">DAMAGE</span>
-                                <span className="text-xl text-black">
-                                    {weapon._weapon.minorDamageRate} ~{" "}
-                                    {weapon._weapon.majorDamageRate}
-                                </span>
-                            </div>
-
-                            <div className="flex flex-col">
-                                <span className="text-gray-400">
-                                    USAGE LIMIT
-                                </span>
-                                <span className="text-xl text-black">
-                                    {weapon.usageLimit || "∞"}
-                                </span>
-                            </div>
-
-                            <div className="flex flex-col">
-                                <span className="text-gray-400">TRAITS</span>
-                                <span className="text-sm font-n text-black">
-                                    {weapon._traits.reduce((acc, trait, index) => {
-                                        if (index === 0) {
-                                            return trait.displayName;
-                                        }
-                                        return acc + ", " + trait.displayName;
-                                    }, "")}
-                                </span>
-                            </div>
-                        </div>
-                        <hr className="my-2" />
-                    </span>
+                            <hr className="my-2" />
+                        </span>
+                    </Link>
                 ))}
             </div>
         </div>

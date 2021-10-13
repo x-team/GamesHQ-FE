@@ -18,7 +18,15 @@ export const getWeapons = async () => {
     return itemWeapons;
 }
 
-export const newWeapon = async (data: IWeaponEditorData) => {
-    const endpoint = gamesHqUrl + "/dashboard/admin/newWeapon";
+export const getWeapon = async (weaponId: number) => {
+    const endpoint = gamesHqUrl + `/dashboard/admin/weapons/${weaponId}`;
+    const response = await axios.get(endpoint);
+    const itemWeapon = response.data.weapon as IWeapon;
+
+    return itemWeapon;
+}
+
+export const upsertWeapon = async (data: IWeaponEditorData) => {
+    const endpoint = gamesHqUrl + "/dashboard/admin/upsertWeapon";
     await axios.post(endpoint, data)
 }
