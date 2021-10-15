@@ -34,6 +34,15 @@ interface IArenaPlayer {
     _user: IUser;
 }
 
+interface IZone {
+    id?: number;
+    name: string;
+    isActive: boolean;
+    isArchived: boolean;
+    emoji: string;
+    ring: string;
+}
+
 interface IWeapon {
     id: number;
     name: string;
@@ -43,7 +52,7 @@ interface IWeapon {
     _itemRarityId: TArenaRarity;
     _weapon: IWeaponData;
     _traits: ITrait[];
-    _gameItemAvailability: IGameItemAvailability[]
+    _gameItemAvailability: IGameItemAvailability[];
 }
 
 interface ITrait {
@@ -66,8 +75,16 @@ interface IGameItemAvailability {
 }
 
 interface IEnemy {
+    id?: number;
     name: string;
     emoji: string;
+    gifUrl: string;
+    minorDamageRate: number;
+    majorDamageRate: number;
+    health: number;
+    isBoss: boolean;
+
+    _enemyPatternId: string;
 }
 
 interface IWeaponData {
@@ -116,4 +133,27 @@ interface IWeaponEditorData {
     usageLimit: number | null;
     traits: string[];
     gameAvailability: string[];
+}
+
+interface IEnemyEditorData {
+    id?: number;
+    name: string;
+    emoji: string;
+    gifUrl: string;
+    minorDamageRate: number;
+    majorDamageRate: number;
+    health: number;
+    isBoss: boolean;
+    abilitiesJson: {
+        [k: string]: any;
+    };
+    actionPattern: string;
+}
+
+interface IZoneEditorData {
+    id?: number;
+    name: string;
+    emoji: string;
+    ring: string;
+    isArchived: boolean;
 }

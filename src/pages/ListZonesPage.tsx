@@ -1,9 +1,42 @@
-import { emojiToImageTag } from "../helpers/emojiHelper";
-import { rarityToTextColor } from "../helpers/rarityHelper";
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { SyncLoader } from "react-spinners";
+import Swal from "sweetalert2";
+import { deleteZone, getZones } from "../api/admin";
 import Button from "../ui/Button";
 
 const ListZonesPage = function ListZonesPage(props: any) {
-    const zones: any = [];
+    const [zones, setZones] = useState<IZone[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
+
+    const fetchZones = async () => {
+        setIsLoading(true);
+        const zones = await getZones();
+        setZones(zones || []);
+        setIsLoading(false);
+    };
+
+    useEffect(() => {
+        fetchZones();
+    }, []);
+
+    const handleOnDeleteClick = (id?: number) => async () => {
+        const swalResult = await Swal.fire({
+            title: "Delete it?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!",
+        });
+        if (!id || !swalResult.isConfirmed) {
+            return;
+        }
+        setIsLoading(true);
+        await deleteZone(id);
+        await fetchZones();
+        setIsLoading(false);
+    };
 
     return (
         <div>
@@ -15,54 +48,46 @@ const ListZonesPage = function ListZonesPage(props: any) {
                 </a>
             </div>
 
-            <div className="mt-4">
-                {zones.map((zone: any, index: number) => (
-                    <span key={index}>
-                        <div
-                            className={`grid grid-cols-4 justify-between font-bold uppercase ${
-                                zone.isArchived ? "opacity-20" : ""
-                            } ${rarityToTextColor(zone._itemRarityId)}`}
-                        >
-                            <div className="flex">
-                                {emojiToImageTag(zone.emoji, "h-12 w-12")}
-                                <div className={`ml-2 flex flex-col`}>
-                                    <span>
-                                        {zone.name}
-                                        {zone.isArchived ? " (Archived)" : ""}
-                                    </span>
-                                    <span className="font-normal text-sm">
-                                        {zone._itemRarityId}
-                                    </span>
-                                </div>
+            {isLoading ? (
+                <SyncLoader />
+            ) : (
+                <div className="mt-4">
+                    {zones.map((zone: IZone, index: number) => (
+                        <>
+                            <div
+                                className="flex justify-between my-4"
+                                key={index}
+                            >
+                                <Link to={`/zone/${zone.id}`}>
+                                    <div className="grid grid-cols-4 gap-4 items-center">
+                                        <div className="w-52">
+                                            <span className="text-xl font-bold">
+                                                {zone.name}
+                                            </span>
+                                            {zone.isArchived ? (
+                                                <div className="text-gray-500 italic font-bold text-sm">
+                                                    Archived
+                                                </div>
+                                            ) : null}
+                                        </div>
+                                        <div>
+                                            <div>Code</div>
+                                            <div>{zone.ring}</div>
+                                        </div>
+                                    </div>
+                                </Link>
+                                <button
+                                    onClick={handleOnDeleteClick(zone.id)}
+                                    className="text-red-700"
+                                >
+                                    Delete
+                                </button>
                             </div>
-                            <div className="flex flex-col">
-                                <span className="text-gray-400">DAMAGE</span>
-                                <span className="text-xl text-black">
-                                    {zone._zone.minorDamageRate} ~{" "}
-                                    {zone._zone.majorDamageRate}
-                                </span>
-                            </div>
-
-                            <div className="flex flex-col">
-                                <span className="text-gray-400">
-                                    USAGE LIMIT
-                                </span>
-                                <span className="text-xl text-black">
-                                    {zone.usageLimit || "∞"}
-                                </span>
-                            </div>
-
-                            <div className="flex flex-col">
-                                <span className="text-gray-400">TRAITS</span>
-                                <span className="text-sm font-n text-black">
-                                    PRECISION, PIERCING
-                                </span>
-                            </div>
-                        </div>
-                        <hr className="my-2" />
-                    </span>
-                ))}
-            </div>
+                            <hr className="my-2" />
+                        </>
+                    ))}
+                </div>
+            )}
         </div>
     );
 };

@@ -1,6 +1,7 @@
 interface IProps {
     children?: React.ReactNode;
     disabled?: boolean;
+    onClick?: () => void;
     type?: "button" | "submit" | "reset" | undefined;
 }
 
@@ -17,6 +18,7 @@ export default function Button(props: IProps) {
         <button
             className={calculateClasses(props)}
             type={props.type || undefined}
+            onClick={props.onClick}
         >
             {props.children}
         </button>

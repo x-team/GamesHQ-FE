@@ -1,11 +1,10 @@
-import { FieldInputProps } from "formik";
-
 interface IProps {
     error?: string;
     name: string;
     touched?: boolean;
     label: string;
     type?: "text" | "number" | "password";
+    extraClass?: string;
     helperText?: string;
 }
 
@@ -23,6 +22,7 @@ function TextInput({
     touched,
     type,
     label,
+    extraClass,
 
     ...props
 }: IProps) {
@@ -54,7 +54,7 @@ function TextInput({
 
             <input
                 type={type ?? "text"}
-                className={`shadow ${calculateColors()} border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline`}
+                className={`shadow ${calculateColors()} border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline ${extraClass}`}
                 {...props}
             />
 

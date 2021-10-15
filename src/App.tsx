@@ -3,7 +3,6 @@ import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
 import playerSvg from "./assets/icons/player.svg";
 import skull from "./assets/icons/skull.svg";
 import sword from "./assets/icons/sword.svg";
-import trait from "./assets/icons/trait.svg";
 import floor from "./assets/icons/floor.svg";
 import zone from "./assets/icons/zone.svg";
 import PlayersPage from "./pages/PlayersPage";
@@ -14,6 +13,7 @@ import ListZonesPage from "./pages/ListZonesPage";
 import ZoneEditorPage from "./pages/ZoneEditorPage";
 import ListEnemiesPage from "./pages/ListEnemiesPage";
 import EnemyEditorPage from "./pages/EnemyEditorPage";
+import NotFoundPage from "./pages/NotFoundPage";
 
 interface GamesHQRoute {
     name: string;
@@ -26,10 +26,9 @@ const inspectRoutes = [
 ];
 
 const databaseRoutes = [
-    { name: "Players", to: "/players", icon: playerSvg },
+    /* { name: "Players", to: "/players", icon: playerSvg }, */
     { name: "Weapons", to: "/weapons", icon: sword },
-    { name: "Zones", to: "/zones", icon: sword },
-    { name: "Traits", to: "/traits", icon: trait },
+    /* { name: "Traits", to: "/traits", icon: trait }, */
 ];
 
 const towerRoutes = [
@@ -112,6 +111,9 @@ function App() {
                         <Route exact path="/zones/new">
                             <ZoneEditorPage />
                         </Route>
+                        <Route exact path="/zone/:zoneId">
+                            <ZoneEditorPage editMode={true} />
+                        </Route>
 
                         <Route exact path="/enemies">
                             <ListEnemiesPage />
@@ -119,6 +121,11 @@ function App() {
                         <Route exact path="/enemies/new">
                             <EnemyEditorPage />
                         </Route>
+                        <Route exact path="/enemy/:enemyId">
+                            <EnemyEditorPage editMode={true} />
+                        </Route>
+
+                        <Route component={NotFoundPage} />
                     </Switch>
                 </div>
             </div>

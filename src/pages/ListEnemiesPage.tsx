@@ -1,11 +1,47 @@
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { SyncLoader } from "react-spinners";
+import Swal from "sweetalert2";
+
+import { deleteEnemy, getEnemies } from "../api/admin";
 import { emojiToImageTag } from "../helpers/emojiHelper";
-import { rarityToTextColor } from "../helpers/rarityHelper";
 import Button from "../ui/Button";
 
 const ListEnemiesPage = function ListEnemiesPage(props: any) {
-    const sortedEnemies = [].sort((a: IEnemy, b: IEnemy) => {
+    const [enemies, setEnemies] = useState<IEnemy[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
+
+    const sortedEnemies = enemies.sort((a: IEnemy, b: IEnemy) => {
         return 0;
     });
+
+    useEffect(() => {
+        fetchEnemies();
+    }, []);
+
+    async function fetchEnemies() {
+        const enemies = await getEnemies();
+
+        setEnemies(enemies);
+    }
+
+    const handleOnDeleteClick = (id?: number) => async () => {
+        const swalResult = await Swal.fire({
+            title: "Delete it?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!",
+        });
+        if (!id || !swalResult.isConfirmed) {
+            return;
+        }
+        setIsLoading(true);
+        await deleteEnemy(id);
+        await fetchEnemies();
+        setIsLoading(false);
+    };
 
     return (
         <div>
@@ -19,54 +55,62 @@ const ListEnemiesPage = function ListEnemiesPage(props: any) {
                 </a>
             </div>
 
-            <div className="mt-4">
-                {sortedEnemies.map((enemy: IEnemy, index) => (
-                    <span key={index}>
-                        {/* <div
-                            className={`grid grid-cols-4 justify-between font-bold uppercase ${
-                                weapon.isArchived ? "opacity-20" : ""
-                            } ${rarityToTextColor(weapon._itemRarityId)}`}
-                        >
-                            <div className="flex">
-                                {emojiToImageTag(weapon.emoji, "h-12 w-12")}
-                                <div className={`ml-2 flex flex-col`}>
-                                    <span>
-                                        {weapon.name}
-                                        {weapon.isArchived ? " (Archived)" : ""}
-                                    </span>
-                                    <span className="font-normal text-sm">
-                                        {weapon._itemRarityId}
-                                    </span>
+            {isLoading ? (
+                <SyncLoader />
+            ) : (
+                <div className="mt-4">
+                    {sortedEnemies.map((enemy: IEnemy, index) => (
+                        <span key={index}>
+                            <Link to={`/enemy/${enemy.id}`}>
+                                <div className="grid grid-cols-4 gap-4">
+                                    {emojiToImageTag(enemy.emoji, "h-12 w-12")}
+                                    <div className="flex flex-col">
+                                        <span className="font-bold">
+                                            {enemy.name}{" "}
+                                            {enemy.isBoss ? (
+                                                <span className="text-red-700">
+                                                    (Boss)
+                                                </span>
+                                            ) : null}
+                                        </span>
+                                        <span>{enemy._enemyPatternId}</span>
+                                    </div>
+                                    <div className="ml-16">
+                                        <div className="flex flex-col">
+                                            <span className="text-xs">
+                                                Health
+                                            </span>
+                                            <span className="text-xl">
+                                                {enemy.health}
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div>
+                                        <div className="flex flex-col">
+                                            <span className="text-xs">
+                                                Damage
+                                            </span>
+                                            <span className="text-xl">
+                                                {enemy.minorDamageRate} ~{" "}
+                                                {enemy.majorDamageRate}
+                                            </span>
+                                        </div>
+                                    </div>
                                 </div>
+                            </Link>
+                            <div>
+                                <button
+                                    onClick={handleOnDeleteClick(enemy.id)}
+                                    className="text-red-700"
+                                >
+                                    Delete
+                                </button>
                             </div>
-                            <div className="flex flex-col">
-                                <span className="text-gray-400">DAMAGE</span>
-                                <span className="text-xl text-black">
-                                    {weapon._weapon.minorDamageRate} ~{" "}
-                                    {weapon._weapon.majorDamageRate}
-                                </span>
-                            </div>
-
-                            <div className="flex flex-col">
-                                <span className="text-gray-400">
-                                    USAGE LIMIT
-                                </span>
-                                <span className="text-xl text-black">
-                                    {weapon.usageLimit || "∞"}
-                                </span>
-                            </div>
-
-                            <div className="flex flex-col">
-                                <span className="text-gray-400">TRAITS</span>
-                                <span className="text-sm font-n text-black">
-                                    PRECISION, PIERCING
-                                </span>
-                            </div>
-                        </div> */}
-                        <hr className="my-2" />
-                    </span>
-                ))}
-            </div>
+                            <hr className="my-2" />
+                        </span>
+                    ))}
+                </div>
+            )}
         </div>
     );
 };

@@ -28,12 +28,14 @@ interface IProps {
     editMode?: boolean;
 }
 
-const WeaponEditorPage = function WeaponEditorPage( { editMode }: IProps) {
+const WeaponEditorPage = function WeaponEditorPage({ editMode }: IProps) {
     const [isLoading, setLoading] = useState(false);
-    const [remoteWeaponItem, setRemoteWeaponItem] = useState<IWeapon | undefined>(undefined);
+    const [remoteWeaponItem, setRemoteWeaponItem] = useState<
+        IWeapon | undefined
+    >(undefined);
 
     const history = useHistory();
-    const { weaponId } = useParams<{weaponId: string}>();
+    const { weaponId } = useParams<{ weaponId: string }>();
 
     if (editMode && !isLoading && !remoteWeaponItem) {
         setLoading(true);
@@ -54,7 +56,7 @@ const WeaponEditorPage = function WeaponEditorPage( { editMode }: IProps) {
             gameAvailability: values.gameAvailability,
             traits: values.traits,
         });
-        history.push('/weapons')
+        history.push("/weapons");
     };
 
     const initialForm: IForm = {
@@ -71,7 +73,11 @@ const WeaponEditorPage = function WeaponEditorPage( { editMode }: IProps) {
 
     const validationSchema = Yup.object({
         weaponName: Yup.string().max(30).required().label("Weapon Name"),
-        emoji: Yup.string().max(30).required().matches(/^:.*:$/, "Must begin and end with :, e.g :my-emoji:").label("Emoji"),
+        emoji: Yup.string()
+            .max(30)
+            .required()
+            .matches(/^:.*:$/, "Must begin and end with :, e.g :my-emoji:")
+            .label("Emoji"),
         gameAvailability: Yup.array()
             .of(Yup.string())
             .min(1)
@@ -84,7 +90,14 @@ const WeaponEditorPage = function WeaponEditorPage( { editMode }: IProps) {
         isArchived: Yup.boolean().required().label("Is Archived"),
     });
 
-    const { getFieldProps, getFieldMeta, touched, errors, handleSubmit, dirty, isValid, setValues, setFieldValue } = useFormik({
+    const {
+        getFieldProps,
+        getFieldMeta,
+        handleSubmit,
+        dirty,
+        isValid,
+        setValues,
+    } = useFormik({
         initialValues: initialForm,
         onSubmit,
         validationSchema,
@@ -92,33 +105,37 @@ const WeaponEditorPage = function WeaponEditorPage( { editMode }: IProps) {
 
     useEffect(() => {
         async function fetchWeapon() {
-            const weapon = await getWeapon(parseInt(weaponId) || 14);
+            if (!weaponId) {
+                return;
+            }
+            const weapon = await getWeapon(parseInt(weaponId));
             setValues({
                 weaponName: weapon.name,
                 emoji: weapon.emoji,
-                gameAvailability: weapon._gameItemAvailability
-                    .map(gameAvailability => gameAvailability._gameTypeId),
-                isArchived: false,
+                gameAvailability: weapon._gameItemAvailability.map(
+                    (gameAvailability) => gameAvailability._gameTypeId
+                ),
+                isArchived: weapon._gameItemAvailability.some(
+                    (gameAvailability) => gameAvailability.isArchived
+                ),
                 minorDamageRate: weapon._weapon.minorDamageRate,
                 majorDamageRate: weapon._weapon.majorDamageRate,
                 rarity: weapon._itemRarityId,
-                traits: weapon._traits.map(trait => trait.id),
+                traits: weapon._traits.map((trait) => trait.id),
                 usageLimit: weapon.usageLimit,
-            } as IForm)
+            } as IForm);
 
             setRemoteWeaponItem(weapon);
             setLoading(false);
-            console.log({weapon});
+            console.log({ weapon });
             return weapon;
         }
 
-        fetchWeapon()
-    }, [weaponId]);
+        fetchWeapon();
+    }, [weaponId, setValues]);
 
     if (isLoading) {
-        return (
-            <SyncLoader />
-        )
+        return <SyncLoader />;
     }
 
     const isSubmitDisabled = !dirty || !isValid;
@@ -126,7 +143,7 @@ const WeaponEditorPage = function WeaponEditorPage( { editMode }: IProps) {
     const renderTraitCheckbox = (trait: IAvailableTrait) => {
         return (
             <div className="mt-2">
-                <Checkbox id={trait.id} {...getFieldProps('traits')}>
+                <Checkbox id={trait.id} {...getFieldProps("traits")}>
                     {trait.displayName}
                 </Checkbox>
             </div>
@@ -136,7 +153,7 @@ const WeaponEditorPage = function WeaponEditorPage( { editMode }: IProps) {
     return (
         <div>
             <h2 className="text-2xl font-bold italic font-sans mb-8">
-                NEW WEAPON
+                {editMode ? "UPDATE WEAPON" : "NEW WEAPON"}
             </h2>
 
             <form onSubmit={handleSubmit}>
@@ -145,7 +162,7 @@ const WeaponEditorPage = function WeaponEditorPage( { editMode }: IProps) {
                         <TextInput
                             label="Weapon Name"
                             {...getFieldProps("weaponName")}
-                            {...getFieldMeta('weaponName')}
+                            {...getFieldMeta("weaponName")}
                         />
                     </div>
 
@@ -153,9 +170,7 @@ const WeaponEditorPage = function WeaponEditorPage( { editMode }: IProps) {
                         <TextInput
                             label="Emoji"
                             {...getFieldProps("emoji")}
-                            {...getFieldMeta('emoji')}
-                            error={errors.emoji}
-                            touched={touched.emoji}
+                            {...getFieldMeta("emoji")}
                         />
                     </div>
 
@@ -201,7 +216,7 @@ const WeaponEditorPage = function WeaponEditorPage( { editMode }: IProps) {
                         <TextInput
                             label="Minor Damage Rate"
                             {...getFieldProps("minorDamageRate")}
-                            {...getFieldMeta('minorDamageRate')}
+                            {...getFieldMeta("minorDamageRate")}
                             type="number"
                         />
                     </div>
@@ -210,7 +225,7 @@ const WeaponEditorPage = function WeaponEditorPage( { editMode }: IProps) {
                         <TextInput
                             label="Major Damage Rate"
                             {...getFieldProps("majorDamageRate")}
-                            {...getFieldMeta('majorDamageRate')}
+                            {...getFieldMeta("majorDamageRate")}
                             type="number"
                         />
                     </div>
@@ -220,7 +235,7 @@ const WeaponEditorPage = function WeaponEditorPage( { editMode }: IProps) {
                             label="Usage Limit"
                             helperText="(blank for infinite)"
                             {...getFieldProps("usageLimit")}
-                            {...getFieldMeta('usageLimit')}
+                            {...getFieldMeta("usageLimit")}
                             type="number"
                         />
                     </div>
@@ -237,7 +252,9 @@ const WeaponEditorPage = function WeaponEditorPage( { editMode }: IProps) {
 
                 <div className="mt-2">
                     <div>
-                        <strong className="text-sm">Game Availability (min. 1)</strong>
+                        <strong className="text-sm">
+                            Game Availability (min. 1)
+                        </strong>
                     </div>
                     <div className="mt-2">
                         <Checkbox
@@ -258,7 +275,9 @@ const WeaponEditorPage = function WeaponEditorPage( { editMode }: IProps) {
                 </div>
 
                 <div className="mt-8">
-                    <Button disabled={isSubmitDisabled} type="submit">{ editMode ? 'Update Weapon' : 'Create Weapon'}</Button>
+                    <Button disabled={isSubmitDisabled} type="submit">
+                        {editMode ? "Update Weapon" : "Create Weapon"}
+                    </Button>
                 </div>
             </form>
         </div>

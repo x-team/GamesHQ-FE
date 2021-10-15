@@ -1,21 +1,44 @@
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import { getWeapons } from "../api/admin";
+import { SyncLoader } from "react-spinners";
+import Swal from "sweetalert2";
+import { deleteWeapon, getWeapons } from "../api/admin";
 import { emojiToImageTag } from "../helpers/emojiHelper";
 import { rarityToTextColor } from "../helpers/rarityHelper";
 import Button from "../ui/Button";
 
 const ListWeaponsPage = function ListWeaponsPage(props: any) {
+    const [isLoading, setIsLoading] = useState(false);
     const [itemWeapons, setItemWeapons] = useState<IWeapon[]>([]);
 
-    useEffect(() => {
-        async function fetchArenaGame() {
-            const itemWeapons = await getWeapons();
-            setItemWeapons(itemWeapons);
-        }
+    async function fetchWeapons() {
+        setIsLoading(true);
+        const itemWeapons = await getWeapons();
+        setItemWeapons(itemWeapons);
+        setIsLoading(false);
+    }
 
-        fetchArenaGame();
+    useEffect(() => {
+        fetchWeapons();
     }, []);
+
+    const handleOnDeleteClick = (id?: number) => async () => {
+        const swalResult = await Swal.fire({
+            title: "Delete it?",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!",
+        });
+        if (!id || !swalResult.isConfirmed) {
+            return;
+        }
+        setIsLoading(true);
+        await deleteWeapon(id);
+        await fetchWeapons();
+        setIsLoading(false);
+    };
 
     const sortedWeapons = itemWeapons.sort((a: IWeapon, b: IWeapon) => {
         const rarityToNumber = {
@@ -43,67 +66,115 @@ const ListWeaponsPage = function ListWeaponsPage(props: any) {
                 </a>
             </div>
 
-            <div className="mt-4">
-                {sortedWeapons.map((weapon: IWeapon, index) => (
-                    <Link to={`weapon/${weapon.id}`} >
-                        <span key={index}>
-                            <div
-                                className={`grid grid-cols-4 justify-between font-bold uppercase ${
-                                    weapon.isArchived ? "opacity-20" : ""
-                                } ${rarityToTextColor(weapon._itemRarityId)}`}
-                            >
-                                <div className="flex">
-                                    {emojiToImageTag(weapon.emoji, "h-12 w-12")}
-                                    <div className={`ml-2 flex flex-col`}>
-                                        <span>
-                                            {weapon.name}
-                                            {weapon.isArchived ? " (Archived)" : ""}
-                                        </span>
-                                        <span className="font-normal text-sm">
-                                            {weapon._itemRarityId}
-                                        </span>
-                                        <div className="flex text-xs text-gray-600">
-                                            {weapon._gameItemAvailability.reduce((acc, gameAvailability, index) => {
-                                                if (index === 0) {
-                                                    return gameAvailability._gameTypeId
-                                                }
-                                                return acc + ", " + gameAvailability._gameTypeId
-                                            }, "")}
+            {isLoading ? (
+                <SyncLoader />
+            ) : (
+                <div className="mt-4">
+                    {sortedWeapons.map((weapon: IWeapon, index) => (
+                        <div>
+                            <Link to={`weapon/${weapon.id}`}>
+                                <span key={index}>
+                                    <div
+                                        className={`grid grid-cols-4 justify-between font-bold uppercase ${
+                                            weapon.isArchived
+                                                ? "opacity-20"
+                                                : ""
+                                        } ${rarityToTextColor(
+                                            weapon._itemRarityId
+                                        )}`}
+                                    >
+                                        <div className="flex">
+                                            <div>
+                                                {emojiToImageTag(
+                                                    weapon.emoji,
+                                                    "h-12 w-12"
+                                                )}
+                                            </div>
+                                            <div
+                                                className={`ml-2 flex flex-col`}
+                                            >
+                                                <span>
+                                                    {weapon.name}
+                                                    {weapon.isArchived
+                                                        ? " (Archived)"
+                                                        : ""}
+                                                </span>
+                                                <span className="font-normal text-sm">
+                                                    {weapon._itemRarityId}
+                                                </span>
+                                                <div className="flex text-xs text-gray-600">
+                                                    {weapon._gameItemAvailability.reduce(
+                                                        (
+                                                            acc,
+                                                            gameAvailability,
+                                                            index
+                                                        ) => {
+                                                            if (index === 0) {
+                                                                return gameAvailability._gameTypeId;
+                                                            }
+                                                            return (
+                                                                acc +
+                                                                ", " +
+                                                                gameAvailability._gameTypeId
+                                                            );
+                                                        },
+                                                        ""
+                                                    )}
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <span className="text-gray-400">
+                                                DAMAGE
+                                            </span>
+                                            <span className="text-xl text-black">
+                                                {weapon._weapon.minorDamageRate}{" "}
+                                                ~{" "}
+                                                {weapon._weapon.majorDamageRate}
+                                            </span>
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <span className="text-gray-400">
+                                                USAGE LIMIT
+                                            </span>
+                                            <span className="text-xl text-black">
+                                                {weapon.usageLimit || "∞"}
+                                            </span>
+                                        </div>
+                                        <div className="flex flex-col">
+                                            <span className="text-gray-400">
+                                                TRAITS
+                                            </span>
+                                            <span className="text-sm font-n text-black">
+                                                {weapon._traits.reduce(
+                                                    (acc, trait, index) => {
+                                                        if (index === 0) {
+                                                            return trait.displayName;
+                                                        }
+                                                        return (
+                                                            acc +
+                                                            ", " +
+                                                            trait.displayName
+                                                        );
+                                                    },
+                                                    ""
+                                                )}
+                                            </span>
                                         </div>
                                     </div>
-                                </div>
-                                <div className="flex flex-col">
-                                    <span className="text-gray-400">DAMAGE</span>
-                                    <span className="text-xl text-black">
-                                        {weapon._weapon.minorDamageRate} ~{" "}
-                                        {weapon._weapon.majorDamageRate}
-                                    </span>
-                                </div>
-                                <div className="flex flex-col">
-                                    <span className="text-gray-400">
-                                        USAGE LIMIT
-                                    </span>
-                                    <span className="text-xl text-black">
-                                        {weapon.usageLimit || "∞"}
-                                    </span>
-                                </div>
-                                <div className="flex flex-col">
-                                    <span className="text-gray-400">TRAITS</span>
-                                    <span className="text-sm font-n text-black">
-                                        {weapon._traits.reduce((acc, trait, index) => {
-                                            if (index === 0) {
-                                                return trait.displayName;
-                                            }
-                                            return acc + ", " + trait.displayName;
-                                        }, "")}
-                                    </span>
-                                </div>
-                            </div>
+                                </span>
+                            </Link>
+                            <button
+                                onClick={handleOnDeleteClick(weapon.id)}
+                                className="text-red-700"
+                            >
+                                Delete
+                            </button>
                             <hr className="my-2" />
-                        </span>
-                    </Link>
-                ))}
-            </div>
+                        </div>
+                    ))}
+                </div>
+            )}
         </div>
     );
 };
