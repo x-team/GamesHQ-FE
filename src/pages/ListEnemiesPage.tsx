@@ -63,7 +63,11 @@ const ListEnemiesPage = function ListEnemiesPage(props: any) {
                         <span key={index}>
                             <Link to={`/enemy/${enemy.id}`}>
                                 <div className="grid grid-cols-4 gap-4">
-                                    {emojiToImageTag(enemy.emoji, "h-12 w-12")}
+                                    {emojiToImageTag(
+                                        enemy.emoji,
+                                        {},
+                                        "h-12 w-12"
+                                    )}
                                     <div className="flex flex-col">
                                         <span className="font-bold">
                                             {enemy.name}{" "}

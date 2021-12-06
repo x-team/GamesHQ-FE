@@ -26,12 +26,13 @@ const InspectArenaPlayerCard = function InspectArenaPlayerCard({
                             {truncateText(player._user.displayName, 9)}
                         </div>
                         <div className="font-semibold text-lg text-center flex justify-center items-center">
-                            {emojiToImageTag(":health-heart:", "w-4 h-4")}
+                            {emojiToImageTag(":health-heart:", {}, "w-4 h-4")}
                             <span className="text-base ml-1">
                                 {player.health}
                             </span>
                             {emojiToImageTag(
                                 ":arena-armor-epic:",
+                                {},
                                 "h-5 w-5 ml-2"
                             )}
                         </div>
@@ -39,11 +40,11 @@ const InspectArenaPlayerCard = function InspectArenaPlayerCard({
                         <span className="thin font-sans text-center flex items-center justify-center mt-1 gap-1">
                             <span className="flex items-center">
                                 <span className="mr-1">4</span>
-                                {emojiToImageTag(":medkit:", "h-5 w-5")}
+                                {emojiToImageTag(":medkit:", {}, "h-5 w-5")}
                             </span>
                             <span className="flex items-center">
                                 <span className="mr-1">112</span>
-                                {emojiToImageTag(":cheer-star:", "h-5 w-5")}
+                                {emojiToImageTag(":cheer-star:", {}, "h-5 w-5")}
                             </span>
                         </span>
                     </div>
@@ -52,14 +53,18 @@ const InspectArenaPlayerCard = function InspectArenaPlayerCard({
                         <div className="relative h-full flex flex-col">
                             <div className="absolute mt-2">
                                 <span className="text-gray-400 thin font-sans text-center flex justify-center items-center mb-2 opacity-5">
-                                    {emojiToImageTag(":corgi:", "h-32 w-32")}
+                                    {emojiToImageTag(
+                                        ":corgi:",
+                                        {},
+                                        "h-32 w-32"
+                                    )}
                                 </span>
                             </div>
 
                             <span className="text-gray-400 thin font-sans text-center flex ml-4">
                                 <div className="mt-2 flex flex-wrap">
                                     {player._weapons.map((weapon) =>
-                                        emojiToImageTag(weapon.emoji)
+                                        emojiToImageTag(weapon.emoji, {})
                                     )}
                                 </div>
                             </span>

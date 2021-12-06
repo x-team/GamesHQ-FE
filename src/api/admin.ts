@@ -2,6 +2,14 @@ import axios from "axios";
 
 const gamesHqUrl = process.env.REACT_APP_GAMESHQ_API_URL;
 
+export const getAllEmoji = async () => {
+    const endpoint = gamesHqUrl + "/admin/getEmoji";
+    const response = await axios.get(endpoint);
+    const allEmoji = response.data.emoji as IAllEmoji;
+
+    return allEmoji;
+};
+
 export const getActiveArenaGame = async () => {
     const endpoint = gamesHqUrl + "/dashboard/admin/arena/getState";
     const response = await axios.get(endpoint);
@@ -92,4 +100,40 @@ export const upsertZone = async (data: IZoneEditorData) => {
 export const deleteZone = async (zoneId: number) => {
     const endpoint = gamesHqUrl + `/dashboard/admin/zones/${zoneId}`;
     await axios.delete(endpoint);
+};
+
+// 🏯 TOWER GAMES
+
+export const getCurrentTowerGameStatus = async () => {
+    const endpoint = gamesHqUrl + `/dashboard/admin/tower-games/status`;
+    const response = await axios.get(endpoint);
+    const towerGame = response.data.towerGame as IGameWithTower;
+
+    return towerGame;
+};
+
+export const createTowerGame = async (data: ICreateTowerGameData) => {
+    const endpoint = gamesHqUrl + "/dashboard/admin/tower-games/new";
+    await axios.post(endpoint, data);
+};
+
+export const endCurrentTowerGame = async () => {
+    const endpoint =
+        gamesHqUrl + `/dashboard/admin/tower-games/end-current-game`;
+    await axios.post(endpoint);
+};
+
+export const openOrCloseCurrentTowerGame = async (open: boolean) => {
+    const endpoint = gamesHqUrl + `/dashboard/admin/tower-games/open-or-close`;
+    await axios.post(endpoint, {
+        open,
+    });
+};
+
+// 🪜 Floors
+
+export const updateFloor = async (floorId: number, data: IUpdateFloorData) => {
+    const endpoint =
+        gamesHqUrl + `/dashboard/admin/floors/${floorId}/addEnemies`;
+    await axios.post(endpoint, data);
 };

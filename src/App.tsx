@@ -14,6 +14,8 @@ import ZoneEditorPage from "./pages/ZoneEditorPage";
 import ListEnemiesPage from "./pages/ListEnemiesPage";
 import EnemyEditorPage from "./pages/EnemyEditorPage";
 import NotFoundPage from "./pages/NotFoundPage";
+import TowerGamePage from "./pages/TowerGamePage";
+import FloorsEditorPage from "./pages/FloorsEditorPage";
 
 interface GamesHQRoute {
     name: string;
@@ -32,6 +34,7 @@ const databaseRoutes = [
 ];
 
 const towerRoutes = [
+    { name: "Tower Game", to: "/tower/status", icon: playerSvg },
     { name: "Enemies", to: "/enemies", icon: skull },
     { name: "Floors", to: "/floors", icon: floor },
 ];
@@ -95,6 +98,10 @@ function App() {
                             <InspectArenaPage />
                         </Route>
 
+                        <Route exact path="/tower/status">
+                            <TowerGamePage />
+                        </Route>
+
                         <Route exact path="/weapons">
                             <ListWeaponsPage />
                         </Route>
@@ -123,6 +130,10 @@ function App() {
                         </Route>
                         <Route exact path="/enemy/:enemyId">
                             <EnemyEditorPage editMode={true} />
+                        </Route>
+
+                        <Route exact path="/floors">
+                            <FloorsEditorPage />
                         </Route>
 
                         <Route component={NotFoundPage} />

@@ -49,14 +49,28 @@ const emojiToImageSrcMap: { [id: string]: string } = {
         "https://a.slack-edge.com/production-standard-emoji-assets/13.0/google-large/1f31f.png",
 };
 
-export const emojiToImageSrc = (emoji: string) => {
-    return emojiToImageSrcMap[emoji] || "https://via.placeholder.com/128x128";
+export const emojiToImageSrc = (emoji: string, allEmoji: IAllEmoji) => {
+    let formattedEmoji = emoji.substring(1, emoji.length - 1);
+    if (allEmoji[formattedEmoji]) {
+        return allEmoji[formattedEmoji];
+    }
+
+    return (
+        emojiToImageSrcMap[formattedEmoji] ||
+        "https://via.placeholder.com/128x128"
+    );
 };
 
-export const emojiToImageTag = (emoji: string, className?: string) => (
-    <img
-        className={`${className || `h-6 w-6`}`}
-        src={emojiToImageSrc(emoji)}
-        alt={emoji + " emoji"}
-    />
-);
+export const emojiToImageTag = (
+    emoji: string,
+    allEmoji: IAllEmoji,
+    className?: string
+) => {
+    return (
+        <img
+            className={`inline ${className || `h-6 w-6`}`}
+            src={emojiToImageSrc(emoji, allEmoji)}
+            alt={emoji + " emoji"}
+        />
+    );
+};

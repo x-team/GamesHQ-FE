@@ -87,6 +87,7 @@ const ListWeaponsPage = function ListWeaponsPage(props: any) {
                                             <div>
                                                 {emojiToImageTag(
                                                     weapon.emoji,
+                                                    {},
                                                     "h-12 w-12"
                                                 )}
                                             </div>

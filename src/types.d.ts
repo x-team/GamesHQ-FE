@@ -103,7 +103,14 @@ interface IGame {
     id?: number;
     name: string;
     isActive: boolean;
+    startedAt: string;
+    endedAt: string;
+    _gameTypeId: number;
     _arena: IArenaGame;
+}
+
+interface IGameWithTower extends IGame {
+    _tower: ITowerGame;
 }
 
 interface IArenaGame {
@@ -156,4 +163,43 @@ interface IZoneEditorData {
     emoji: string;
     ring: string;
     isArchived: boolean;
+}
+
+interface ITowerGame {
+    id?: number;
+    lunaPrize: number;
+    height: number;
+    coinPrize: number;
+    isOpen: boolean;
+    _game?: IGame;
+    _gameId: number;
+    _floors?: ITowerFloor[];
+}
+
+interface ITowerFloor {
+    id?: number;
+    number: number;
+    isEveryoneVisible: boolean;
+    _floorEnemies?: ITowerFloorEnemy[];
+    _towerGameId: number;
+}
+
+interface ITowerFloorEnemy {
+    id: number;
+    _enemyId: number;
+    _towerFloorid: number;
+    _enemy: IEnemy;
+}
+
+interface ICreateTowerGameData {
+    name: string;
+    height: number;
+}
+
+interface IAllEmoji {
+    [k: string]: string;
+}
+
+interface IUpdateFloorData {
+    enemyIds: number[];
 }
