@@ -23,9 +23,6 @@ const InspectArenaPage = function InspectArenaPage(props: any) {
         []
     ) as IArenaPlayer[];
 
-    console.log(arenaGame);
-    console.log(arenaPlayers);
-
     const alivePlayers = arenaPlayers.filter(
         (player) => player.health > 0 && !player.isSpectator
     );

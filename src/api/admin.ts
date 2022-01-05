@@ -1,6 +1,17 @@
 import axios from "axios";
+import app from "../firebase/firebase";
 
 const gamesHqUrl = process.env.REACT_APP_GAMESHQ_API_URL;
+
+const getAxiosInstance = async () => {
+    const firebaseIdToken = await app.auth().currentUser?.getIdToken();
+    return axios.create({
+        baseURL: gamesHqUrl,
+        params: {
+            firebaseIdToken: firebaseIdToken,
+        },
+    });
+};
 
 export const getAllEmoji = async () => {
     const endpoint = gamesHqUrl + "/admin/getEmoji";
@@ -22,6 +33,8 @@ export const getActiveArenaGame = async () => {
 
 export const getWeapons = async () => {
     const endpoint = gamesHqUrl + "/dashboard/admin/getWeapons";
+    const axios = await getAxiosInstance();
+
     const response = await axios.get(endpoint);
     const itemWeapons = response.data.weapons as IWeapon[];
 

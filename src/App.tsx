@@ -1,10 +1,5 @@
 import React from "react";
 import { BrowserRouter as Router, Link, Route, Switch } from "react-router-dom";
-import playerSvg from "./assets/icons/player.svg";
-import skull from "./assets/icons/skull.svg";
-import sword from "./assets/icons/sword.svg";
-import floor from "./assets/icons/floor.svg";
-import zone from "./assets/icons/zone.svg";
 import PlayersPage from "./pages/PlayersPage";
 import InspectArenaPage from "./pages/InspectArenaPage";
 import ListWeaponsPage from "./pages/ListWeaponsPage";
@@ -16,8 +11,20 @@ import EnemyEditorPage from "./pages/EnemyEditorPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import TowerGamePage from "./pages/TowerGamePage";
 import FloorsEditorPage from "./pages/FloorsEditorPage";
+import SignInPage from "./pages/SignInPage";
+import HomePage from "./pages/HomePage";
 
-interface GamesHQRoute {
+import playerSvg from "./assets/icons/player.svg";
+import skull from "./assets/icons/skull.svg";
+import sword from "./assets/icons/sword.svg";
+import floor from "./assets/icons/floor.svg";
+import zone from "./assets/icons/zone.svg";
+
+import useCurrentUser from "./hooks/useCurrentUser";
+import { SyncLoader } from "react-spinners";
+import { XTEAM_ACCENT_COLOR } from "./helpers/colors";
+
+interface GamesHQRouteOption {
     name: string;
     icon: string;
     to: string;
@@ -41,7 +48,7 @@ const towerRoutes = [
 
 const arenaRoutes = [{ name: "Zones", to: "/zones", icon: zone }];
 
-const generateRouteList = (route: GamesHQRoute[]) => {
+const generateRouteList = (route: GamesHQRouteOption[]) => {
     return route.map((route) => (
         <ul className="pt-4">
             <Link to={route.to} className="items-center">
@@ -55,12 +62,36 @@ const generateRouteList = (route: GamesHQRoute[]) => {
 };
 
 function App() {
+    const { currentUser, isDoingInitialLoading } = useCurrentUser();
+    const authenticated = !!currentUser;
+
+    console.log({ isDoingInitialLoading, authenticated: !!currentUser });
+    if (isDoingInitialLoading) {
+        return (
+            <div className="h-screen w-screen flex justify-center items-center">
+                <SyncLoader color={XTEAM_ACCENT_COLOR} />
+            </div>
+        );
+    }
+
+    if (!authenticated) {
+        console.log({ isDoingInitialLoading, authenticated: !!currentUser });
+        return (
+            <Router>
+                <Switch>
+                    <Route path="/">
+                        <SignInPage />
+                    </Route>
+                </Switch>
+            </Router>
+        );
+    }
     return (
         <Router>
             <div className="flex h-screen bg-white">
                 <nav className="w-80 font-medium text-base bg-gray-50 h-full py-4">
                     <div className="px-4 font-sans italic text-2xl text-xteamaccent font-extrabold mb-8">
-                        GAMESHQ
+                        <Link to="/">GAMESHQ</Link>
                     </div>
                     <div className="px-8 flex-col flex">
                         <span className="pt-4" />
@@ -88,9 +119,14 @@ function App() {
                         {generateRouteList(arenaRoutes)}
                     </div>
                 </nav>
-
                 <div className="w-full min-w-0 px-16 py-8">
                     <Switch>
+                        <Route exact path="/">
+                            <HomePage />
+                        </Route>
+                        <Route exact path="/login">
+                            <SignInPage />
+                        </Route>
                         <Route exact path="/players">
                             <PlayersPage />
                         </Route>

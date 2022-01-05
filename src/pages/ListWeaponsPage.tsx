@@ -61,9 +61,9 @@ const ListWeaponsPage = function ListWeaponsPage(props: any) {
             </h2>
 
             <div className="mt-4">
-                <a href="/weapons/new">
+                <Link to="/weapons/new">
                     <Button>New Weapon</Button>
-                </a>
+                </Link>
             </div>
 
             {isLoading ? (

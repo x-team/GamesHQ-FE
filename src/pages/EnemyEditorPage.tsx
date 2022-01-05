@@ -121,7 +121,6 @@ const EnemyEditorPage = function EnemyEditorPage({ editMode }: IProps) {
 
             setRemoteEnemy(enemy);
             setLoading(false);
-            console.log({ enemy });
             return enemy;
         }
 

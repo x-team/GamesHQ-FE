@@ -127,7 +127,6 @@ const WeaponEditorPage = function WeaponEditorPage({ editMode }: IProps) {
 
             setRemoteWeaponItem(weapon);
             setLoading(false);
-            console.log({ weapon });
             return weapon;
         }
 

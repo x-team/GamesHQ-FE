@@ -9,12 +9,11 @@ import {
 import { emojiToImageTag } from "../helpers/emojiHelper";
 import AddEnemyToFloorModal from "../ui/AddEnemyToFloorModal";
 import Button from "../ui/Button";
-import Modal from "../ui/Modal";
 import PanelBox from "../ui/PanelBox";
 
 const FloorsEditorPage = () => {
     const [allEmoji, setAllEmoji] = useState<IAllEmoji>({});
-    const [isLoading, setIsLoading] = useState(false);
+    const [, setIsLoading] = useState(false);
     const [towerGame, setTowerGame] = useState<IGameWithTower | null>(null);
     const [enemies, setEnemies] = useState<IEnemy[]>([]);
 

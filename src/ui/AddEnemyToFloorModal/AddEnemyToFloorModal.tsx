@@ -1,4 +1,3 @@
-import { indexOf } from "lodash";
 import { useState } from "react";
 import { updateFloor } from "../../api/admin";
 import { emojiToImageTag } from "../../helpers/emojiHelper";

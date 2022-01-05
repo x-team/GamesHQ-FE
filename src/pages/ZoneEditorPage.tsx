@@ -32,7 +32,6 @@ const ZoneEditorPage = function ZoneEditorPage({ editMode }: IProps) {
     const numericZoneId = parseInt(zoneId);
 
     const onSubmit = async (values: IForm, actions: FormikHelpers<IForm>) => {
-        console.log("test");
         setIsLoading(true);
         await upsertZone({
             ...(editMode && numericZoneId && { id: numericZoneId }),
@@ -94,7 +93,6 @@ const ZoneEditorPage = function ZoneEditorPage({ editMode }: IProps) {
 
             setRemoteZone(zone);
             setIsLoading(false);
-            console.log({ zone });
             return zone;
         }
 
