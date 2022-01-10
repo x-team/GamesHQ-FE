@@ -20,20 +20,24 @@ const ListZonesPage = function ListZonesPage(props: any) {
         fetchZones();
     }, []);
 
-    const handleOnDeleteClick = (id?: number) => async () => {
+    const handleOnDeleteClick = (zone?: IZone) => async () => {
+        if (!zone) {
+            return;
+        }
+
         const swalResult = await Swal.fire({
-            title: "Delete it?",
+            title: `Delete zone ${zone.name} (${zone.ring})?`,
             icon: "warning",
             showCancelButton: true,
             confirmButtonColor: "#3085d6",
             cancelButtonColor: "#d33",
             confirmButtonText: "Yes, delete it!",
         });
-        if (!id || !swalResult.isConfirmed) {
+        if (!swalResult.isConfirmed) {
             return;
         }
         setIsLoading(true);
-        await deleteZone(id);
+        await deleteZone(zone.id!);
         await fetchZones();
         setIsLoading(false);
     };
@@ -77,7 +81,7 @@ const ListZonesPage = function ListZonesPage(props: any) {
                                     </div>
                                 </Link>
                                 <button
-                                    onClick={handleOnDeleteClick(zone.id)}
+                                    onClick={handleOnDeleteClick(zone)}
                                     className="text-red-700"
                                 >
                                     Delete

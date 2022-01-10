@@ -65,7 +65,6 @@ function App() {
     const { currentUser, isDoingInitialLoading } = useCurrentUser();
     const authenticated = !!currentUser;
 
-    console.log({ isDoingInitialLoading, authenticated: !!currentUser });
     if (isDoingInitialLoading) {
         return (
             <div className="h-screen w-screen flex justify-center items-center">
@@ -75,7 +74,6 @@ function App() {
     }
 
     if (!authenticated) {
-        console.log({ isDoingInitialLoading, authenticated: !!currentUser });
         return (
             <Router>
                 <Switch>

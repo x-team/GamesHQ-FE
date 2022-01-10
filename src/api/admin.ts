@@ -1,11 +1,11 @@
-import axios from "axios";
+import axiosImport from "axios";
 import app from "../firebase/firebase";
 
 const gamesHqUrl = process.env.REACT_APP_GAMESHQ_API_URL;
 
 const getAxiosInstance = async () => {
     const firebaseIdToken = await app.auth().currentUser?.getIdToken();
-    return axios.create({
+    return axiosImport.create({
         baseURL: gamesHqUrl,
         params: {
             firebaseIdToken: firebaseIdToken,
@@ -14,6 +14,8 @@ const getAxiosInstance = async () => {
 };
 
 export const getAllEmoji = async () => {
+    const axios = await getAxiosInstance();
+
     const endpoint = gamesHqUrl + "/admin/getEmoji";
     const response = await axios.get(endpoint);
     const allEmoji = response.data.emoji as IAllEmoji;
@@ -22,6 +24,8 @@ export const getAllEmoji = async () => {
 };
 
 export const getActiveArenaGame = async () => {
+    const axios = await getAxiosInstance();
+
     const endpoint = gamesHqUrl + "/dashboard/admin/arena/getState";
     const response = await axios.get(endpoint);
     const arenaGame = response.data.arenaGame as IGame;
@@ -32,8 +36,8 @@ export const getActiveArenaGame = async () => {
 // 🔫 Weapons
 
 export const getWeapons = async () => {
-    const endpoint = gamesHqUrl + "/dashboard/admin/getWeapons";
     const axios = await getAxiosInstance();
+    const endpoint = gamesHqUrl + "/dashboard/admin/getWeapons";
 
     const response = await axios.get(endpoint);
     const itemWeapons = response.data.weapons as IWeapon[];
@@ -42,7 +46,9 @@ export const getWeapons = async () => {
 };
 
 export const getWeapon = async (weaponId: number) => {
+    const axios = await getAxiosInstance();
     const endpoint = gamesHqUrl + `/dashboard/admin/weapons/${weaponId}`;
+
     const response = await axios.get(endpoint);
     const itemWeapon = response.data.weapon as IWeapon;
 
@@ -50,11 +56,15 @@ export const getWeapon = async (weaponId: number) => {
 };
 
 export const upsertWeapon = async (data: IWeaponEditorData) => {
+    const axios = await getAxiosInstance();
+
     const endpoint = gamesHqUrl + "/dashboard/admin/upsertWeapon";
     await axios.post(endpoint, data);
 };
 
 export const deleteWeapon = async (weaponId: number) => {
+    const axios = await getAxiosInstance();
+
     const endpoint = gamesHqUrl + `/dashboard/admin/weapons/${weaponId}`;
     await axios.delete(endpoint);
 };
@@ -62,6 +72,8 @@ export const deleteWeapon = async (weaponId: number) => {
 // 👹 Enemies
 
 export const getEnemy = async (enemyId: number) => {
+    const axios = await getAxiosInstance();
+
     const endpoint = gamesHqUrl + `/dashboard/admin/enemies/${enemyId}`;
     const response = await axios.get(endpoint);
     const enemy = response.data.enemy as IEnemy;
@@ -70,6 +82,8 @@ export const getEnemy = async (enemyId: number) => {
 };
 
 export const getEnemies = async () => {
+    const axios = await getAxiosInstance();
+
     const endpoint = gamesHqUrl + `/dashboard/admin/enemies`;
     const response = await axios.get(endpoint);
     const enemy = response.data.enemies as IEnemy[];
@@ -78,11 +92,15 @@ export const getEnemies = async () => {
 };
 
 export const upsertEnemy = async (data: IEnemyEditorData) => {
+    const axios = await getAxiosInstance();
+
     const endpoint = gamesHqUrl + "/dashboard/admin/upsertEnemy";
     await axios.post(endpoint, data);
 };
 
 export const deleteEnemy = async (enemyId: number) => {
+    const axios = await getAxiosInstance();
+
     const endpoint = gamesHqUrl + `/dashboard/admin/enemies/${enemyId}`;
     await axios.delete(endpoint);
 };
@@ -90,6 +108,8 @@ export const deleteEnemy = async (enemyId: number) => {
 // 🏠 Zones
 
 export const getZones = async () => {
+    const axios = await getAxiosInstance();
+
     const endpoint = gamesHqUrl + `/dashboard/admin/zones`;
     const response = await axios.get(endpoint);
     const zones = response.data.zones as IZone[];
@@ -98,6 +118,8 @@ export const getZones = async () => {
 };
 
 export const getZone = async (zoneId: number) => {
+    const axios = await getAxiosInstance();
+
     const endpoint = gamesHqUrl + `/dashboard/admin/zones/${zoneId}`;
     const response = await axios.get(endpoint);
     const zone = response.data.zone as IZone;
@@ -106,11 +128,15 @@ export const getZone = async (zoneId: number) => {
 };
 
 export const upsertZone = async (data: IZoneEditorData) => {
+    const axios = await getAxiosInstance();
+
     const endpoint = gamesHqUrl + "/dashboard/admin/upsertZone";
     await axios.post(endpoint, data);
 };
 
 export const deleteZone = async (zoneId: number) => {
+    const axios = await getAxiosInstance();
+
     const endpoint = gamesHqUrl + `/dashboard/admin/zones/${zoneId}`;
     await axios.delete(endpoint);
 };
@@ -118,6 +144,8 @@ export const deleteZone = async (zoneId: number) => {
 // 🏯 TOWER GAMES
 
 export const getCurrentTowerGameStatus = async () => {
+    const axios = await getAxiosInstance();
+
     const endpoint = gamesHqUrl + `/dashboard/admin/tower-games/status`;
     const response = await axios.get(endpoint);
     const towerGame = response.data.towerGame as IGameWithTower;
@@ -126,17 +154,23 @@ export const getCurrentTowerGameStatus = async () => {
 };
 
 export const createTowerGame = async (data: ICreateTowerGameData) => {
+    const axios = await getAxiosInstance();
+
     const endpoint = gamesHqUrl + "/dashboard/admin/tower-games/new";
     await axios.post(endpoint, data);
 };
 
 export const endCurrentTowerGame = async () => {
+    const axios = await getAxiosInstance();
+
     const endpoint =
         gamesHqUrl + `/dashboard/admin/tower-games/end-current-game`;
     await axios.post(endpoint);
 };
 
 export const openOrCloseCurrentTowerGame = async (open: boolean) => {
+    const axios = await getAxiosInstance();
+
     const endpoint = gamesHqUrl + `/dashboard/admin/tower-games/open-or-close`;
     await axios.post(endpoint, {
         open,
@@ -146,6 +180,8 @@ export const openOrCloseCurrentTowerGame = async (open: boolean) => {
 // 🪜 Floors
 
 export const updateFloor = async (floorId: number, data: IUpdateFloorData) => {
+    const axios = await getAxiosInstance();
+
     const endpoint =
         gamesHqUrl + `/dashboard/admin/floors/${floorId}/addEnemies`;
     await axios.post(endpoint, data);
