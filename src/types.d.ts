@@ -203,3 +203,10 @@ interface IAllEmoji {
 interface IUpdateFloorData {
     enemyIds: number[];
 }
+
+interface IUserFirestoreData {
+    fullName: string;
+    role: TRole;
+}
+
+type TRole = "admin" | "user";

@@ -23,6 +23,7 @@ import zone from "./assets/icons/zone.svg";
 import useCurrentUser from "./hooks/useCurrentUser";
 import { SyncLoader } from "react-spinners";
 import { XTEAM_ACCENT_COLOR } from "./helpers/colors";
+import UnauthorizedPage from "./pages/UnauthorizedPage";
 
 interface GamesHQRouteOption {
     name: string;
@@ -62,8 +63,7 @@ const generateRouteList = (route: GamesHQRouteOption[]) => {
 };
 
 function App() {
-    const { currentUser, isDoingInitialLoading } = useCurrentUser();
-    const authenticated = !!currentUser;
+    const { authenticated, isAdmin, isDoingInitialLoading } = useCurrentUser();
 
     if (isDoingInitialLoading) {
         return (
@@ -84,6 +84,11 @@ function App() {
             </Router>
         );
     }
+
+    if (!isAdmin) {
+        return <UnauthorizedPage />;
+    }
+
     return (
         <Router>
             <div className="flex h-screen bg-white">
