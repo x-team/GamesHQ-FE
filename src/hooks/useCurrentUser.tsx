@@ -9,12 +9,14 @@ const useCurrentUser = () => {
     const [isDoingInitialLoading, setIsDoingInitialLoading] = useState(true);
 
     useEffect(() => {
-        app.auth().onAuthStateChanged((user) => {
+        const unsubscribe = app.auth().onAuthStateChanged((user) => {
             console.log("Auth state change. Current user:");
             console.log({ user });
             setCurrentUser(user);
             setIsDoingInitialLoading(false);
         });
+
+        return unsubscribe();
     }, []);
 
     return { currentUser, isDoingInitialLoading };
