@@ -5,7 +5,9 @@ import InspectArenaPage from "./pages/InspectArenaPage";
 import ListWeaponsPage from "./pages/ListWeaponsPage";
 import WeaponEditorPage from "./pages/WeaponEditorPage";
 import ListZonesPage from "./pages/ListZonesPage";
+import ListGamesPage from "./pages/ListGamesPage";
 import ZoneEditorPage from "./pages/ZoneEditorPage";
+import GameEditorPage from "./pages/GameEditorPage";
 import ListEnemiesPage from "./pages/ListEnemiesPage";
 import EnemyEditorPage from "./pages/EnemyEditorPage";
 import NotFoundPage from "./pages/NotFoundPage";
@@ -48,6 +50,8 @@ const towerRoutes = [
 ];
 
 const arenaRoutes = [{ name: "Zones", to: "/zones", icon: zone }];
+
+const gameDevRoutes = [{ name: "Games", to: "/games", icon: zone }];
 
 const generateRouteList = (route: GamesHQRouteOption[]) => {
     return route.map((route) => (
@@ -99,6 +103,12 @@ function App() {
                     <div className="px-8 flex-col flex">
                         <span className="pt-4" />
                         <span className="uppercase py-1 text-xs text-gray-400 font-semibold">
+                            MY GAMES
+                        </span>
+
+                        {generateRouteList(gameDevRoutes)}
+                        
+                        <span className="uppercase py-1 text-xs text-gray-400 font-semibold mt-12">
                             INSPECT LIVE GAMES
                         </span>
 
@@ -130,6 +140,17 @@ function App() {
                         <Route exact path="/login">
                             <SignInPage />
                         </Route>
+                        
+                        <Route exact path="/games">
+                            <ListGamesPage />
+                        </Route>
+                        <Route exact path="/games/new">
+                            <GameEditorPage />
+                        </Route>
+                        <Route exact path="/games/:gameTypeId">
+                            <GameEditorPage editMode={true} />
+                        </Route>
+
                         <Route exact path="/players">
                             <PlayersPage />
                         </Route>
