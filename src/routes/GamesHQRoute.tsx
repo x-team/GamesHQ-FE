@@ -38,6 +38,8 @@ const towerRoutes = [
 
 const arenaRoutes = [{ name: "Zones", to: "/zones", icon: zone }];
 
+const gameDevRoutes = [{ name: "Game Dev", to: "/games", icon: zone }];
+
 const generateRouteList = (route: GamesHQRouteOption[]) => {
     return route.map((route) => (
         <ul className="pt-4">
@@ -69,6 +71,12 @@ const GamesHQRoute: React.FC<IProps> = ({ children, path }) => {
                     <div className="px-8 flex-col flex">
                         <span className="pt-4" />
                         <span className="uppercase py-1 text-xs text-gray-400 font-semibold">
+                            MY GAMES
+                        </span>
+
+                        {generateRouteList(gameDevRoutes)}
+                        
+                        <span className="uppercase py-1 text-xs text-gray-400 font-semibold  mt-12">
                             INSPECT LIVE GAMES
                         </span>
 
