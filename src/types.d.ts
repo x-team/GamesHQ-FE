@@ -12,6 +12,11 @@ interface IGameType {
   clientSecret: string;
   signingSecret: string;
   _createdById: number;
+  description?: string;
+  isEnabled?: boolean;
+  targetValue?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 interface ITeam {
