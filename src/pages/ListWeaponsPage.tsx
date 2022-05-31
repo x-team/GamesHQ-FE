@@ -111,12 +111,12 @@ const ListWeaponsPage = function ListWeaponsPage(props: any) {
                                                             index
                                                         ) => {
                                                             if (index === 0) {
-                                                                return gameAvailability._gameTypeId;
+                                                                return gameAvailability._gameType.name;
                                                             }
                                                             return (
                                                                 acc +
                                                                 ", " +
-                                                                gameAvailability._gameTypeId
+                                                                gameAvailability._gameType.name
                                                             );
                                                         },
                                                         ""

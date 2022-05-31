@@ -20,7 +20,7 @@ interface IForm {
     usageLimit: number | null;
     isArchived: boolean;
     traits: string[];
-    gameAvailability: string[];
+    gameTypeId: number[];
     rarity: string;
 }
 
@@ -53,7 +53,7 @@ const WeaponEditorPage = function WeaponEditorPage({ editMode }: IProps) {
             majorDamageRate: values.majorDamageRate,
             usageLimit: values.usageLimit || null,
             rarity: values.rarity,
-            gameAvailability: values.gameAvailability,
+            gameTypeId: values.gameTypeId,
             traits: values.traits,
         });
         history.push("/weapons");
@@ -66,7 +66,7 @@ const WeaponEditorPage = function WeaponEditorPage({ editMode }: IProps) {
         majorDamageRate: 0,
         usageLimit: null,
         isArchived: false,
-        gameAvailability: [],
+        gameTypeId: [],
         traits: [],
         rarity: "",
     };
@@ -112,8 +112,11 @@ const WeaponEditorPage = function WeaponEditorPage({ editMode }: IProps) {
             setValues({
                 weaponName: weapon.name,
                 emoji: weapon.emoji,
-                gameAvailability: weapon._gameItemAvailability.map(
-                    (gameAvailability) => gameAvailability._gameTypeId
+                gameTypeId: weapon._gameItemAvailability.map(
+                    (gameAvailability) => gameAvailability._gameType.name
+                ),
+                gameTypeName: weapon._gameItemAvailability.map(
+                    (gameAvailability) => gameAvailability._gameType.name
                 ),
                 isArchived: weapon._gameItemAvailability.some(
                     (gameAvailability) => gameAvailability.isArchived
@@ -258,7 +261,7 @@ const WeaponEditorPage = function WeaponEditorPage({ editMode }: IProps) {
                     <div className="mt-2">
                         <Checkbox
                             id="The Arena"
-                            {...getFieldProps("gameAvailability")}
+                            {...getFieldProps("gameTypeName")}
                         >
                             The Arena
                         </Checkbox>
@@ -266,7 +269,7 @@ const WeaponEditorPage = function WeaponEditorPage({ editMode }: IProps) {
                     <div>
                         <Checkbox
                             id="The Tower"
-                            {...getFieldProps("gameAvailability")}
+                            {...getFieldProps("gameTypeName")}
                         >
                             The Tower
                         </Checkbox>

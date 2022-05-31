@@ -74,7 +74,7 @@ interface IAvailableTrait {
 }
 
 interface IGameItemAvailability {
-  _gameTypeId: string;
+  _gameTypeId: number;
   _itemId: number;
   isActive: boolean;
   isArchived: boolean;
@@ -153,7 +153,7 @@ interface IWeaponEditorData {
   majorDamageRate: number;
   usageLimit: number | null;
   traits: string[];
-  gameAvailability: string[];
+  gameTypeId: number[];
 }
 
 interface IEnemyEditorData {

@@ -11,7 +11,7 @@ interface IProps {
 function Checkbox({ id, onChange, value, name, children }: IProps) {
     let checked;
     if (Array.isArray(value)) {
-        checked = value.includes(id);
+        checked = value.map(i => String(i)).includes(String(id));
     } else {
         checked = !!value;
     }
