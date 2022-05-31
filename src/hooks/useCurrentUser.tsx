@@ -1,42 +1,47 @@
 import { useEffect, useState } from "react";
-import firebase from "firebase/compat/app";
-import app from "../firebase/firebase";
-import { firestoreConverter } from "../utils/firestoreUtils";
+import { checkSession } from "../api/signInAndOut";
 
 const useCurrentUser = () => {
-    const [currentUser, setCurrentUser] = useState<
-        firebase.User | undefined | null
-    >(undefined);
-    const [userFirestoreData, setUserFirestoreData] =
-        useState<IUserFirestoreData>();
-    const [isDoingInitialLoading, setIsDoingInitialLoading] = useState(true);
+  const [currentUser, setCurrentUser] = useState<
+    GamesAPIUSer | undefined | null
+  >(undefined);
+  const [isDoingInitialLoading, setIsDoingInitialLoading] = useState(true);
+  let session = localStorage.getItem('session');
+  if (!session) {
+    session = JSON.stringify({
+      token: 'no-token',
+    });
+  }
+  const JSONSession = JSON.parse(session) as GamesAPISession;
+  useEffect(() => {
+    console.log("** Auth state change. Current user: **");
+    console.log({ currentUser });
+    if (!isDoingInitialLoading && !!currentUser) {
+      return;
+    }
+    const fetchSession = async () => {
+      const apiSession: SignIn = await checkSession(JSONSession.token);
+      const headerNeeded = 'xtu-session-token Header needed';
 
-    useEffect(() => {
-        app.auth().onAuthStateChanged(async (user) => {
-            console.log("** Auth state change. Current user: **");
-            console.log({ user });
-            if (user) {
-                const firestoreDoc = await app
-                    .firestore()
-                    .collection("users")
-                    .withConverter(firestoreConverter<IUserFirestoreData>())
-                    .doc(user?.uid)
-                    .get();
-                setCurrentUser(user);
-                setUserFirestoreData(firestoreDoc.data());
-            }
+      if (!apiSession.success && apiSession.message === headerNeeded) {
+        setIsDoingInitialLoading(false);
+      }
 
-            setIsDoingInitialLoading(false);
-        });
-    }, []);
+      if (apiSession.success) {
+        setCurrentUser(apiSession.user);
+        localStorage.setItem('session', JSON.stringify(apiSession.session));
+      }
+      setIsDoingInitialLoading(false);
+    }
+    fetchSession().catch(console.error);
+  }, [JSONSession, currentUser, isDoingInitialLoading]);
 
-    return {
-        currentUser,
-        userFirestoreData,
-        authenticated: !!currentUser && !!userFirestoreData,
-        isAdmin: userFirestoreData && userFirestoreData.role === "admin",
-        isDoingInitialLoading,
-    };
+  return {
+      currentUser,
+      authenticated: !!currentUser,
+      isAdmin: currentUser?.isAdmin,
+      isDoingInitialLoading,
+  };
 };
 
 export default useCurrentUser;
