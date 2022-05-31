@@ -3,6 +3,7 @@ import "firebase/compat/auth";
 import app from "../firebase/firebase";
 import Button from "../ui/Button";
 import { get } from "lodash";
+import { handleLogoutClick } from "../helpers/signInAndOutHelper";
 
 const HomePage = () => {
     const loggedUser = app.auth().currentUser;
@@ -15,13 +16,9 @@ const HomePage = () => {
             </div>
 
             <div className="flex justify-center">
-                <Button
-                    onClick={async () => {
-                        await app.auth().signOut();
-                    }}
-                >
-                    Log out
-                </Button>
+              <Button onClick={handleLogoutClick}>
+                Log out
+              </Button>
             </div>
         </div>
     );

@@ -6,6 +6,7 @@ import skull from "../assets/icons/skull.svg";
 import sword from "../assets/icons/sword.svg";
 import floor from "../assets/icons/floor.svg";
 import zone from "../assets/icons/zone.svg";
+import games from "../assets/icons/games.svg";
 import SignInPage from "../pages/SignInPage";
 import useCurrentUser from "../hooks/useCurrentUser";
 
@@ -38,7 +39,7 @@ const towerRoutes = [
 
 const arenaRoutes = [{ name: "Zones", to: "/zones", icon: zone }];
 
-const gameDevRoutes = [{ name: "Game Dev", to: "/games", icon: zone }];
+const gameDevRoutes = [{ name: "Game Dev", to: "/games", icon: games }];
 
 const generateRouteList = (route: GamesHQRouteOption[]) => {
     return route.map((route) => (
@@ -54,58 +55,58 @@ const generateRouteList = (route: GamesHQRouteOption[]) => {
 };
 
 const GamesHQRoute: React.FC<IProps> = ({ children, path }) => {
-    const currentUser = useCurrentUser();
-    const authenticated = !!currentUser;
+  const currentUser = useCurrentUser();
+  const authenticated = !!currentUser;
 
-    if (!authenticated) {
-        return <SignInPage />;
-    }
+  if (!authenticated) {
+      return <SignInPage />;
+  }
 
-    return (
-        <div className="flex h-screen bg-white">
-            <div className="w-full min-w-0 px-16 py-8">
-                <nav className="w-80 font-medium text-base bg-gray-50 h-full py-4">
-                    <div className="px-4 font-sans italic text-2xl text-xteamaccent font-extrabold mb-8">
-                        GAMESHQ
-                    </div>
-                    <div className="px-8 flex-col flex">
-                        <span className="pt-4" />
-                        <span className="uppercase py-1 text-xs text-gray-400 font-semibold">
-                            MY GAMES
-                        </span>
+  return (
+      <div className="flex h-screen bg-white">
+          <div className="w-full min-w-0 px-16 py-8">
+              <nav className="w-80 font-medium text-base bg-gray-50 h-full py-4">
+                  <div className="px-4 font-sans italic text-2xl text-xteamaccent font-extrabold mb-8">
+                      GAMESHQ
+                  </div>
+                  <div className="px-8 flex-col flex">
+                      <span className="pt-4" />
+                      <span className="uppercase py-1 text-xs text-gray-400 font-semibold">
+                          MY GAMES
+                      </span>
 
-                        {generateRouteList(gameDevRoutes)}
-                        
-                        <span className="uppercase py-1 text-xs text-gray-400 font-semibold  mt-12">
-                            INSPECT LIVE GAMES
-                        </span>
+                      {generateRouteList(gameDevRoutes)}
+                      
+                      <span className="uppercase py-1 text-xs text-gray-400 font-semibold  mt-12">
+                          INSPECT LIVE GAMES
+                      </span>
 
-                        {generateRouteList(inspectRoutes)}
+                      {generateRouteList(inspectRoutes)}
 
-                        <span className="uppercase py-1 text-xs text-gray-400 font-semibold mt-12">
-                            GENERAL
-                        </span>
+                      <span className="uppercase py-1 text-xs text-gray-400 font-semibold mt-12">
+                          GENERAL
+                      </span>
 
-                        {generateRouteList(databaseRoutes)}
+                      {generateRouteList(databaseRoutes)}
 
-                        <span className="uppercase py-1 text-xs text-gray-400 font-semibold mt-12">
-                            THE TOWER
-                        </span>
+                      <span className="uppercase py-1 text-xs text-gray-400 font-semibold mt-12">
+                          THE TOWER
+                      </span>
 
-                        {generateRouteList(towerRoutes)}
-                        <span className="uppercase py-1 text-xs text-gray-400 font-semibold mt-12">
-                            THE ARENA
-                        </span>
+                      {generateRouteList(towerRoutes)}
+                      <span className="uppercase py-1 text-xs text-gray-400 font-semibold mt-12">
+                          THE ARENA
+                      </span>
 
-                        {generateRouteList(arenaRoutes)}
-                    </div>
-                </nav>
-                <Route exact path={path}>
-                    {children}
-                </Route>
-            </div>
-        </div>
-    );
+                      {generateRouteList(arenaRoutes)}
+                  </div>
+              </nav>
+              <Route exact path={path}>
+                  {children}
+              </Route>
+          </div>
+      </div>
+  );
 };
 
 export default GamesHQRoute;
