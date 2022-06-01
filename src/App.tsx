@@ -21,6 +21,7 @@ import skull from "./assets/icons/skull.svg";
 import sword from "./assets/icons/sword.svg";
 import floor from "./assets/icons/floor.svg";
 import zone from "./assets/icons/zone.svg";
+import games from "./assets/icons/games.svg";
 
 import useCurrentUser from "./hooks/useCurrentUser";
 import { SyncLoader } from "react-spinners";
@@ -51,7 +52,7 @@ const towerRoutes = [
 
 const arenaRoutes = [{ name: "Zones", to: "/zones", icon: zone }];
 
-const gameDevRoutes = [{ name: "Games", to: "/games", icon: zone }];
+const gameDevRoutes = [{ name: "Games", to: "/games", icon: games }];
 
 const generateRouteList = (route: GamesHQRouteOption[]) => {
     return route.map((route) => (
@@ -67,141 +68,141 @@ const generateRouteList = (route: GamesHQRouteOption[]) => {
 };
 
 function App() {
-    const { authenticated, isAdmin, isDoingInitialLoading } = useCurrentUser();
+  const { authenticated, isAdmin, isDoingInitialLoading } = useCurrentUser();
 
-    if (isDoingInitialLoading) {
-        return (
-            <div className="h-screen w-screen flex justify-center items-center">
-                <SyncLoader color={XTEAM_ACCENT_COLOR} />
-            </div>
-        );
-    }
+  if (isDoingInitialLoading) {
+      return (
+          <div className="h-screen w-screen flex justify-center items-center">
+              <SyncLoader color={XTEAM_ACCENT_COLOR} />
+          </div>
+      );
+  }
 
-    if (!authenticated) {
-        return (
-            <Router>
-                <Switch>
-                    <Route path="/">
-                        <SignInPage />
-                    </Route>
-                </Switch>
-            </Router>
-        );
-    }
+  if (!authenticated) {
+      return (
+          <Router>
+              <Switch>
+                  <Route path="/">
+                      <SignInPage />
+                  </Route>
+              </Switch>
+          </Router>
+      );
+  }
 
-    if (!isAdmin) {
-        return <UnauthorizedPage />;
-    }
+  if (!isAdmin) {
+      return <UnauthorizedPage />;
+  }
 
-    return (
-        <Router>
-            <div className="flex h-screen bg-white">
-                <nav className="w-80 font-medium text-base bg-gray-50 h-full py-4">
-                    <div className="px-4 font-sans italic text-2xl text-xteamaccent font-extrabold mb-8">
-                        <Link to="/">GAMESHQ</Link>
-                    </div>
-                    <div className="px-8 flex-col flex">
-                        <span className="pt-4" />
-                        <span className="uppercase py-1 text-xs text-gray-400 font-semibold">
-                            MY GAMES
-                        </span>
+  return (
+      <Router>
+          <div className="flex h-screen bg-white">
+              <nav className="w-80 font-medium text-base bg-gray-50 h-full py-4">
+                  <div className="px-4 font-sans italic text-2xl text-xteamaccent font-extrabold mb-8">
+                      <Link to="/">GAMESHQ</Link>
+                  </div>
+                  <div className="px-8 flex-col flex">
+                      <span className="pt-4" />
+                      <span className="uppercase py-1 text-xs text-gray-400 font-semibold">
+                          MY GAMES
+                      </span>
 
-                        {generateRouteList(gameDevRoutes)}
-                        
-                        <span className="uppercase py-1 text-xs text-gray-400 font-semibold mt-12">
-                            INSPECT LIVE GAMES
-                        </span>
+                      {generateRouteList(gameDevRoutes)}
+                      
+                      <span className="uppercase py-1 text-xs text-gray-400 font-semibold mt-12">
+                          INSPECT LIVE GAMES
+                      </span>
 
-                        {generateRouteList(inspectRoutes)}
+                      {generateRouteList(inspectRoutes)}
 
-                        <span className="uppercase py-1 text-xs text-gray-400 font-semibold mt-12">
-                            GENERAL
-                        </span>
+                      <span className="uppercase py-1 text-xs text-gray-400 font-semibold mt-12">
+                          GENERAL
+                      </span>
 
-                        {generateRouteList(databaseRoutes)}
+                      {generateRouteList(databaseRoutes)}
 
-                        <span className="uppercase py-1 text-xs text-gray-400 font-semibold mt-12">
-                            THE TOWER
-                        </span>
+                      <span className="uppercase py-1 text-xs text-gray-400 font-semibold mt-12">
+                          THE TOWER
+                      </span>
 
-                        {generateRouteList(towerRoutes)}
-                        <span className="uppercase py-1 text-xs text-gray-400 font-semibold mt-12">
-                            THE ARENA
-                        </span>
+                      {generateRouteList(towerRoutes)}
+                      <span className="uppercase py-1 text-xs text-gray-400 font-semibold mt-12">
+                          THE ARENA
+                      </span>
 
-                        {generateRouteList(arenaRoutes)}
-                    </div>
-                </nav>
-                <div className="w-full min-w-0 px-16 py-8">
-                    <Switch>
-                        <Route exact path="/">
-                            <HomePage />
-                        </Route>
-                        <Route exact path="/login">
-                            <SignInPage />
-                        </Route>
-                        
-                        <Route exact path="/games">
-                            <ListGamesPage />
-                        </Route>
-                        <Route exact path="/games/new">
-                            <GameEditorPage />
-                        </Route>
-                        <Route exact path="/games/:gameTypeId">
-                            <GameEditorPage editMode={true} />
-                        </Route>
+                      {generateRouteList(arenaRoutes)}
+                  </div>
+              </nav>
+              <div className="w-full min-w-0 px-16 py-8">
+                  <Switch>
+                      <Route exact path="/">
+                          <HomePage />
+                      </Route>
+                      <Route exact path="/login">
+                          <SignInPage />
+                      </Route>
+                      
+                      <Route exact path="/games">
+                          <ListGamesPage />
+                      </Route>
+                      <Route exact path="/games/new">
+                          <GameEditorPage />
+                      </Route>
+                      <Route exact path="/games/:gameTypeId">
+                          <GameEditorPage editMode={true} />
+                      </Route>
 
-                        <Route exact path="/players">
-                            <PlayersPage />
-                        </Route>
-                        <Route exact path="/inspect/arena">
-                            <InspectArenaPage />
-                        </Route>
+                      <Route exact path="/players">
+                          <PlayersPage />
+                      </Route>
+                      <Route exact path="/inspect/arena">
+                          <InspectArenaPage />
+                      </Route>
 
-                        <Route exact path="/tower/status">
-                            <TowerGamePage />
-                        </Route>
+                      <Route exact path="/tower/status">
+                          <TowerGamePage />
+                      </Route>
 
-                        <Route exact path="/weapons">
-                            <ListWeaponsPage />
-                        </Route>
-                        <Route exact path="/weapons/new">
-                            <WeaponEditorPage />
-                        </Route>
-                        <Route exact path="/weapon/:weaponId">
-                            <WeaponEditorPage editMode={true} />
-                        </Route>
+                      <Route exact path="/weapons">
+                          <ListWeaponsPage />
+                      </Route>
+                      <Route exact path="/weapons/new">
+                          <WeaponEditorPage />
+                      </Route>
+                      <Route exact path="/weapon/:weaponId">
+                          <WeaponEditorPage editMode={true} />
+                      </Route>
 
-                        <Route exact path="/zones">
-                            <ListZonesPage />
-                        </Route>
-                        <Route exact path="/zones/new">
-                            <ZoneEditorPage />
-                        </Route>
-                        <Route exact path="/zone/:zoneId">
-                            <ZoneEditorPage editMode={true} />
-                        </Route>
+                      <Route exact path="/zones">
+                          <ListZonesPage />
+                      </Route>
+                      <Route exact path="/zones/new">
+                          <ZoneEditorPage />
+                      </Route>
+                      <Route exact path="/zone/:zoneId">
+                          <ZoneEditorPage editMode={true} />
+                      </Route>
 
-                        <Route exact path="/enemies">
-                            <ListEnemiesPage />
-                        </Route>
-                        <Route exact path="/enemies/new">
-                            <EnemyEditorPage />
-                        </Route>
-                        <Route exact path="/enemy/:enemyId">
-                            <EnemyEditorPage editMode={true} />
-                        </Route>
+                      <Route exact path="/enemies">
+                          <ListEnemiesPage />
+                      </Route>
+                      <Route exact path="/enemies/new">
+                          <EnemyEditorPage />
+                      </Route>
+                      <Route exact path="/enemy/:enemyId">
+                          <EnemyEditorPage editMode={true} />
+                      </Route>
 
-                        <Route exact path="/floors">
-                            <FloorsEditorPage />
-                        </Route>
+                      <Route exact path="/floors">
+                          <FloorsEditorPage />
+                      </Route>
 
-                        <Route component={NotFoundPage} />
-                    </Switch>
-                </div>
-            </div>
-        </Router>
-    );
+                      <Route component={NotFoundPage} />
+                  </Switch>
+              </div>
+          </div>
+      </Router>
+  );
 }
 
 export default App;

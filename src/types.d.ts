@@ -13,6 +13,11 @@ interface IGameType {
   clientSecret: string;
   signingSecret: string;
   _createdById: number;
+  description?: string;
+  isEnabled?: boolean;
+  targetValue?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 interface ITeam {
@@ -220,9 +225,27 @@ interface IUpdateFloorData {
   enemyIds: number[];
 }
 
-interface IUserFirestoreData {
-  fullName: string;
-  role: TRole;
+interface GamesAPIUSer {
+  displayName: string;
+  email: string;
+  slackId: string;
+  firebaseUserUid: string;
+  profilePictureUrl: string;
+  role: number;
+  isAdmin: boolean;
 }
 
-type TRole = "admin" | "user";
+interface GamesAPISession {
+  token: string;
+  expireTime: number;
+}
+
+interface SignInOut {
+  success: boolean;
+  message?: string;
+}
+
+interface SignIn extends SignInOut {
+  user: GamesAPIUSer;
+  session: GamesAPISession;
+}

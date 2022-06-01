@@ -1,5 +1,5 @@
 import React from "react";
-import app from "../firebase/firebase";
+import { handleLogoutClick } from "../helpers/signInAndOutHelper";
 import Button from "../ui/Button";
 
 const UnauthorizedPage = () => {
@@ -12,14 +12,9 @@ const UnauthorizedPage = () => {
                 You must be an admin to access GamesHQ's Admin Panel currently.
             </div>
             <div className="py-4 flex justify-center items-center">
-                <Button
-                    onClick={async () => {
-                        await app.auth().signOut();
-                        window.location.reload();
-                    }}
-                >
-                    Log Out
-                </Button>
+              <Button onClick={handleLogoutClick}>
+                  Log out
+              </Button>
             </div>
         </div>
     );
