@@ -38,7 +38,7 @@ const ListGamesPage = function ListGamesPage(props: any) {
           return;
       }
       setIsLoading(true);
-      await deleteGameType(game.id!);
+      await deleteGameType(game.id);
       await fetchGames();
       setIsLoading(false);
   };
@@ -67,7 +67,7 @@ const ListGamesPage = function ListGamesPage(props: any) {
                                   <div className="grid grid-cols-4 gap-4 items-center justify-between">
                                       <div className="w-52">
                                           <span className="text-xl font-bold">
-                                              {game.id}
+                                              {game.name}
                                           </span>
                                       </div>
                                       <div>

@@ -8,7 +8,8 @@ interface IUser {
 }
 
 interface IGameType {
-  id: string;
+  id: number;
+  name: string,
   clientSecret: string;
   signingSecret: string;
   _createdById: number;
@@ -78,7 +79,7 @@ interface IGameItemAvailability {
   _itemId: number;
   isActive: boolean;
   isArchived: boolean;
-  _gameType: GameType;
+  _gameType: IGameType;
 }
 
 interface IEnemy {
@@ -137,7 +138,8 @@ interface IArenaRoundAction {
 }
 
 interface IGameTypeEditorData {
-  id: string;
+  id?: number
+  name: string
   // These will be added later
   // clientSecret: string;
   // signingSecret: string;
@@ -153,7 +155,7 @@ interface IWeaponEditorData {
   majorDamageRate: number;
   usageLimit: number | null;
   traits: string[];
-  gameTypeId: number[];
+  gameTypeIds: number[];
 }
 
 interface IEnemyEditorData {

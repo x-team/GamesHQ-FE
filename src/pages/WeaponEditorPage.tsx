@@ -5,6 +5,7 @@ import { SyncLoader } from "react-spinners";
 import * as Yup from "yup";
 
 import { getWeapon, upsertWeapon } from "../api/admin";
+import { getGameTypes } from "../api/gamedev";
 import { RARITY } from "../helpers/rarityHelper";
 import { AVAILABLE_TRAITS } from "../helpers/traitsHelper";
 import Button from "../ui/Button";
@@ -20,7 +21,7 @@ interface IForm {
     usageLimit: number | null;
     isArchived: boolean;
     traits: string[];
-    gameTypeId: number[];
+    gameTypeIds: string[];
     rarity: string;
 }
 
@@ -30,12 +31,17 @@ interface IProps {
 
 const WeaponEditorPage = function WeaponEditorPage({ editMode }: IProps) {
     const [isLoading, setLoading] = useState(false);
+    const [gameTypes, setGameTypes] = useState<
+        IGameType[]
+    >([]);
     const [remoteWeaponItem, setRemoteWeaponItem] = useState<
         IWeapon | undefined
     >(undefined);
 
     const history = useHistory();
     const { weaponId } = useParams<{ weaponId: string }>();
+
+    console.log('test fred', remoteWeaponItem, history)
 
     if (editMode && !isLoading && !remoteWeaponItem) {
         setLoading(true);
@@ -53,7 +59,7 @@ const WeaponEditorPage = function WeaponEditorPage({ editMode }: IProps) {
             majorDamageRate: values.majorDamageRate,
             usageLimit: values.usageLimit || null,
             rarity: values.rarity,
-            gameTypeId: values.gameTypeId,
+            gameTypeIds: values.gameTypeIds.map(gt => Number(gt)),
             traits: values.traits,
         });
         history.push("/weapons");
@@ -66,7 +72,7 @@ const WeaponEditorPage = function WeaponEditorPage({ editMode }: IProps) {
         majorDamageRate: 0,
         usageLimit: null,
         isArchived: false,
-        gameTypeId: [],
+        gameTypeIds: [],
         traits: [],
         rarity: "",
     };
@@ -78,8 +84,8 @@ const WeaponEditorPage = function WeaponEditorPage({ editMode }: IProps) {
             .required()
             .matches(/^:.*:$/, "Must begin and end with :, e.g :my-emoji:")
             .label("Emoji"),
-        gameAvailability: Yup.array()
-            .of(Yup.string())
+        gameTypeIds: Yup.array()
+            .of(Yup.number())
             .min(1)
             .label("Game Availability"),
         traits: Yup.array().of(Yup.string()).label("Traits"),
@@ -112,11 +118,8 @@ const WeaponEditorPage = function WeaponEditorPage({ editMode }: IProps) {
             setValues({
                 weaponName: weapon.name,
                 emoji: weapon.emoji,
-                gameTypeId: weapon._gameItemAvailability.map(
-                    (gameAvailability) => gameAvailability._gameType.name
-                ),
-                gameTypeName: weapon._gameItemAvailability.map(
-                    (gameAvailability) => gameAvailability._gameType.name
+                gameTypeIds: weapon._gameItemAvailability.map(
+                    (gameAvailability) => String(gameAvailability._gameType.id)
                 ),
                 isArchived: weapon._gameItemAvailability.some(
                     (gameAvailability) => gameAvailability.isArchived
@@ -133,7 +136,16 @@ const WeaponEditorPage = function WeaponEditorPage({ editMode }: IProps) {
             return weapon;
         }
 
+        async function fetchGameTypes() {
+            const gameTypes = await getGameTypes();
+            setGameTypes(gameTypes)
+            setLoading(false);
+            return gameTypes;
+        }
+        
+        fetchGameTypes();
         fetchWeapon();
+  
     }, [weaponId, setValues]);
 
     if (isLoading) {
@@ -143,10 +155,23 @@ const WeaponEditorPage = function WeaponEditorPage({ editMode }: IProps) {
     const isSubmitDisabled = !dirty || !isValid;
 
     const renderTraitCheckbox = (trait: IAvailableTrait) => {
+        console.log(getFieldProps("traits"))
         return (
             <div className="mt-2">
                 <Checkbox id={trait.id} {...getFieldProps("traits")}>
                     {trait.displayName}
+                </Checkbox>
+            </div>
+        );
+    };
+
+    const renderGameTypeCheckbox = (gameType: IGameType) => {
+        console.log(getFieldProps("gameTypeIds"))
+
+        return (
+            <div className="mt-2">
+                <Checkbox id={gameType.id} {...getFieldProps("gameTypeIds")}>
+                    {gameType.name}
                 </Checkbox>
             </div>
         );
@@ -258,22 +283,7 @@ const WeaponEditorPage = function WeaponEditorPage({ editMode }: IProps) {
                             Game Availability (min. 1)
                         </strong>
                     </div>
-                    <div className="mt-2">
-                        <Checkbox
-                            id="The Arena"
-                            {...getFieldProps("gameTypeName")}
-                        >
-                            The Arena
-                        </Checkbox>
-                    </div>
-                    <div>
-                        <Checkbox
-                            id="The Tower"
-                            {...getFieldProps("gameTypeName")}
-                        >
-                            The Tower
-                        </Checkbox>
-                    </div>
+                     {gameTypes.map(renderGameTypeCheckbox)}
                 </div>
 
                 <div className="mt-8">
