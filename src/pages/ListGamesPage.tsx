@@ -110,84 +110,8 @@ const ListGamesPage = function ListGamesPage(props: any) {
                     </div>
                   </div>
                 </Link>
-                <div className="items-center justify-between col-span-7 px-8 py-4">
-                  <h2 className="text-2xl font-bold italic font-sans mb-8">
-                    Leaderboards
-                  </h2>
-                  <div className="my-4">
-                    <Button
-                      onClick={() => {
-                        console.log("Handle New Leaderboard Click");
-                      }}
-                    >
-                      New Leaderboard
-                    </Button>
-                  </div>
-                  <table className="shadow-lg bg-white border-collapse">
-                    <tr>
-                      <th className="bg-gray-100 border text-left px-8 py-4">
-                        id
-                      </th>
-                      <th className="bg-gray-100 border text-left px-8 py-4">
-                        name
-                      </th>
-                      <th className="bg-gray-100 border text-left px-8 py-4">
-                        scoreStrategy
-                      </th>
-                      <th className="bg-gray-100 border text-left px-8 py-4">
-                        resetStrategy
-                      </th>
-                      <th className="bg-gray-100 border text-left px-8 py-4">
-                        Edit
-                      </th>
-                    </tr>
-                    <tr>
-                      <td className="border px-8 py-4">{game.id}</td>
-                      <td className="border px-8 py-4">{"-"}</td>
-                      <td className="border px-8 py-4">{"-"}</td>
-                      <td className="border px-8 py-4">{"-"}</td>
-                    </tr>
-                  </table>
-                </div>
               </div>
-              <h2 className="text-2xl font-bold italic font-sans mb-8">
-                Achievements
-              </h2>
-              <table className="shadow-lg bg-white border-collapse">
-                <tr>
-                  <th className="bg-gray-100 border text-left px-8 py-4">id</th>
-                  <th className="bg-gray-100 border text-left px-8 py-4">
-                    Description
-                  </th>
-                  <th className="bg-gray-100 border text-left px-8 py-4">
-                    isEnabled
-                  </th>
-                  <th className="bg-gray-100 border text-left px-8 py-4">
-                    targetValue
-                  </th>
-                  <th className="bg-gray-100 border text-left px-8 py-4">
-                    createdAt
-                  </th>
-                  <th className="bg-gray-100 border text-left px-8 py-4">
-                    updatedAt
-                  </th>
-                  <th className="bg-gray-100 border text-left px-8 py-4">
-                    Edit
-                  </th>
-                </tr>
-                <tr>
-                  <td className="border px-8 py-4">{game.id}</td>
-                  <td className="border px-8 py-4">
-                    {game.description || "-"}
-                  </td>
-                  <td className="border px-8 py-4">{game.isEnabled || "-"}</td>
-                  <td className="border px-8 py-4">
-                    {game.targetValue || "-"}
-                  </td>
-                  <td className="border px-8 py-4">{game.createdAt || "-"}</td>
-                  <td className="border px-8 py-4">{game.updatedAt || "-"}</td>
-                </tr>
-              </table>
+
               <hr className="my-2" />
             </>
           ))}
