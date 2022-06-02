@@ -9,7 +9,8 @@ import Button from "../ui/Button";
 import TextInput from "../ui/TextInput";
 
 interface IForm {
-  id: string;
+  id?: number;
+  name: string,
   clientSecret: string;
   signingSecret: string;
   _createdById: number;
@@ -32,7 +33,8 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
   const onSubmit = async (values: IForm, _actions: FormikHelpers<IForm>) => {
     setIsLoading(true);
     const upserGameTypeParams: IGameTypeEditorData = {
-      id: editMode && gameTypeId ? gameTypeId : values.id ?? undefined,
+      id: (editMode && gameTypeId) ? values.id : undefined,
+      name: values.name ?? undefined,
 
       // TODO: This needs to be implementes
       // _createdById: values._createdById,
@@ -55,14 +57,14 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
   };
 
   const initialForm: IForm = {
-    id: "",
+    name: "",
     clientSecret: "",
     signingSecret: "",
     _createdById: 0,
   };
 
   const validationSchema = Yup.object({
-    id: Yup.string().max(20).required().label("Game Type Name"),
+    name: Yup.string().max(20).required().label("Game Type Name"),
   });
 
   const {
@@ -84,9 +86,10 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
         if (!gameTypeId) {
           return;
         }
-        const gameType = await getGameType(gameTypeId);
+        const gameType = await getGameType(Number(gameTypeId));
         setValues({
           id: gameType.id,
+          name: gameType.name,
           clientSecret: gameType.clientSecret,
           signingSecret: gameType.signingSecret,
           _createdById: gameType._createdById,
@@ -126,8 +129,8 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
           <div>
             <TextInput
               label="Game Name"
-              {...getFieldProps("id")}
-              {...getFieldMeta("id")}
+              {...getFieldProps("name")}
+              {...getFieldMeta("name")}
             />
           </div>
         </div>

@@ -10,7 +10,7 @@ export const getGameTypes = async () => {
   return games;
 };
 
-export const getGameType = async (gameTypeId: string) => {
+export const getGameType = async (gameTypeId: number) => {
   const axios = await getAxiosInstance();
 
   const endpoint = gamesHqUrl + `/dashboard/game-dev/games/${gameTypeId}`;
@@ -27,7 +27,7 @@ export const upsertGameType = async (data: IGameTypeEditorData) => {
   await axios.post(endpoint, data);
 };
 
-export const deleteGameType = async (gameTypeId: string) => {
+export const deleteGameType = async (gameTypeId: number) => {
   const axios = await getAxiosInstance();
 
   const endpoint = gamesHqUrl + `/dashboard/game-dev/games/${gameTypeId}`;

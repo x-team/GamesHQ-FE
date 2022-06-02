@@ -72,7 +72,7 @@ const ListGamesPage = function ListGamesPage(props: any) {
                 <Link to={`/games/${game.id}`} className="col-span-3 py-4">
                   <div className="grid items-center justify-between">
                     <div>
-                      <span className="text-xl font-bold">{game.id}</span>
+                      <span className="text-xl font-bold">{game.name}</span>
                     </div>
                     <table className="shadow-lg bg-white border-collapse">
                       <tr>

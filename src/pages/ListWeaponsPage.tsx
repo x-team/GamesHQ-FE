@@ -101,9 +101,9 @@ const ListWeaponsPage = function ListWeaponsPage(props: any) {
                           {weapon._gameItemAvailability.reduce(
                             (acc, gameAvailability, index) => {
                               if (index === 0) {
-                                return gameAvailability._gameTypeId;
+                                return gameAvailability._gameType.name;
                               }
-                              return acc + ", " + gameAvailability._gameTypeId;
+                              return acc + ", " + gameAvailability._gameType.name;
                             },
                             ""
                           )}
