@@ -188,7 +188,7 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
           </table>
         </div>
       </>
-      <>
+      <div className="items-center justify-between col-span-7 py-10">
         <h2 className="text-2xl font-bold italic font-sans mb-8">
           Achievements
         </h2>
@@ -221,7 +221,7 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
             <td className="border px-8 py-4">{"game.updatedAt" || "-"}</td>
           </tr>
         </table>
-      </>
+      </div>
     </div>
   );
 };
