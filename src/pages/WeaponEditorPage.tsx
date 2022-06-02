@@ -41,8 +41,6 @@ const WeaponEditorPage = function WeaponEditorPage({ editMode }: IProps) {
     const history = useHistory();
     const { weaponId } = useParams<{ weaponId: string }>();
 
-    console.log('test fred', remoteWeaponItem, history)
-
     if (editMode && !isLoading && !remoteWeaponItem) {
         setLoading(true);
     }
