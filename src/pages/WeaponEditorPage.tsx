@@ -168,7 +168,7 @@ const WeaponEditorPage = function WeaponEditorPage({ editMode }: IProps) {
 
         return (
             <div className="mt-2">
-                <Checkbox id={gameType.id} {...getFieldProps("gameTypeIds")}>
+                <Checkbox id={String(gameType.id)} {...getFieldProps("gameTypeIds")}>
                     {gameType.name}
                 </Checkbox>
             </div>
