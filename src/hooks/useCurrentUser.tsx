@@ -6,22 +6,24 @@ const useCurrentUser = () => {
     GamesAPIUSer | undefined | null
   >(undefined);
   const [isDoingInitialLoading, setIsDoingInitialLoading] = useState(true);
-  let session = localStorage.getItem('session');
-  if (!session) {
+  let session = localStorage.getItem("session");
+
+  if (!session || session === "undefined") {
     session = JSON.stringify({
-      token: 'no-token',
+      token: "no-token",
     });
   }
+
   const JSONSession = JSON.parse(session) as GamesAPISession;
   useEffect(() => {
     console.log("** Auth state change. Current user: **");
     console.log({ currentUser });
-    if (!isDoingInitialLoading && !!currentUser) {
+    if ((!isDoingInitialLoading && !!currentUser) || !session) {
       return;
     }
     const fetchSession = async () => {
-      const apiSession: SignIn = await checkSession(JSONSession.token);
-      const headerNeeded = 'xtu-session-token Header needed';
+      const apiSession: SignIn = await checkSession(JSONSession?.token);
+      const headerNeeded = "xtu-session-token Header needed";
 
       if (!apiSession.success && apiSession.message === headerNeeded) {
         setIsDoingInitialLoading(false);
@@ -29,18 +31,18 @@ const useCurrentUser = () => {
 
       if (apiSession.success) {
         setCurrentUser(apiSession.user);
-        localStorage.setItem('session', JSON.stringify(apiSession.session));
+        localStorage.setItem("session", JSON.stringify(apiSession.session));
       }
       setIsDoingInitialLoading(false);
-    }
+    };
     fetchSession().catch(console.error);
-  }, [JSONSession, currentUser, isDoingInitialLoading]);
+  }, [JSONSession, currentUser, isDoingInitialLoading, session]);
 
   return {
-      currentUser,
-      authenticated: !!currentUser,
-      isAdmin: currentUser?.isAdmin,
-      isDoingInitialLoading,
+    currentUser,
+    authenticated: !!currentUser,
+    isAdmin: currentUser?.isAdmin,
+    isDoingInitialLoading,
   };
 };
 
