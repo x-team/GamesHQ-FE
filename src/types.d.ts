@@ -13,12 +13,21 @@ interface IGameType {
   clientSecret: string;
   signingSecret: string;
   _createdById: number;
+  _leaderboards: ILeaderboard[]
   description?: string;
   isEnabled?: boolean;
   targetValue?: string;
   createdAt?: string;
   updatedAt?: string;
 }
+
+interface ILeaderboard {
+  id: number;
+  name: string;
+  scoreStrategy: string;
+  resetStrategy: string;
+}
+
 
 interface ITeam {
   id?: number;
