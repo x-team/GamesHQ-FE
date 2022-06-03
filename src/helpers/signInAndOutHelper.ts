@@ -1,3 +1,5 @@
+import React from "react";
+import { useNavigate } from "react-router-dom";
 import { gamesHqUrl } from "../api/utils";
 import { logOutFromGamesAPI } from "../api/signInAndOut";
 
@@ -23,7 +25,9 @@ export async function handleLoginClick() {
     }
     window.removeEventListener("message", receivePostMessage);
   };
+
   window.addEventListener("message", receivePostMessage);
+  return true;
 }
 
 export async function handleLogoutClick() {
@@ -32,15 +36,20 @@ export async function handleLogoutClick() {
     session = JSON.stringify({
       token: "no-token",
     });
-    return;
+    return false;
   }
+  console.log("logging out1");
   const JSONSession = JSON.parse(session) as GamesAPISession;
+  console.log("logging out2");
   const gamesAPILogOut: SignInOut = await logOutFromGamesAPI(JSONSession.token);
-
+  console.log("logging out3");
+  console.log({ gamesAPILogOut });
   if (gamesAPILogOut.success) {
     localStorage.removeItem("session");
+    return true;
   } else {
     console.warn("Something happened at log out");
     console.warn(gamesAPILogOut.message);
+    return false;
   }
 }
