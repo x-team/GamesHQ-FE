@@ -47,7 +47,7 @@ const useCurrentUser = () => {
 
   useEffect(() => {
     getCurrentUser();
-  }, []);
+  }, [getCurrentUser]);
 
   const eraseUser = () => {
     setCurrentUser(null);
