@@ -48,15 +48,8 @@ const useCurrentUser = () => {
   }, [currentUser, isDoingInitialLoading, storedCurrentUser, storedSession]);
 
   useEffect(() => {
-    console.log("running");
     getCurrentUser();
   }, []);
-
-  // const refetchUser = () => {
-  //   setCurrentUser(null);
-  //   localStorage.setItem("session", "{}");
-  //   getCurrentUser();
-  // };
 
   const eraseUser = () => {
     setCurrentUser(null);
@@ -69,7 +62,6 @@ const useCurrentUser = () => {
   return {
     getCurrentUser,
     isLoading,
-    // refetchUser,
     eraseUser,
     currentUser,
     authenticated: !!currentUser,
