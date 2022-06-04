@@ -35,8 +35,8 @@ export const AppMenu = ({ children }: { children: JSX.Element }) => {
   const gameDevRoutes = [{ name: "Games", to: "/games", icon: games }];
 
   const generateRouteList = (route: GamesHQRouteOption[]) => {
-    return route.map((route) => (
-      <ul className="pt-4">
+    return route.map((route, i) => (
+      <ul className="pt-4" key={i}>
         <Link to={route.to} className="items-center">
           <li className="flex text-gray-400 hover:text-gray-700 items-center">
             <img className="h-5 w-5" src={route.icon} alt="icon" />

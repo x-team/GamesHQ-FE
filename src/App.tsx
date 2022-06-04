@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import PlayersPage from "./pages/PlayersPage";
 import InspectArenaPage from "./pages/InspectArenaPage";
@@ -19,20 +19,18 @@ import HomePage from "./pages/HomePage";
 import useCurrentUser from "./hooks/useCurrentUser";
 import { SyncLoader } from "react-spinners";
 import { XTEAM_ACCENT_COLOR } from "./helpers/colors";
-import UnauthorizedPage from "./pages/UnauthorizedPage";
+import { UnauthorizedPage } from "./pages/UnauthorizedPage";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { AppMenu } from "./AppMenu";
 
 export const App = () => {
-  const { authenticated, isAdmin, isDoingInitialLoading } = useCurrentUser();
-
-  if (isDoingInitialLoading) {
-    return (
-      <div className="h-screen w-screen flex justify-center items-center">
-        <SyncLoader color={XTEAM_ACCENT_COLOR} />
-      </div>
-    );
-  }
+  // if (isDoingInitialLoading) {
+  //   return (
+  //     <div className="h-screen w-screen flex justify-center items-center">
+  //       <SyncLoader color={XTEAM_ACCENT_COLOR} />
+  //     </div>
+  //   );
+  // }
 
   return (
     <Router>
@@ -40,7 +38,7 @@ export const App = () => {
         <Route
           path="/"
           element={
-            <ProtectedRoute authenticated={authenticated} isAdmin={isAdmin}>
+            <ProtectedRoute>
               <AppMenu>
                 <HomePage />
               </AppMenu>
@@ -51,7 +49,7 @@ export const App = () => {
         <Route
           path="/games"
           element={
-            <ProtectedRoute authenticated={authenticated} isAdmin={isAdmin}>
+            <ProtectedRoute>
               <AppMenu>
                 <ListGamesPage />
               </AppMenu>
@@ -61,7 +59,7 @@ export const App = () => {
         <Route
           path="/games/new"
           element={
-            <ProtectedRoute authenticated={authenticated} isAdmin={isAdmin}>
+            <ProtectedRoute>
               <AppMenu>
                 <GameEditorPage />
               </AppMenu>
@@ -71,7 +69,7 @@ export const App = () => {
         <Route
           path="/games/:gameTypeId"
           element={
-            <ProtectedRoute authenticated={authenticated} isAdmin={isAdmin}>
+            <ProtectedRoute>
               <AppMenu>
                 <GameEditorPage editMode={true} />
               </AppMenu>
@@ -81,7 +79,7 @@ export const App = () => {
         <Route
           path="/players"
           element={
-            <ProtectedRoute authenticated={authenticated} isAdmin={isAdmin}>
+            <ProtectedRoute>
               <AppMenu>
                 <PlayersPage />
               </AppMenu>
@@ -91,7 +89,7 @@ export const App = () => {
         <Route
           path="/inspect/arena"
           element={
-            <ProtectedRoute authenticated={authenticated} isAdmin={isAdmin}>
+            <ProtectedRoute>
               <AppMenu>
                 <InspectArenaPage />
               </AppMenu>
@@ -101,7 +99,7 @@ export const App = () => {
         <Route
           path="/tower/status"
           element={
-            <ProtectedRoute authenticated={authenticated} isAdmin={isAdmin}>
+            <ProtectedRoute>
               <AppMenu>
                 <TowerGamePage />
               </AppMenu>
@@ -111,7 +109,7 @@ export const App = () => {
         <Route
           path="/weapons"
           element={
-            <ProtectedRoute authenticated={authenticated} isAdmin={isAdmin}>
+            <ProtectedRoute>
               <AppMenu>
                 <ListWeaponsPage />
               </AppMenu>
@@ -121,7 +119,7 @@ export const App = () => {
         <Route
           path="/weapons/new"
           element={
-            <ProtectedRoute authenticated={authenticated} isAdmin={isAdmin}>
+            <ProtectedRoute>
               <AppMenu>
                 <WeaponEditorPage />
               </AppMenu>
@@ -131,7 +129,7 @@ export const App = () => {
         <Route
           path="/weapon/:weaponId"
           element={
-            <ProtectedRoute authenticated={authenticated} isAdmin={isAdmin}>
+            <ProtectedRoute>
               <AppMenu>
                 <WeaponEditorPage editMode={true} />
               </AppMenu>
@@ -141,7 +139,7 @@ export const App = () => {
         <Route
           path="/zones"
           element={
-            <ProtectedRoute authenticated={authenticated} isAdmin={isAdmin}>
+            <ProtectedRoute>
               <AppMenu>
                 <ListZonesPage />
               </AppMenu>
@@ -151,7 +149,7 @@ export const App = () => {
         <Route
           path="/zones/new"
           element={
-            <ProtectedRoute authenticated={authenticated} isAdmin={isAdmin}>
+            <ProtectedRoute>
               <AppMenu>
                 <ZoneEditorPage />
               </AppMenu>
@@ -161,7 +159,7 @@ export const App = () => {
         <Route
           path="/zone/:zoneId"
           element={
-            <ProtectedRoute authenticated={authenticated} isAdmin={isAdmin}>
+            <ProtectedRoute>
               <AppMenu>
                 <ZoneEditorPage editMode={true} />
               </AppMenu>
@@ -171,7 +169,7 @@ export const App = () => {
         <Route
           path="/enemies"
           element={
-            <ProtectedRoute authenticated={authenticated} isAdmin={isAdmin}>
+            <ProtectedRoute>
               <AppMenu>
                 <ListEnemiesPage />
               </AppMenu>
@@ -181,7 +179,7 @@ export const App = () => {
         <Route
           path="/enemies/new"
           element={
-            <ProtectedRoute authenticated={authenticated} isAdmin={isAdmin}>
+            <ProtectedRoute>
               <AppMenu>
                 <EnemyEditorPage />
               </AppMenu>
@@ -191,7 +189,7 @@ export const App = () => {
         <Route
           path="/enemy/:enemyId"
           element={
-            <ProtectedRoute authenticated={authenticated} isAdmin={isAdmin}>
+            <ProtectedRoute>
               <AppMenu>
                 <EnemyEditorPage editMode={true} />
               </AppMenu>
@@ -199,19 +197,9 @@ export const App = () => {
           }
         />
         <Route
-          path="/unauthorized"
-          element={
-            <ProtectedRoute authenticated={authenticated} isAdmin={isAdmin}>
-              <AppMenu>
-                <UnauthorizedPage />
-              </AppMenu>
-            </ProtectedRoute>
-          }
-        />
-        <Route
           path="/floors"
           element={
-            <ProtectedRoute authenticated={authenticated} isAdmin={isAdmin}>
+            <ProtectedRoute>
               <AppMenu>
                 <FloorsEditorPage />
               </AppMenu>

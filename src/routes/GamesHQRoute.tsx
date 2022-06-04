@@ -55,7 +55,7 @@ const generateRouteList = (route: GamesHQRouteOption[]) => {
 };
 
 const GamesHQRoute: React.FC<IProps> = ({ children, path }) => {
-  const currentUser = useCurrentUser();
+  const { currentUser } = useCurrentUser();
   const authenticated = !!currentUser;
 
   if (!authenticated) {

@@ -1,19 +1,28 @@
+import React, { useEffect, useState } from "react";
 import { Navigate } from "react-router-dom";
+import useCurrentUser from "./hooks/useCurrentUser";
 
 export const ProtectedRoute = ({
-  authenticated,
-  isAdmin,
+  redirectPath = "/login",
   children,
 }: {
-  authenticated: boolean;
-  isAdmin: boolean | undefined;
+  redirectPath?: string;
   children: JSX.Element;
 }) => {
-  if (!authenticated) {
-    return <Navigate to="/login" replace />;
-  }
-  if (!isAdmin) {
-    return <Navigate to="unauthorized" replace />;
+  const { authenticated, isAdmin, isLoading, getCurrentUser } =
+    useCurrentUser();
+  const [isAuthorized, setIsAuthorized] = useState<boolean | undefined>(
+    authenticated && isAdmin
+  );
+
+  useEffect(() => {
+    return setIsAuthorized(authenticated && isAdmin);
+  }, [getCurrentUser, authenticated, isAdmin, isLoading]);
+
+  if (isLoading) return <div>Loading</div>;
+
+  if (!isAuthorized) {
+    return <Navigate to={redirectPath} replace />;
   }
 
   return children;
