@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import PlayersPage from "./pages/PlayersPage";
 import InspectArenaPage from "./pages/InspectArenaPage";
@@ -16,10 +16,10 @@ import FloorsEditorPage from "./pages/FloorsEditorPage";
 import SignInPage from "./pages/SignInPage";
 import HomePage from "./pages/HomePage";
 
-import useCurrentUser from "./hooks/useCurrentUser";
-import { SyncLoader } from "react-spinners";
-import { XTEAM_ACCENT_COLOR } from "./helpers/colors";
-import { UnauthorizedPage } from "./pages/UnauthorizedPage";
+// import useCurrentUser from "./hooks/useCurrentUser";
+// import { SyncLoader } from "react-spinners";
+// import { XTEAM_ACCENT_COLOR } from "./helpers/colors";
+// import { UnauthorizedPage } from "./pages/UnauthorizedPage";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { AppMenu } from "./AppMenu";
 

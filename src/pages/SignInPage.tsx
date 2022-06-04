@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { gamesHqUrl } from "../api/utils";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "firebase/compat/auth";
 import Button from "../ui/Button";
 import { handleLogoutClick } from "../helpers/signInAndOutHelper";
 import useCurrentUser from "../hooks/useCurrentUser";
-import { UnauthorizedPage } from "./UnauthorizedPage";
 
 const SignInPage = () => {
   let navigate = useNavigate();

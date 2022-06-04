@@ -14,9 +14,7 @@ const useCurrentUser = () => {
   const [isDoingInitialLoading, setIsDoingInitialLoading] = useState(true);
 
   const getCurrentUser = useCallback(() => {
-    if (storedSession) setCurrentSession(JSON.parse(storedSession));
-    if (storedCurrentUser) setCurrentUser(JSON.parse(storedCurrentUser));
-    if (storedSession && storedCurrentUser) {
+    if (currentUser && currentSession) {
       setIsLoading(false);
       return;
     }
@@ -53,6 +51,7 @@ const useCurrentUser = () => {
 
   const eraseUser = () => {
     setCurrentUser(null);
+    setCurrentSession(null);
     setIsDoingInitialLoading(true);
     localStorage.removeItem("session");
     localStorage.removeItem("currentUser");
