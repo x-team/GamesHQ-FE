@@ -77,10 +77,9 @@ const SignInPage = () => {
               logOut();
               setLoggedInGoogle(!loggedInGoogle);
               setRenderUnauthorized(!renderUnauthorized);
-              console.log("ppppp", { loggedInGoogle, renderUnauthorized });
             }}
           >
-            Log out9
+            Log out
           </Button>
         </span>
       </>

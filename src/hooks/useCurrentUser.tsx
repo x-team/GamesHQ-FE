@@ -14,7 +14,6 @@ const useCurrentUser = () => {
   const [isDoingInitialLoading, setIsDoingInitialLoading] = useState(true);
 
   const getCurrentUser = useCallback(() => {
-    console.log("Getting Current User", { storedSession, storedCurrentUser });
     if (storedSession) setCurrentSession(JSON.parse(storedSession));
     if (storedCurrentUser) setCurrentUser(JSON.parse(storedCurrentUser));
     if (storedSession && storedCurrentUser) {
@@ -36,7 +35,6 @@ const useCurrentUser = () => {
       }
 
       if (apiSession.success) {
-        console.log(apiSession.user, "lllllll", apiSession.session);
         setCurrentUser(apiSession.user);
         localStorage.setItem("currentUser", JSON.stringify(apiSession.user));
         setCurrentSession(apiSession.session);
@@ -47,7 +45,7 @@ const useCurrentUser = () => {
       setIsDoingInitialLoading(false);
     };
     fetchSession().catch(console.error);
-  }, [currentUser, isDoingInitialLoading]);
+  }, [currentUser, isDoingInitialLoading, storedCurrentUser, storedSession]);
 
   useEffect(() => {
     console.log("running");
