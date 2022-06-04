@@ -43,7 +43,7 @@ const useCurrentUser = () => {
       setIsDoingInitialLoading(false);
     };
     fetchSession().catch(console.error);
-  }, [currentUser, isDoingInitialLoading, storedCurrentUser, storedSession]);
+  }, [currentUser, isDoingInitialLoading, storedSession, currentSession]);
 
   useEffect(() => {
     getCurrentUser();

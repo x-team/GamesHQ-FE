@@ -1,6 +1,6 @@
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router";
+// import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { SyncLoader } from "react-spinners";
 import Swal from "sweetalert2";
@@ -24,7 +24,7 @@ const TowerGamePage = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [currentTowerGame, setCurrentTowerGame] =
     useState<IGameWithTower | null>(null);
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
 
   const initialValues: IForm = {
     name: "",
