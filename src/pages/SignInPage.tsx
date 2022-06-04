@@ -87,7 +87,7 @@ const SignInPage = () => {
   }
   return (
     <div className="flex flex-col">
-      <div className="px-4 flex justify-center font-sans italic text-2xl text-xteamaccent font-extrabold mb-8">
+      <div className="px-4 flex justify-center font-sans italic text-2xl text-xteamaccent font-extrabold mb-8 py-8">
         GAMES HQ - SIGN IN
       </div>
       <span className="flex justify-center font-sans">
