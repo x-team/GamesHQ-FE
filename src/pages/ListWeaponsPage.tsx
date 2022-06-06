@@ -78,7 +78,7 @@ const ListWeaponsPage = function ListWeaponsPage(props: any) {
         <div className="mt-4">
           {sortedWeapons.map((weapon: IWeapon, index) => (
             <div>
-              <Link to={`weapon/${weapon.id}`}>
+              <Link to={`${weapon.id}`}>
                 <span key={index}>
                   <div
                     className={`grid grid-cols-4 justify-between font-bold uppercase ${

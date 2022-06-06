@@ -93,6 +93,7 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
           clientSecret: gameType.clientSecret,
           signingSecret: gameType.signingSecret,
           _createdById: gameType._createdById,
+          _leaderboards : gameType._leaderboards
         } as IForm);
 
         setGameType(gameType);
@@ -179,12 +180,15 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
               </th>
               <th className="bg-gray-100 border text-left px-8 py-4">Edit</th>
             </tr>
-            <tr>
-              <td className="border px-8 py-4">{"game.id"}</td>
-              <td className="border px-8 py-4">{"-"}</td>
-              <td className="border px-8 py-4">{"-"}</td>
-              <td className="border px-8 py-4">{"-"}</td>
-            </tr>
+            {currentGameType?._leaderboards.map((leaderboard: ILeaderboard) => (
+              <tr>
+                <td className="border px-8 py-4">{leaderboard.id}</td>
+                <td className="border px-8 py-4">{leaderboard.name}</td>
+                <td className="border px-8 py-4">{leaderboard.scoreStrategy}</td>
+                <td className="border px-8 py-4">{leaderboard.resetStrategy}</td>
+                <td className="border px-8 py-4">"EDIT Button TBD"</td>
+              </tr>
+            ))}
           </table>
         </div>
       </>
