@@ -1,6 +1,6 @@
 import { FormikHelpers, useFormik } from "formik";
 import { useEffect, useState } from "react";
-import { useHistory, useParams } from "react-router";
+import { useParams, useNavigate } from "react-router";
 import { SyncLoader } from "react-spinners";
 import * as Yup from "yup";
 import { getGameType, upsertGameType } from "../api/gamedev";
@@ -26,7 +26,7 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
     undefined
   );
   const [errorMessage, setErrorMessage] = useState(null);
-  const history = useHistory();
+  const navigate = useNavigate();
 
   const { gameTypeId } = useParams<{ gameTypeId: string }>();
 
@@ -44,11 +44,11 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
       // signingSecret: values.signingSecret,
     };
     if (!upserGameTypeParams.id) {
-      history.push("/games");
+      navigate("/games");
     }
     try {
       await upsertGameType(upserGameTypeParams);
-      history.push("/games");
+      navigate("/games");
     } catch (error: any) {
       console.log({ error });
       setIsLoading(false);
