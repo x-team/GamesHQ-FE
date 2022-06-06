@@ -127,7 +127,7 @@ export const App = () => {
           }
         />
         <Route
-          path="/weapon/:weaponId"
+          path="/weapons/:weaponId"
           element={
             <ProtectedRoute>
               <AppMenu>

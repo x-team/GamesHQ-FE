@@ -147,7 +147,6 @@ const WeaponEditorPage = function WeaponEditorPage({ editMode }: IProps) {
   const isSubmitDisabled = !dirty || !isValid;
 
   const renderTraitCheckbox = (trait: IAvailableTrait) => {
-    console.log(getFieldProps("traits"));
     return (
       <div className="mt-2">
         <Checkbox id={trait.id} {...getFieldProps("traits")}>
@@ -158,8 +157,6 @@ const WeaponEditorPage = function WeaponEditorPage({ editMode }: IProps) {
   };
 
   const renderGameTypeCheckbox = (gameType: IGameType) => {
-    console.log(getFieldProps("gameTypeIds"));
-
     return (
       <div className="mt-2">
         <Checkbox id={String(gameType.id)} {...getFieldProps("gameTypeIds")}>
