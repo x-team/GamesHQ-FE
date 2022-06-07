@@ -191,7 +191,15 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
                   <td className="border px-8 py-4">
                     {leaderboard.resetStrategy}
                   </td>
-                  <td className="border px-8 py-4">"EDIT Button TBD"</td>
+                  <td className="border px-8 py-4">
+                    <Button
+                      onClick={() => {
+                        console.log("Handle New Leaderboard Click");
+                      }}
+                    >
+                      Edit
+                    </Button>
+                  </td>
                 </tr>
               )
             )}
@@ -220,7 +228,7 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
             <th className="bg-gray-100 border text-left px-8 py-4">
               updatedAt
             </th>
-            <th className="bg-gray-100 border text-left px-8 py-4">Edit</th>
+            <th className="bg-gray-100 border text-left px-8 py-4"></th>
           </tr>
           <tr>
             <td className="border px-8 py-4">{"game.id"}</td>
@@ -229,6 +237,15 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
             <td className="border px-8 py-4">{"game.targetValue" || "-"}</td>
             <td className="border px-8 py-4">{"game.createdAt" || "-"}</td>
             <td className="border px-8 py-4">{"game.updatedAt" || "-"}</td>
+            <td className="border px-8 py-4">
+              <Button
+                onClick={() => {
+                  console.log("Handle edit");
+                }}
+              >
+                Edit
+              </Button>
+            </td>
           </tr>
         </table>
       </div>
