@@ -1,6 +1,6 @@
 import { FormikHelpers, useFormik } from "formik";
 import { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router";
+import { useParams, useNavigate } from "react-router-dom";
 import { SyncLoader } from "react-spinners";
 import * as Yup from "yup";
 import { getGameType, upsertGameType } from "../api/gamedev";
