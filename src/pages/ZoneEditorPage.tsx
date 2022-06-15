@@ -1,6 +1,6 @@
 import { FormikHelpers, useFormik } from "formik";
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router-dom";
 import { SyncLoader } from "react-spinners";
 import * as Yup from "yup";
 import { getZone, upsertZone } from "../api/admin";
