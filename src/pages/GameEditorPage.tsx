@@ -1,6 +1,6 @@
 import { FormikHelpers, useFormik } from "formik";
 import { useEffect, useState } from "react";
-import { useParams, useNavigate, Router } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { SyncLoader } from "react-spinners";
 import * as Yup from "yup";
 import { getAchievements } from "../api/acheivements";
@@ -180,7 +180,8 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
           </div>
 
           <div className="mt-4">
-            <Button disabled={isSubmitDisabled} type="submit">
+            {/* FIX THIS LOGIC */}
+            <Button onClick={() => setIsUpdatingGameName(true)}>
               {editMode ? "Update Game" : "Create Game"}
             </Button>
           </div>
@@ -193,7 +194,7 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
           <div className="my-4">
             <Button
               onClick={() => {
-
+                console.log('NEW LEADERBOARD PAGE')
               }}
             >
               New Leaderboard
