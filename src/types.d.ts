@@ -28,6 +28,16 @@ interface ILeaderboard {
   resetStrategy: string;
 }
 
+interface IAchievement extends SignInOut {
+  id: number;
+  _gameTypeId: number;
+  description: string;
+  gameType: IGameType;
+  isEnabled: boolean;
+  targetValue: number;
+  createdAt: string;
+  updatedAt: string;
+}
 
 interface ITeam {
   id?: number;
