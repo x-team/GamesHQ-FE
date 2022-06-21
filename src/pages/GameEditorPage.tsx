@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { SyncLoader } from "react-spinners";
 import * as Yup from "yup";
-import { getAchievements } from "../api/acheivements";
+import { getAchievements } from "../api/achievements";
 import { getGameType, upsertGameType } from "../api/gamedev";
 
 import Button from "../ui/Button";
@@ -74,8 +74,8 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
     getFieldProps,
     getFieldMeta,
     handleSubmit,
-    dirty,
-    isValid,
+    // dirty,
+    // isValid,
     setValues,
   } = useFormik({
     initialValues: initialForm,
@@ -139,7 +139,7 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
     return <SyncLoader />;
   }
 
-  const isSubmitDisabled = !dirty || !isValid;
+  // const isSubmitDisabled = !dirty || !isValid;
 
   return (
     <div>
