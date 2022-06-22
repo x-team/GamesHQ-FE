@@ -1,5 +1,6 @@
 import { FormikHelpers, useFormik } from "formik";
 import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 import { useParams, useNavigate } from "react-router-dom";
 import { SyncLoader } from "react-spinners";
 import * as Yup from "yup";
@@ -30,6 +31,7 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
   const [isUpdatingGameName, setIsUpdatingGameName] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const navigate = useNavigate();
+  // let history = useHistory();
 
   const { gameTypeId } = useParams<{ gameTypeId: string }>();
 
@@ -196,13 +198,11 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
             Leaderboards
           </h2>
           <div className="my-4">
-            <Button
-              onClick={() => {
-                console.log('NEW LEADERBOARD PAGE')
-              }}
-            >
-              New Leaderboard
-            </Button>
+            <Link to="/games/leaderboards/new">
+              <Button>
+                New Achievement
+              </Button>
+            </Link>
           </div>
           <table className="shadow-lg bg-white border-collapse w-full">
             <tr>
@@ -219,13 +219,13 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
             {currentGameType?._leaderboards?.map(
               (leaderboard: ILeaderboard) => (
                 <tr>
-                  <td className="border px-8 py-4">{leaderboard.id}</td>
-                  <td className="border px-8 py-4">{leaderboard.name}</td>
+                  <td className="border px-8 py-4" ><Link to={`/games/leaderboards/${leaderboard.id}`}>{leaderboard.id}</Link></td>
+                  <td className="border px-8 py-4"><Link to={`/games/leaderboards/${leaderboard.id}`}>{leaderboard.name}</Link></td>
                   <td className="border px-8 py-4">
-                    {leaderboard.scoreStrategy}
+                    <Link to={`/games/leaderboards/${leaderboard.id}`}>{leaderboard.scoreStrategy}</Link>
                   </td>
                   <td className="border px-8 py-4">
-                    {leaderboard.resetStrategy}
+                    <Link to={`/games/leaderboards/${leaderboard.id}`}>{leaderboard.resetStrategy}</Link>
                   </td>
                   <td className="border px-8 py-4">
                     <Button
@@ -247,13 +247,11 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
             Achievements
           </h2>
           <div className="my-4">
-              <Button
-                onClick={() => {
-                  console.log("Handle New Achievement Click");
-                }}
-              >
+            <Link to="/games/achievements/new">
+              <Button>
                 New Achievement
               </Button>
+            </Link>
             </div>
           <table className="shadow-lg bg-white border-collapse max-w-xs">
             <tr>
