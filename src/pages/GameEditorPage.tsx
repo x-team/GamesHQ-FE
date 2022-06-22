@@ -74,8 +74,7 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
     getFieldProps,
     getFieldMeta,
     handleSubmit,
-    // dirty,
-    // isValid,
+    isValid,
     setValues,
   } = useFormik({
     initialValues: initialForm,
@@ -139,7 +138,13 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
     return <SyncLoader />;
   }
 
-  // const isSubmitDisabled = !dirty || !isValid;
+  const handleEditButtonClick = () => {
+    if(isUpdatingGameName && isValid) {
+      handleSubmit()
+    } else {
+      setIsUpdatingGameName(true)
+    }
+  }
 
   return (
     <div>
@@ -147,7 +152,7 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
         {editMode ? "UPDATE GAME" : "NEW GAME"}
       </h2>
       <div className="flex flex-wrap">
-        <form onSubmit={handleSubmit} className="py-10 mr-8">
+        <form className="py-10 mr-8">
           <div className="flex">
             <div>
               {isUpdatingGameName ? 
@@ -180,8 +185,7 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
           </div>
 
           <div className="mt-4">
-            {/* FIX THIS LOGIC */}
-            <Button onClick={() => setIsUpdatingGameName(true)}>
+            <Button type="button" onClick={handleEditButtonClick}>
               {editMode ? "Update Game" : "Create Game"}
             </Button>
           </div>
