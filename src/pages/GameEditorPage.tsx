@@ -31,7 +31,6 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
   const [isUpdatingGameName, setIsUpdatingGameName] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState(null);
   const navigate = useNavigate();
-  // let history = useHistory();
 
   const { gameTypeId } = useParams<{ gameTypeId: string }>();
 
@@ -157,7 +156,7 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
         <form className="py-10 mr-8">
           <div className="flex">
             <div>
-              {isUpdatingGameName ? 
+              {isUpdatingGameName || !editMode ? 
               ( 
                 <TextInput
                   label="Game Name"
@@ -173,16 +172,17 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
             }
             </div>
           </div>
-          <div className="flex  mt-4">
+
+          <div className={`flex  mt-4 ${!editMode && 'hidden'}`}>
             <section className="flex flex-col">
               <strong>Client Secret</strong>
-              <span>{currentGameType?.clientSecret}</span>
+              <span className="text-xs">{currentGameType?.clientSecret}</span>
             </section>
           </div>
-          <div className="flex mt-4">
+          <div className={`flex  mt-4 ${!editMode && 'hidden'}`}>
             <section className="flex flex-col">
               <strong>Signing Secret</strong>
-              <span>{currentGameType?.signingSecret}</span>
+              <span className="text-xs">{currentGameType?.signingSecret}</span>
             </section>
           </div>
 
@@ -193,16 +193,14 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
           </div>
         </form>
 
-        <div className="col-span-7 py-10">
+        <div className={`col-span-7 py-10 ${!editMode && 'hidden'}`}>
           <h2 className="text-2xl font-bold italic font-sans mb-8">
             Leaderboards
           </h2>
           <div className="my-4">
-            <Link to="/games/leaderboards/new">
-              <Button>
-                New Achievement
-              </Button>
-            </Link>
+            <Button onClick={() => console.log("NEW LEADERBOARD MODAL")}>
+              New Leaderboard
+            </Button>
           </div>
           <table className="shadow-lg bg-white border-collapse w-full">
             <tr>
@@ -230,7 +228,7 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
                   <td className="border px-8 py-4">
                     <Button
                       onClick={() => {
-                        console.log("Handle New Leaderboard Click");
+                        console.log("SHOW EDIT LEADERBOARD MODAL");
                       }}
                     >
                       Edit
@@ -242,16 +240,14 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
           </table>
         </div>
       
-        <div className="py-10 w-full">
+        <div className={`py-10 w-full ${!editMode && 'hidden'}`}>
           <h2 className="text-2xl font-bold italic font-sans mb-8">
             Achievements
           </h2>
           <div className="my-4">
-            <Link to="/games/achievements/new">
-              <Button>
-                New Achievement
-              </Button>
-            </Link>
+            <Button onClick={() => console.log("SHOW NEW ACHIEVEMENT MODAL")}>
+              New Achievement
+            </Button>
             </div>
           <table className="shadow-lg bg-white border-collapse max-w-xs">
             <tr>
@@ -284,7 +280,7 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
                     <td className="border px-8 py-4">
                       <Button
                         onClick={() => {
-                          console.log("Handle edit");
+                          console.log("SHOW EDIT ACHIEVEMENT MODAL");
                         }}
                       >
                         Edit
