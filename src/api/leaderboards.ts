@@ -5,7 +5,7 @@ export const getGameTypeLeaderboards = async (gameTypeId: number) => {
 
   const endpoint = gamesHqUrl + `/dashboard/game-dev/games/${gameTypeId}/leaderboards`;
   const response = await axios.get(endpoint);
-  const leaderboards = response.data.games as IGameType[];
+  const leaderboards = response.data.games as ILeaderboard[];
 
   return leaderboards;
 };
