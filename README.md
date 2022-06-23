@@ -1,46 +1,138 @@
-# Getting Started with Create React App
+<h1 align="center">
+  <br>
+  <a href="http://www.amitmerchant.com/electron-markdownify"><img src="https://i.imgur.com/njuVb1g.png" alt="Markdownify" width="200"></a>
+  <br>
+  Games Admin panel
+  <br>
+</h1>
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## What is it?
+Headquarters of the games interactions. Games Admin Panel is basically a publishing tool to connect new browser games with the XTU ecosystem.
 
-## Available Scripts
+The admin panel let game developers integrate their games with the XTU world. It lets them create game key pairs, leaderboards, achievements, monitor statistics, between others.
 
-In the project directory, you can run:
+The app also works great for XTeam Admins letting them create and manage The arena, and the Tower game rounds, new items, monitor games, between others.
 
-### `yarn start`
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## 📑Contents
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+* [Tech Stack](#tech-stack)
+* [Requirements](#requirements)
+* [Project](#project)
+    * [Environmental Variables](#environmental-variables)
+    * [Run APP](#run-app)
+* [How to contribute](#how-to-contribute)
+	* [JIRA](#jira)
+    * [Commits](#commits)
+    * [Pull Requests](#pull-requests)
+* [Continous Integration](#continous-integration)
 
-### `yarn test`
+## 📦Tech Stack
+* [Node.js](https://nodejs.org/)
+* [React](https://es.reactjs.org/)
+* [CRACO](https://www.npmjs.com/package/@craco/craco)
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## 🔎Requirements
+* [NVM - Node Version Manager](https://github.com/nvm-sh/nvm)
 
-### `yarn build`
+## 🚀Project
+Let's setup the project!🥹
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+### **🔒Environmental Variables**
+The APP needs some env vars to work properly. You can ask @ccmoralesj for this.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Just grab the `.env.example` file and copy everything into a new file called `.env`. It will look something like this at first.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```
+# FRONTEND
+REACT_APP_GAMESHQ_API_URL="http://127.0.0.1:3000"
 
-### `yarn eject`
+# FIREBASE
+REACT_APP_FIREBASE_API_KEY=
+REACT_APP_FIREBASE_AUTH_DOMAIN=
+REACT_APP_FIREBASE_DATTABASE_URL=
+REACT_APP_PROJECT_ID=
+REACT_APP_STORAGE_BUCKET=
+REACT_APP_MESSAGING_SENDER_ID=
+REACT_APP_APP_ID=
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+```
+### **🖼️Run App**
+We are almost there with the setup.🥲 Now it's time to run the API to connect the APP with. You can go to [Games API repo](https://github.com/x-team/GamesHQ-API) and follow the [README](https://github.com/x-team/GamesHQ-API#readme) to setup you own API, or you can connect with the staging API:
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```bash
+https://gameshq-api-staging.x-team.com
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+Now let's run the FE APP. 🎉
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
-## Learn More
+First, make sure you're using our recommended version of Node and yarn by running these commands:
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+```bash
+nvm use
+```
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Following up, we have to install all required dependencies to run the project:
+
+```bash
+npm i --legacy-peer-deps
+# We use legacy peer deps due to a compatibility issue in React at the moment
+```
+
+Finally, **run the  API first** and then the application with the following command:
+
+```bash
+npm start
+```
+
+The APP should be up and running 🎉at port 3001!🎉 You can verify by browsing to [http://localhost:3001](http://localhost:3001)
+
+Let's start coding!🤓
+
+(GIF: Wait for it...)
+![App Running](https://i.imgur.com/puC3sX2.png)
+
+## 🫂How to contribute
+Collaborate in this repo is quite easy.
+### 📊JIRA
+You only need to pick up a ticket from the [JIRA board](https://x-team-internal.atlassian.net/jira/software/c/projects/XTG/boards/48) (If you don't have access you can ask @ccmoralesj)
+
+Each JIRA ticket has an identifier based on a code and a number like XTG-123 which you will use later.
+### 💾Commits
+Each commit you do needs to have the JIRA ticket identifier so it can be related to the board.
+
+You can use this commit format suggestion.
+
+```
+:optional-emoji: XTG-123: New endpoint to handle login
+```
+
+| **Emoji** | **Description**                         |
+|-----------|-----------------------------------------|
+| **🚀**    | New features, or enhancements to code   |
+| **🐞**    | Bug fixes                               |
+| **⚙️**    | Refactors                               |
+| **📦**    | Build files, dependencies, config files |
+| **🔎**    | Minor fixes, typos, imports, etc        |
+| **🪄**    | Others                                  |
+
+![Commit Example](https://i.imgur.com/gClC6CV.gif)
+
+### 🕵🏻Pull Requests
+Once you're ready. You can create a new Pull Request (PR) by adding the JIRA ticket identifier in the title. The repo will give you a template to fill in the details of your amazing work!
+
+You can use this PR title format suggestion.
+
+```
+XTG-123: Login
+```
+
+You'll need at least 1 review from your teammates to merge the pull request.
+
+## 🪄Continous Integration
+This project is connected to an EC2 instance from AWS.
+
+All code from `main` branch will be deployed to staging.
+
+To **deploy to production** you must create a `new release` and follow the [semantic versioning](https://semver.org/lang/es/) fundamentals. That will trigger an automated deployment to **production**.
