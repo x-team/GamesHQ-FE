@@ -69,7 +69,7 @@ export const App = () => {
           }
         />
         <Route
-          path="/achievements/:achievementId"
+          path="/games/achievements/:achievementId"
           element={
             <ProtectedRoute>
               <AppMenu>
@@ -79,7 +79,7 @@ export const App = () => {
           }
         />
         <Route
-          path="/leaderboards/:leaderboardId"
+          path="/games/leaderboards/:leaderboardId"
           element={
             <ProtectedRoute>
               <AppMenu>
