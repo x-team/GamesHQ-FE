@@ -6,6 +6,7 @@ import { SyncLoader } from "react-spinners";
 import * as Yup from "yup";
 import { getAchievements } from "../api/achievements";
 import { getGameType, upsertGameType } from "../api/gamedev";
+import AddOrEditAchievementModal from "../ui/AddOrEditAchievementModal";
 
 import Button from "../ui/Button";
 import TextInput from "../ui/TextInput";
@@ -29,10 +30,13 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
   );
   const [achievements, setAchievements] = useState<IAchievement[]>([]);
   const [isUpdatingGameName, setIsUpdatingGameName] = useState<boolean>(false);
+  const [showModal, setShowModal] = useState<boolean>(false);
+
   const [errorMessage, setErrorMessage] = useState(null);
   const navigate = useNavigate();
 
   const { gameTypeId } = useParams<{ gameTypeId: string }>();
+  
 
   const onSubmit = async (values: IForm, _actions: FormikHelpers<IForm>) => {
     setIsLoading(true);
@@ -147,8 +151,12 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
     }
   }
 
+  const openAchievementModal = (achievement: IAchievement) => {
+    setShowModal(true)
+  }
+
   return (
-    <div>
+    <>
       <h2 className="text-2xl font-bold italic font-sans mb-8">
         {editMode ? "UPDATE GAME" : "NEW GAME"}
       </h2>
@@ -280,7 +288,7 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
                     <td className="border px-8 py-4">
                       <Button
                         onClick={() => {
-                          console.log("SHOW EDIT ACHIEVEMENT MODAL");
+                          openAchievementModal(achievement)
                         }}
                       >
                         Edit
@@ -292,7 +300,8 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
           </table>
         </div>
       </div>
-    </div>
+      <AddOrEditAchievementModal show={showModal} onClose={() => setShowModal(false)} />
+    </>
   );
 };
 
