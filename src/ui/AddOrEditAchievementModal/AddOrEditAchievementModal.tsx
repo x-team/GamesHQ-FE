@@ -80,40 +80,40 @@ const AddOrEditAchievementModal = ({
                     Edit Achievement
                 </h2>
                 <form onSubmit={handleSubmit}>
-                    <div className="flex space-x-6">
-                    <div>
-                        <TextInput
-                        label="Description"
-                        {...getFieldProps("description")}
-                        {...getFieldMeta("description")}
-                        />
-                    </div>
+                    <div className="flex space-x-6 pb-8">
+                        <div>
+                            <TextInput
+                            label="Description"
+                            {...getFieldProps("description")}
+                            {...getFieldMeta("description")}
+                            />
+                        </div>
 
-                    <div>
-                        <TextInput
-                        label="Target Value"
-                        {...getFieldProps("targetValue")}
-                        {...getFieldMeta("targetValue")}
-                        />
-                    </div>
+                        <div>
+                            <TextInput
+                            label="Target Value"
+                            {...getFieldProps("targetValue")}
+                            {...getFieldMeta("targetValue")}
+                            />
+                        </div>
 
-                    <div>
-                        <label
-                        className="block text-gray-700 text-sm font-bold mt-9"
-                        htmlFor="isEnabled"
-                        >
-                        <Checkbox 
-                            {...getFieldProps("isEnabled")}
-                        >
-                            isEnabled
-                        </Checkbox>
-                        </label>
-                    </div>
-                    </div>
-                    <div className="mt-8 flex justify-center">
-                        <Button type="submit" disabled={!isValid}>
-                            Save
-                        </Button>
+                        <div>
+                            <label
+                            className="block text-gray-700 text-sm font-bold mt-9"
+                            htmlFor="isEnabled"
+                            >
+                            <Checkbox 
+                                {...getFieldProps("isEnabled")}
+                            >
+                                isEnabled
+                            </Checkbox>
+                            </label>
+                        </div>
+                        <div className="mt-8 flex justify-center flex-1">
+                            <Button type="submit" disabled={!isValid}>
+                                Save
+                            </Button>
+                        </div>
                     </div>
                 </form>
             </Modal>
