@@ -1,5 +1,5 @@
 import { useFormik } from "formik";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import * as Yup from "yup";
 import { useParams } from "react-router-dom";
 
@@ -30,8 +30,6 @@ const AddOrEditAchievementModal = ({
     const { gameTypeId } = useParams<{ gameTypeId: string }>();
 
     const onSubmit = async (values: IAchievementForm) => {
-        console.log("SUBMIT!",values);
-        console.log("OBJECT!",selectedAchievement);
         await upsertAchievement({
             ...(selectedAchievement?.id && { id: selectedAchievement?.id }),
             _gameTypeId: selectedAchievement?._gameTypeId || parseInt(gameTypeId || ""),
@@ -78,7 +76,7 @@ const AddOrEditAchievementModal = ({
     return (
         <section>
             <Modal show={show} onClose={onClose}>
-                <h2 className="text-xteamaccent font-extrabold italic text-xl">
+                <h2 className="text-xteamaccent font-extrabold italic text-xl mb-8">
                     Edit Achievement
                 </h2>
                 <form onSubmit={handleSubmit}>
@@ -112,7 +110,7 @@ const AddOrEditAchievementModal = ({
                         </label>
                     </div>
                     </div>
-                    <div className="mt-4 flex justify-center">
+                    <div className="mt-8 flex justify-center">
                         <Button type="submit" disabled={!isValid}>
                             Save
                         </Button>
