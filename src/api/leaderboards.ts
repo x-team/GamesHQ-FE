@@ -20,10 +20,10 @@ export const getLeaderboard = async (gameTypeId: number, leaderboardId: number) 
   return game;
 };
 
-export const upsertLeaderboard = async (gameTypeId: number, data: ILeaderboard) => {
+export const upsertLeaderboard = async (data: ILeaderboard) => {
   const axios = await getAxiosInstance();
 
-  const endpoint = gamesHqUrl + `/dashboard/game-dev/games/${gameTypeId}/leaderboards/${data.id}`;
+  const endpoint = gamesHqUrl + `/dashboard/game-dev/games/${data._gameTypeId}/leaderboards`;
   await axios.post(endpoint, data);
 };
 
