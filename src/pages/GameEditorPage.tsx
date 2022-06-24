@@ -7,6 +7,7 @@ import * as Yup from "yup";
 import { getAchievements } from "../api/achievements";
 import { getGameType, upsertGameType } from "../api/gamedev";
 import AddOrEditAchievementModal from "../ui/AddOrEditAchievementModal";
+import AddOrEditLeaderboardModal from "../ui/AddOrEditLeaderboardModal";
 
 import Button from "../ui/Button";
 import TextInput from "../ui/TextInput";
@@ -31,9 +32,11 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
   const [achievements, setAchievements] = useState<IAchievement[]>([]);
   const [isUpdatingGameName, setIsUpdatingGameName] = useState<boolean>(false);
   const [shouldLoadAchievements, setShouldLoadAchievements] = useState<boolean>(true);
+  const [shouldLoadGameType, setShouldGameType] = useState<boolean>(true);
   const [selectedAchievement, setSelectedAchievement] = useState<IAchievement>();
   const [selectedLeaderboard, setSelectedLeaderboard] = useState<ILeaderboard>();
   const [showModal, setShowModal] = useState<boolean>(false);
+  const [showLeaderboardModal, setShowLeaderboardModal] = useState<boolean>(false);
 
   const [errorMessage, setErrorMessage] = useState(null);
   const navigate = useNavigate();
@@ -93,10 +96,9 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
   useEffect(() => {
     async function fetchGameTypeData() {
       try {
-        if (!gameTypeId) {
+        if (!gameTypeId || !shouldLoadGameType) {
           return;
         }
-        console.log('WILL RELOAD!!!')
         const gameType = await getGameType(Number(gameTypeId));
         setValues({
           id: gameType.id,
@@ -109,6 +111,7 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
 
         setGameType(gameType);
         setIsLoading(false);
+        setShouldGameType(false);
         return gameType;
       } catch (error: any) {
         console.log({ error });
@@ -118,7 +121,7 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
     }
 
     fetchGameTypeData();
-  }, [gameTypeId, setValues]);
+  }, [gameTypeId, setValues, shouldLoadGameType]);
 
   useEffect(() => {
     async function fetchAchievementsData() {
@@ -161,15 +164,21 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
     setShowModal(true);
   }
 
-  const handleCloseAchievementModal = () => {
-    setSelectedAchievement(undefined);
-    setShowModal(false);
+  const openLeaderboardModal = (leaderboard?: ILeaderboard) => {
+    setSelectedLeaderboard(leaderboard);
+    setShowLeaderboardModal(true);
   }
 
   const handlePostSubmitAchievement = () => {
     setSelectedAchievement(undefined);
     setShowModal(false);
     setShouldLoadAchievements(true)
+  }
+
+  const handlePostSubmitLeaderboard = () => {
+    setSelectedLeaderboard(undefined);
+    setShowLeaderboardModal(false);
+    setShouldGameType(true)
   }
 
   return (
@@ -223,7 +232,7 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
             Leaderboards
           </h2>
           <div className="my-4">
-            <Button onClick={() => console.log("NEW LEADERBOARD MODAL")}>
+            <Button onClick={openLeaderboardModal}>
               New Leaderboard
             </Button>
           </div>
@@ -253,7 +262,7 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
                   <td className="border px-8 py-4">
                     <Button
                       onClick={() => {
-                        console.log("SHOW EDIT LEADERBOARD MODAL");
+                        openLeaderboardModal(leaderboard)
                       }}
                     >
                       Edit
@@ -318,7 +327,7 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
         </div>
       </div>
       <AddOrEditAchievementModal show={showModal} onClose={handlePostSubmitAchievement}  selectedAchievement={selectedAchievement}/>
-      {/* <AddOrEditAchievementModal show={showModal} onClose={handleCloseAchievementModal} onSubmit={handlePostSubmit} selectedAchievement={selectedAchievement}/> */}
+      <AddOrEditLeaderboardModal show={showLeaderboardModal} onClose={handlePostSubmitLeaderboard}  selectedLeaderboard={selectedLeaderboard}/>
     </>
   );
 };
