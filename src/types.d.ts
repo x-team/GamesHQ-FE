@@ -22,20 +22,20 @@ interface IGameType {
 }
 
 interface ILeaderboard {
-  id: number;
+  id?: number;
   name: string;
   scoreStrategy: string;
   resetStrategy: string;
 }
 
-interface IAchievement extends SignInOut {
-  id: number;
+interface IAchievement {
+  id?: number;
   _gameTypeId: number;
   description: string;
-  gameType: IGameType;
+  gameType?: IGameType;
   isEnabled: boolean;
   targetValue: number;
-  createdAt: string;
+  createdAt?: string;
   updatedAt: string;
 }
 
