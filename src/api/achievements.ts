@@ -23,7 +23,7 @@ export const getAchievement = async (gameTypeId: number, achievementId: number) 
 export const upsertAchievement = async (data: IAchievement) => {
   const axios = await getAxiosInstance();
 
-  const endpoint = gamesHqUrl + `/dashboard/game-dev/games/${data._gameTypeId}/achievements/${data.id}`;
+  const endpoint = gamesHqUrl + `/dashboard/game-dev/games/${data._gameTypeId}/achievements`;
   await axios.post(endpoint, data);
 };
 
