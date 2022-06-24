@@ -23,6 +23,7 @@ interface IGameType {
 
 interface ILeaderboard {
   id?: number;
+  _gameTypeId: number;
   name: string;
   scoreStrategy: string;
   resetStrategy: string;
