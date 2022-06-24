@@ -30,6 +30,8 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
   );
   const [achievements, setAchievements] = useState<IAchievement[]>([]);
   const [isUpdatingGameName, setIsUpdatingGameName] = useState<boolean>(false);
+  const [selectedAchievement, setSelectedAchievement] = useState<IAchievement>();
+  const [selectedLeaderboard, setSelectedLeaderboard] = useState<ILeaderboard>();
   const [showModal, setShowModal] = useState<boolean>(false);
 
   const [errorMessage, setErrorMessage] = useState(null);
@@ -145,14 +147,15 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
 
   const handleEditButtonClick = () => {
     if(isUpdatingGameName && isValid) {
-      handleSubmit()
+      handleSubmit();
     } else {
-      setIsUpdatingGameName(true)
+      setIsUpdatingGameName(true);
     }
   }
 
   const openAchievementModal = (achievement: IAchievement) => {
-    setShowModal(true)
+    setSelectedAchievement(achievement);
+    setShowModal(true);
   }
 
   return (
@@ -300,7 +303,7 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
           </table>
         </div>
       </div>
-      <AddOrEditAchievementModal show={showModal} onClose={() => setShowModal(false)} />
+      <AddOrEditAchievementModal show={showModal} onClose={() => setShowModal(false)} selectedAchievement={selectedAchievement}/>
     </>
   );
 };
