@@ -227,7 +227,7 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
             </tr>
             {currentGameType?._leaderboards?.map(
               (leaderboard: ILeaderboard) => (
-                <tr>
+                <tr key={`leaderboard${leaderboard.id}`}>
                   <td className="border px-8 py-4" ><Link to={`/games/leaderboards/${leaderboard.id}`}>{leaderboard.id}</Link></td>
                   <td className="border px-8 py-4"><Link to={`/games/leaderboards/${leaderboard.id}`}>{leaderboard.name}</Link></td>
                   <td className="border px-8 py-4">
@@ -281,7 +281,7 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
               <th className="bg-gray-100 border text-left px-8 py-4">Edit</th>
             </tr>
               {achievements?.map((achievement => 
-                <tr>
+                <tr key={`achievement${achievement.id}`}>
                     <td className="border px-8 py-4">{achievement.id}</td>
                     <td className="border px-8 py-4">{achievement.description || "-"}</td>
                     <td className="border px-8 py-4">{achievement.isEnabled ? "✅" : "❌"}</td>
