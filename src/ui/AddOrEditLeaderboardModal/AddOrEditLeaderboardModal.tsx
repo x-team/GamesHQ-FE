@@ -5,9 +5,9 @@ import { useParams } from "react-router-dom";
 
 import { upsertLeaderboard } from "../../api/leaderboards";
 import Button from "../Button";
-import Checkbox from "../Checkbox";
 import Modal from "../Modal";
 import TextInput from "../TextInput";
+import Dropdown from "../Dropdown";
 
 interface IProps {
     show: boolean;
@@ -48,7 +48,7 @@ const AddOrEditLeaderboardModal = ({
 
     const initialForm: ILeaderboardForm = {
         name: "",
-        scoreStrategy: "reset",
+        scoreStrategy: "highest",
         resetStrategy: "weekly",
       };
 
@@ -79,7 +79,7 @@ const AddOrEditLeaderboardModal = ({
                     Edit Leaderboard
                 </h2>
                 <form onSubmit={handleSubmit}>
-                    <div className="flex space-x-6">
+                    <div className="flex space-x-6 pb-8">
                         <div>
                             <TextInput
                             label="Name"
@@ -89,25 +89,27 @@ const AddOrEditLeaderboardModal = ({
                         </div>
 
                         <div>
-                            <TextInput
-                            label="Score Strategy"
-                            {...getFieldProps("scoreStrategy")}
-                            {...getFieldMeta("scoreStrategy")}
-                            />
+                            <Dropdown fieldProps={getFieldProps("scoreStrategy")} label="Score Strategy">
+                                <option value="highest" label="Highest" />
+                                <option value="lowest" label="Lowest" />
+                                <option value="sum" label="Sum" />
+                                <option value="latest" label="Latest" />
+                            </Dropdown>
                         </div>
 
                         <div>
-                            <TextInput
-                            label="Reset Strategy"
-                            {...getFieldProps("resetStrategy")}
-                            {...getFieldMeta("resetStrategy")}
-                            />
+                            <Dropdown fieldProps={getFieldProps("resetStrategy")} label="Reset Strategy">
+                                <option value="daily" label="Daily" />
+                                <option value="weekly" label="Weekly" />
+                                <option value="monthly" label="Monthly" />
+                                <option value="never" label="Never" />
+                            </Dropdown>
                         </div>
-                    </div>
-                    <div className="mt-8 flex justify-center">
-                        <Button type="submit" disabled={!isValid}>
-                            Save
-                        </Button>
+                        <div className="mt-8 flex justify-center flex-1">
+                            <Button type="submit" disabled={!isValid} >
+                                Save
+                            </Button>
+                        </div>
                     </div>
                 </form>
             </Modal>
