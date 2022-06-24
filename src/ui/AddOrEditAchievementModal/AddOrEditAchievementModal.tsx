@@ -1,5 +1,9 @@
 import { useFormik } from "formik";
 import { useEffect, useState } from "react";
+import * as Yup from "yup";
+import { useParams } from "react-router-dom";
+
+import { upsertAchievement } from "../../api/achievements";
 import Button from "../Button";
 import Checkbox from "../Checkbox";
 import Modal from "../Modal";
@@ -8,25 +12,68 @@ import TextInput from "../TextInput";
 interface IProps {
     show: boolean;
     onClose: () => void;
+    selectedAchievement?: IAchievement;
+}
+
+interface IAchievementForm {
+    id?: number;
+    description: string;
+    targetValue: number;
+    isEnabled: boolean;
 }
 
 const AddOrEditAchievementModal = ({
     show,
     onClose,
+    selectedAchievement,
 }: IProps) => {
+    const { gameTypeId } = useParams<{ gameTypeId: string }>();
 
-    // useEffect
-    // const {
-    //     getFieldProps,
-    //     getFieldMeta,
-    //     handleSubmit,
-    //     isValid,
-    //     setValues,
-    //   } = useFormik({
-    //     // initialValues: {},
-    //     // onSubmit,
-    //     // validationSchema,
-    //   });
+    const onSubmit = async (values: IAchievementForm) => {
+        console.log("SUBMIT!",values);
+        console.log("OBJECT!",selectedAchievement);
+        await upsertAchievement({
+            ...(selectedAchievement?.id && { id: selectedAchievement?.id }),
+            _gameTypeId: selectedAchievement?._gameTypeId || parseInt(gameTypeId || ""),
+            ...(selectedAchievement?.createdAt && { createdAt: selectedAchievement?.createdAt }),
+            description: values.description,
+            targetValue: values.targetValue,
+            isEnabled: values.isEnabled,
+            updatedAt: new Date().toString(),
+          });
+        onClose();
+    }
+
+    const validationSchema = Yup.object({
+        description: Yup.string().required().label("Desctiption"),
+        targetValue: Yup.number().min(1).required().label("Target Value"),
+      });
+
+    const initialForm: IAchievementForm = {
+        description: "",
+        targetValue: 0,
+        isEnabled: true,
+      };
+
+    const {
+        getFieldProps,
+        getFieldMeta,
+        handleSubmit,
+        isValid,
+        setValues,
+      } = useFormik({
+        initialValues: initialForm,
+        onSubmit,
+        validationSchema,
+      });
+
+    useEffect(() => {
+        setValues({
+            description: selectedAchievement?.description || "",
+            targetValue: selectedAchievement?.targetValue || 0,
+            isEnabled: selectedAchievement?.isEnabled || true,
+        });
+    }, [selectedAchievement, setValues])
 
     return (
         <section>
@@ -34,23 +81,21 @@ const AddOrEditAchievementModal = ({
                 <h2 className="text-xteamaccent font-extrabold italic text-xl">
                     Edit Achievement
                 </h2>
-                <form>
+                <form onSubmit={handleSubmit}>
                     <div className="flex space-x-6">
                     <div>
                         <TextInput
                         label="Description"
-                        name="Description"
-                        // {...getFieldProps("description")}
-                        // {...getFieldMeta("description")}
+                        {...getFieldProps("description")}
+                        {...getFieldMeta("description")}
                         />
                     </div>
 
                     <div>
                         <TextInput
                         label="Target Value"
-                        name="target"
-                        // {...getFieldProps("targetValue")}
-                        // {...getFieldMeta("targetValue")}
+                        {...getFieldProps("targetValue")}
+                        {...getFieldMeta("targetValue")}
                         />
                     </div>
 
@@ -60,11 +105,7 @@ const AddOrEditAchievementModal = ({
                         htmlFor="isEnabled"
                         >
                         <Checkbox 
-                            // {...getFieldProps("isEnabled")}
-                            name="target"
-                            onChange={() => console.log("TEST")}
-                            value={"1"}
-                            // label="Is Enabled"
+                            {...getFieldProps("isEnabled")}
                         >
                             isEnabled
                         </Checkbox>
@@ -72,7 +113,7 @@ const AddOrEditAchievementModal = ({
                     </div>
                     </div>
                     <div className="mt-4 flex justify-center">
-                        <Button type="submit">
+                        <Button type="submit" disabled={!isValid}>
                             Save
                         </Button>
                     </div>
