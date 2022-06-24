@@ -30,6 +30,7 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
   );
   const [achievements, setAchievements] = useState<IAchievement[]>([]);
   const [isUpdatingGameName, setIsUpdatingGameName] = useState<boolean>(false);
+  const [shouldLoadAchievements, setShouldLoadAchievements] = useState<boolean>(true);
   const [selectedAchievement, setSelectedAchievement] = useState<IAchievement>();
   const [selectedLeaderboard, setSelectedLeaderboard] = useState<ILeaderboard>();
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -95,6 +96,7 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
         if (!gameTypeId) {
           return;
         }
+        console.log('WILL RELOAD!!!')
         const gameType = await getGameType(Number(gameTypeId));
         setValues({
           id: gameType.id,
@@ -121,11 +123,12 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
   useEffect(() => {
     async function fetchAchievementsData() {
       try {
-        if (!gameTypeId) {
+        if (!gameTypeId || !shouldLoadAchievements) {
           return;
         }
         const achievements = await getAchievements(Number(gameTypeId));
-        setAchievements(achievements)
+        setAchievements(achievements);
+        setShouldLoadAchievements(false);
         return achievements;
       } catch (error: any) {
         console.log({ error });
@@ -135,7 +138,7 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
     }
 
     fetchAchievementsData();
-  }, [gameTypeId]);
+  }, [gameTypeId, shouldLoadAchievements]);
 
   if (errorMessage) {
     return <div>{errorMessage}</div>;
@@ -153,9 +156,20 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
     }
   }
 
-  const openAchievementModal = (achievement: IAchievement) => {
+  const openAchievementModal = (achievement?: IAchievement) => {
     setSelectedAchievement(achievement);
     setShowModal(true);
+  }
+
+  const handleCloseAchievementModal = () => {
+    setSelectedAchievement(undefined);
+    setShowModal(false);
+  }
+
+  const handlePostSubmitAchievement = () => {
+    setSelectedAchievement(undefined);
+    setShowModal(false);
+    setShouldLoadAchievements(true)
   }
 
   return (
@@ -256,7 +270,7 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
             Achievements
           </h2>
           <div className="my-4">
-            <Button onClick={() => console.log("SHOW NEW ACHIEVEMENT MODAL")}>
+            <Button onClick={openAchievementModal}>
               New Achievement
             </Button>
             </div>
@@ -303,7 +317,8 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
           </table>
         </div>
       </div>
-      <AddOrEditAchievementModal show={showModal} onClose={() => setShowModal(false)} selectedAchievement={selectedAchievement}/>
+      <AddOrEditAchievementModal show={showModal} onClose={handlePostSubmitAchievement}  selectedAchievement={selectedAchievement}/>
+      {/* <AddOrEditAchievementModal show={showModal} onClose={handleCloseAchievementModal} onSubmit={handlePostSubmit} selectedAchievement={selectedAchievement}/> */}
     </>
   );
 };
