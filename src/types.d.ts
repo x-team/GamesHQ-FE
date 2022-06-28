@@ -22,12 +22,23 @@ interface IGameType {
 }
 
 interface ILeaderboard {
-  id: number;
+  id?: number;
+  _gameTypeId: number;
   name: string;
   scoreStrategy: string;
   resetStrategy: string;
 }
 
+interface IAchievement {
+  id?: number;
+  _gameTypeId: number;
+  description: string;
+  gameType?: IGameType;
+  isEnabled: boolean;
+  targetValue: number;
+  createdAt?: string;
+  updatedAt: string;
+}
 
 interface ITeam {
   id?: number;

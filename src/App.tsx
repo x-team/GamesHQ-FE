@@ -22,6 +22,8 @@ import HomePage from "./pages/HomePage";
 // import { UnauthorizedPage } from "./pages/UnauthorizedPage";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { AppMenu } from "./AppMenu";
+import AchievementsPage from "./pages/AchievementsPage";
+import LeaderboardsPage from "./pages/LeaderboardsPage";
 
 export const App = () => {
   // if (isDoingInitialLoading) {
@@ -62,6 +64,26 @@ export const App = () => {
             <ProtectedRoute>
               <AppMenu>
                 <GameEditorPage />
+              </AppMenu>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/games/achievements/:achievementId"
+          element={
+            <ProtectedRoute>
+              <AppMenu>
+                <AchievementsPage />
+              </AppMenu>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/games/leaderboards/:leaderboardId"
+          element={
+            <ProtectedRoute>
+              <AppMenu>
+                <LeaderboardsPage />
               </AppMenu>
             </ProtectedRoute>
           }
