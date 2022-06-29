@@ -39,8 +39,8 @@ const AddOrEditLeaderboardModal = ({
       _gameTypeId:
         selectedLeaderboard?._gameTypeId || parseInt(gameTypeId || ""),
       name: values.name,
-      scoreStrategy: values.scoreStrategy,
-      resetStrategy: values.resetStrategy,
+      scoreStrategy: values.scoreStrategy.toLowerCase(),
+      resetStrategy: values.resetStrategy.toLowerCase(),
     });
     onClose();
   };
@@ -53,8 +53,8 @@ const AddOrEditLeaderboardModal = ({
 
   const initialForm: ILeaderboardForm = {
     name: "",
-    scoreStrategy: "highest",
-    resetStrategy: "weekly",
+    scoreStrategy: "Highest",
+    resetStrategy: "Daily",
   };
 
   const { getFieldProps, getFieldMeta, handleSubmit, isValid, setValues } =
@@ -67,8 +67,8 @@ const AddOrEditLeaderboardModal = ({
   useEffect(() => {
     setValues({
       name: selectedLeaderboard?.name || "",
-      scoreStrategy: selectedLeaderboard?.scoreStrategy || "",
-      resetStrategy: selectedLeaderboard?.scoreStrategy || "",
+      scoreStrategy: selectedLeaderboard?.scoreStrategy || "Highest",
+      resetStrategy: selectedLeaderboard?.resetStrategy || "Daily",
     });
   }, [selectedLeaderboard, setValues]);
 
@@ -76,11 +76,10 @@ const AddOrEditLeaderboardModal = ({
     <section>
       <Modal show={show} onClose={onClose}>
         <h2 className="text-xteamaccent font-extrabold italic text-xl mb-8">
-          Edit Leaderboard
+          { selectedLeaderboard?.id ? 'Edit' : 'New'} Leaderboard
         </h2>
-        <form onSubmit={handleSubmit}>
-          <div className="flex space-x-6 pb-8">
-            <div>
+        <form onSubmit={handleSubmit} className="flex flex-row gap-4">
+            <div className="w-full">
               <TextInput
                 label="Name"
                 {...getFieldProps("name")}
@@ -88,13 +87,15 @@ const AddOrEditLeaderboardModal = ({
               />
             </div>
 
-            <div>
+            <div className="w-full">
               <Dropdown
                 fieldProps={getFieldProps("scoreStrategy")}
                 label="Score Strategy"
+                fullWidth
               >
                 {scoreStrategies.map((scoreStrategy) => (
                   <option
+                    key={scoreStrategy}
                     value={scoreStrategy.toLowerCase()}
                     label={scoreStrategy}
                   />
@@ -102,25 +103,26 @@ const AddOrEditLeaderboardModal = ({
               </Dropdown>
             </div>
 
-            <div>
+            <div className="w-full">
               <Dropdown
                 fieldProps={getFieldProps("resetStrategy")}
                 label="Reset Strategy"
+                fullWidth
               >
                 {resetStrategies.map((resetStrategy) => (
                   <option
+                    key={resetStrategy}
                     value={resetStrategy.toLowerCase()}
                     label={resetStrategy}
                   />
                 ))}
               </Dropdown>
             </div>
-            <div className="mt-8 flex justify-center flex-1">
-              <Button type="submit" disabled={!isValid}>
+            <div className="mt-8 w-full">
+              <Button type="submit" disabled={!isValid} fullWidth>
                 Save
               </Button>
             </div>
-          </div>
         </form>
       </Modal>
     </section>

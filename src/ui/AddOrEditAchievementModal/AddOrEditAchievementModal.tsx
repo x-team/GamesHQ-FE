@@ -77,7 +77,7 @@ const AddOrEditAchievementModal = ({
         <section>
             <Modal show={show} onClose={onClose}>
                 <h2 className="text-xteamaccent font-extrabold italic text-xl mb-8">
-                    Edit Achievement
+                    {selectedAchievement?.id ? 'Edit' : 'New'} Achievement
                 </h2>
                 <form onSubmit={handleSubmit}>
                     <div className="flex space-x-6 pb-8">
@@ -86,6 +86,7 @@ const AddOrEditAchievementModal = ({
                             label="Description"
                             {...getFieldProps("description")}
                             {...getFieldMeta("description")}
+                            fullWidth
                             />
                         </div>
 
@@ -94,6 +95,7 @@ const AddOrEditAchievementModal = ({
                             label="Target Value"
                             {...getFieldProps("targetValue")}
                             {...getFieldMeta("targetValue")}
+                            fullWidth
                             />
                         </div>
 
@@ -110,7 +112,7 @@ const AddOrEditAchievementModal = ({
                             </label>
                         </div>
                         <div className="mt-8 flex justify-center flex-1">
-                            <Button type="submit" disabled={!isValid}>
+                            <Button type="submit" disabled={!isValid} fullWidth>
                                 Save
                             </Button>
                         </div>
