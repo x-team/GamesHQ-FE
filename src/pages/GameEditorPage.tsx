@@ -251,13 +251,17 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
             {currentGameType?._leaderboards?.map(
               (leaderboard: ILeaderboard) => (
                 <tr key={`leaderboard${leaderboard.id}`}>
-                  <td className="border px-8 py-4" ><Link to={`/games/leaderboards/${leaderboard.id}`}>{leaderboard.id}</Link></td>
-                  <td className="border px-8 py-4"><Link to={`/games/leaderboards/${leaderboard.id}`}>{leaderboard.name}</Link></td>
-                  <td className="border px-8 py-4">
-                    <Link to={`/games/leaderboards/${leaderboard.id}`}>{leaderboard.scoreStrategy}</Link>
+                  <td className="border px-8 py-4" >
+                    <Link to={`/games/${gameTypeId}/leaderboards/${leaderboard.id}`}>{leaderboard.id}</Link>
                   </td>
                   <td className="border px-8 py-4">
-                    <Link to={`/games/leaderboards/${leaderboard.id}`}>{leaderboard.resetStrategy}</Link>
+                    <Link to={`/games/${gameTypeId}/leaderboards/${leaderboard.id}`}>{leaderboard.name}</Link>
+                  </td>
+                  <td className="border px-8 py-4">
+                    <Link to={`/games/${gameTypeId}/leaderboards/${leaderboard.id}`}>{leaderboard.scoreStrategy}</Link>
+                  </td>
+                  <td className="border px-8 py-4">
+                    <Link to={`/games/${gameTypeId}/leaderboards/${leaderboard.id}`}>{leaderboard.resetStrategy}</Link>
                   </td>
                   <td className="border px-8 py-4">
                     <Button
@@ -305,12 +309,24 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
             </tr>
               {achievements?.map((achievement => 
                 <tr key={`achievement${achievement.id}`}>
-                    <td className="border px-8 py-4">{achievement.id}</td>
-                    <td className="border px-8 py-4">{achievement.description || "-"}</td>
-                    <td className="border px-8 py-4">{achievement.isEnabled ? "✅" : "❌"}</td>
-                    <td className="border px-8 py-4">{achievement.targetValue || "-"}</td>
-                    <td className="border px-8 py-4">{achievement.createdAt || "-"}</td>
-                    <td className="border px-8 py-4">{achievement.updatedAt || "-"}</td>
+                    <td className="border px-8 py-4">
+                      <Link to={`/games/${gameTypeId}/achievements/${achievement.id}`}>{achievement.id}</Link>
+                    </td>
+                    <td className="border px-8 py-4">
+                      <Link to={`/games/${gameTypeId}/achievements/${achievement.id}`}>{achievement.description || "-"}</Link>
+                    </td>
+                    <td className="border px-8 py-4">
+                      <Link to={`/games/${gameTypeId}/achievements/${achievement.id}`}>{achievement.isEnabled ? "✅" : "❌"}</Link>
+                    </td>
+                    <td className="border px-8 py-4">
+                      <Link to={`/games/${gameTypeId}/achievements/${achievement.id}`}>{achievement.targetValue || "-"}</Link>
+                    </td>
+                    <td className="border px-8 py-4">
+                      <Link to={`/games/${gameTypeId}/achievements/${achievement.id}`}>{achievement.createdAt || "-"}</Link>
+                    </td>
+                    <td className="border px-8 py-4">
+                      <Link to={`/games/${gameTypeId}/achievements/${achievement.id}`}>{achievement.updatedAt || "-"}</Link>
+                    </td>
                     <td className="border px-8 py-4">
                       <Button
                         onClick={() => {
