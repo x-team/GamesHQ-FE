@@ -65,44 +65,35 @@ const ListGamesPage = function ListGamesPage(props: any) {
       {isLoading ? (
         <SyncLoader />
       ) : (
-        <div className="mt-4">
+        <div className="grid grid-cols-3 gap-8 mt-8">
           {games.map((game: IGameType, index: number) => (
-            <>
-              <div className="grid grid-cols-10" key={index}>
-                <Link to={`/games/${game.id}`} className="col-span-3 py-4">
+              <div className="" key={index}>
+                <Link to={`/games/${game.id}`}>
                   <div className="grid items-center justify-between">
-                    <div>
+                    <div className="mb-4">
                       <span className="text-xl font-bold">{game.name}</span>
                     </div>
-                    <table className="shadow-lg bg-white border-collapse">
-                      <tr>
-                        <th className="bg-gray-100 border text-left px-2 py-4">
+                    <div className="shadow-lg bg-white border-collapse">
+                        <div className="bg-gray-100 border text-left px-2 py-4">
                           <span className="text-gray-400 font-bold">
                             CLIENT SECRET
                           </span>
-                        </th>
-                      </tr>
-                      <tr>
-                        <td className="border px-2 py-4">
+                        </div>
+                        <div className="border px-2 py-4">
                           {game.clientSecret.substring(0, maxKeyDisplayLength)}
                           ...
-                        </td>
-                      </tr>
+                        </div>
 
-                      <tr>
-                        <th className="bg-gray-100 border text-left px-2 py-4">
+                        <div className="bg-gray-100 border text-left px-2 py-4">
                           <span className="text-gray-400 font-bold">
                             SIGNING SECRET
                           </span>
-                        </th>
-                      </tr>
-                      <tr>
-                        <td className="border px-2 py-4">
+                        </div>
+                        <div className="border px-2 py-4">
                           {game.signingSecret.substring(0, maxKeyDisplayLength)}
                           ...
-                        </td>
-                      </tr>
-                    </table>
+                        </div>
+                    </div>
                     <div className="my-4">
                       <Button onClick={handleOnDeleteClick(game)}>
                         DELETE
@@ -112,8 +103,6 @@ const ListGamesPage = function ListGamesPage(props: any) {
                 </Link>
               </div>
 
-              <hr className="my-2" />
-            </>
           ))}
         </div>
       )}
