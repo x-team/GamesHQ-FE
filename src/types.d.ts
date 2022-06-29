@@ -27,6 +27,17 @@ interface ILeaderboard {
   name: string;
   scoreStrategy: string;
   resetStrategy: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+interface ILeaderboardResult {
+  id?: number;
+  _leaderboardId: number;
+  _userId: number;
+  score: number;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 interface IAchievement {
@@ -38,6 +49,16 @@ interface IAchievement {
   targetValue: number;
   createdAt?: string;
   updatedAt: string;
+}
+
+interface IAchievementRank {
+  id?: number;
+  _achievementId: number;
+  _userId: number;
+  rank: number;
+  description?: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 interface ITeam {
