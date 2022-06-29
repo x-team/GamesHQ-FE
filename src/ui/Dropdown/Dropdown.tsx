@@ -5,6 +5,7 @@ interface IProps {
     label: string;
     hasErrors?: boolean;
     touched?: boolean;
+    fullWidth?: boolean;
 
     children?: React.ReactNode;
 }
@@ -13,6 +14,7 @@ function TextInput({
     fieldProps,
     label,
     children,
+    fullWidth,
     hasErrors,
     touched,
 }: IProps) {
@@ -26,7 +28,8 @@ function TextInput({
             </label>
             <select
                 {...fieldProps}
-                className="block shadow border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline"
+                className={`block shadow border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline ${fullWidth 
+                    ? "w-full" : ""}`}
             >
                 {children}
             </select>

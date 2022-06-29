@@ -6,6 +6,7 @@ interface IProps {
     type?: "text" | "number" | "password";
     extraClass?: string;
     helperText?: string;
+    fullWidth?: boolean;
 }
 
 const renderInputError = (error?: string, touched?: boolean) => {
@@ -23,7 +24,7 @@ function TextInput({
     type,
     label,
     extraClass,
-
+    fullWidth,
     ...props
 }: IProps) {
     const calculateColors = () => {
@@ -54,7 +55,7 @@ function TextInput({
 
             <input
                 type={type ?? "text"}
-                className={`shadow ${calculateColors()} border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline ${extraClass}`}
+                className={`shadow ${calculateColors()} border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline ${extraClass} ${fullWidth ? "w-full" : ""}`} 
                 {...props}
             />
 
