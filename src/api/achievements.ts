@@ -10,6 +10,16 @@ export const getAchievements = async (gameTypeId: number) => {
   return achievements;
 };
 
+export const getAchievementsProgress = async (gameTypeId: number , achievementId: number) => {
+  const axios = await getAxiosInstance();
+
+  const endpoint = gamesHqUrl + `/dashboard/game-dev/games/${gameTypeId}/achievements/${achievementId}/progress`;
+  const response = await axios.get(endpoint);
+  const achievements = response.data as IAchievementRank[];
+  
+  return achievements;
+};
+
 export const getAchievement = async (gameTypeId: number, achievementId: number) => {
   const axios = await getAxiosInstance();
 
