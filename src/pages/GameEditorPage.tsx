@@ -237,44 +237,48 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
             </Button>
           </div>
           <table className="shadow-lg bg-white border-collapse w-full">
-            <tr>
-              <th className="bg-gray-100 border text-left px-8 py-4">id</th>
-              <th className="bg-gray-100 border text-left px-8 py-4">name</th>
-              <th className="bg-gray-100 border text-left px-8 py-4">
-                scoreStrategy
-              </th>
-              <th className="bg-gray-100 border text-left px-8 py-4">
-                resetStrategy
-              </th>
-              <th className="bg-gray-100 border text-left px-8 py-4">Edit</th>
-            </tr>
-            {currentGameType?._leaderboards?.map(
-              (leaderboard: ILeaderboard) => (
-                <tr key={`leaderboard${leaderboard.id}`}>
-                  <td className="border px-8 py-4" >
-                    <Link to={`/games/${gameTypeId}/leaderboards/${leaderboard.id}`}>{leaderboard.id}</Link>
-                  </td>
-                  <td className="border px-8 py-4">
-                    <Link to={`/games/${gameTypeId}/leaderboards/${leaderboard.id}`}>{leaderboard.name}</Link>
-                  </td>
-                  <td className="border px-8 py-4">
-                    <Link to={`/games/${gameTypeId}/leaderboards/${leaderboard.id}`}>{leaderboard.scoreStrategy}</Link>
-                  </td>
-                  <td className="border px-8 py-4">
-                    <Link to={`/games/${gameTypeId}/leaderboards/${leaderboard.id}`}>{leaderboard.resetStrategy}</Link>
-                  </td>
-                  <td className="border px-8 py-4">
-                    <Button
-                      onClick={() => {
-                        openLeaderboardModal(leaderboard)
-                      }}
-                    >
-                      Edit
-                    </Button>
-                  </td>
-                </tr>
-              )
-            )}
+            <thead>
+              <tr>
+                <th className="bg-gray-100 border text-left px-8 py-4">id</th>
+                <th className="bg-gray-100 border text-left px-8 py-4">name</th>
+                <th className="bg-gray-100 border text-left px-8 py-4">
+                  scoreStrategy
+                </th>
+                <th className="bg-gray-100 border text-left px-8 py-4">
+                  resetStrategy
+                </th>
+                <th className="bg-gray-100 border text-left px-8 py-4">Edit</th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentGameType && currentGameType?._leaderboards?.map(
+                (leaderboard: ILeaderboard) => (
+                  <tr key={leaderboard.id}>
+                    <td className="border px-8 py-4" >
+                      <Link to={`/games/${gameTypeId}/leaderboards/${leaderboard.id}`}>{leaderboard.id}</Link>
+                    </td>
+                    <td className="border px-8 py-4">
+                      <Link to={`/games/${gameTypeId}/leaderboards/${leaderboard.id}`}>{leaderboard.name}</Link>
+                    </td>
+                    <td className="border px-8 py-4">
+                      <Link to={`/games/${gameTypeId}/leaderboards/${leaderboard.id}`}>{leaderboard.scoreStrategy}</Link>
+                    </td>
+                    <td className="border px-8 py-4">
+                      <Link to={`/games/${gameTypeId}/leaderboards/${leaderboard.id}`}>{leaderboard.resetStrategy}</Link>
+                    </td>
+                    <td className="border px-8 py-4">
+                      <Button
+                        onClick={() => {
+                          openLeaderboardModal(leaderboard)
+                        }}
+                      >
+                        Edit
+                      </Button>
+                    </td>
+                  </tr>
+                )
+              )}
+            </tbody>
           </table>
         </div>
       
@@ -288,27 +292,30 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
             </Button>
             </div>
           <table className="shadow-lg bg-white border-collapse max-w-xs">
-            <tr>
-              <th className="bg-gray-100 border text-left px-8 py-4">id</th>
-              <th className="bg-gray-100 border text-left px-8 py-4">
-                Description
-              </th>
-              <th className="bg-gray-100 border text-left px-8 py-4">
-                isEnabled
-              </th>
-              <th className="bg-gray-100 border text-left px-8 py-4">
-                targetValue
-              </th>
-              <th className="bg-gray-100 border text-left px-8 py-4">
-                createdAt
-              </th>
-              <th className="bg-gray-100 border text-left px-8 py-4">
-                updatedAt
-              </th>
-              <th className="bg-gray-100 border text-left px-8 py-4">Edit</th>
-            </tr>
-              {achievements?.map((achievement => 
-                <tr key={`achievement${achievement.id}`}>
+            <thead>
+              <tr>
+                <th className="bg-gray-100 border text-left px-8 py-4">id</th>
+                <th className="bg-gray-100 border text-left px-8 py-4">
+                  Description
+                </th>
+                <th className="bg-gray-100 border text-left px-8 py-4">
+                  isEnabled
+                </th>
+                <th className="bg-gray-100 border text-left px-8 py-4">
+                  targetValue
+                </th>
+                <th className="bg-gray-100 border text-left px-8 py-4">
+                  createdAt
+                </th>
+                <th className="bg-gray-100 border text-left px-8 py-4">
+                  updatedAt
+                </th>
+                <th className="bg-gray-100 border text-left px-8 py-4">Edit</th>
+              </tr>
+            </thead>
+            <tbody>
+              {achievements && achievements?.map((achievement => 
+                <tr key={achievement.id}>
                     <td className="border px-8 py-4">
                       <Link to={`/games/${gameTypeId}/achievements/${achievement.id}`}>{achievement.id}</Link>
                     </td>
@@ -336,14 +343,14 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
                         Edit
                       </Button>
                     </td>
-                    
                 </tr>
               ))}
+            </tbody>
           </table>
         </div>
       </div>
-      <AddOrEditAchievementModal show={showModal} onClose={handlePostSubmitAchievement}  selectedAchievement={selectedAchievement}/>
-      <AddOrEditLeaderboardModal show={showLeaderboardModal} onClose={handlePostSubmitLeaderboard}  selectedLeaderboard={selectedLeaderboard}/>
+      {showModal && <AddOrEditAchievementModal show={showModal} onClose={handlePostSubmitAchievement}  selectedAchievement={selectedAchievement}/>}
+      {showLeaderboardModal && <AddOrEditLeaderboardModal show={showLeaderboardModal} onClose={handlePostSubmitLeaderboard}  selectedLeaderboard={selectedLeaderboard}/>}
     </>
   );
 };
