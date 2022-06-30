@@ -259,10 +259,10 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
                     <td className="border px-8 py-4" onClick={() => navigate(`/games/${gameTypeId}/leaderboards/${leaderboard.id}`)}>
                       {leaderboard.name}
                     </td>
-                    <td className="border px-8 py-4" onClick={() => navigate(`/games/${gameTypeId}/leaderboards/${leaderboard.id}`)}>
+                    <td className="border px-8 py-4 capitalize" onClick={() => navigate(`/games/${gameTypeId}/leaderboards/${leaderboard.id}`)}>
                       {leaderboard.scoreStrategy}
                     </td>
-                    <td className="border px-8 py-4" onClick={() => navigate(`/games/${gameTypeId}/leaderboards/${leaderboard.id}`)}>
+                    <td className="border px-8 py-4 capitalize" onClick={() => navigate(`/games/${gameTypeId}/leaderboards/${leaderboard.id}`)}>
                       {leaderboard.resetStrategy}
                     </td>
                     <td className="border px-8 py-4">
@@ -328,10 +328,10 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
                       {achievement.targetValue || "-"}
                     </td>
                     <td className="border px-8 py-4" onClick={() => navigate(`/games/${gameTypeId}/achievements/${achievement.id}`)}>
-                      {achievement.createdAt || "-"}
+                      {new Date(achievement?.createdAt || "").toLocaleString() }
                     </td>
                     <td className="border px-8 py-4" onClick={() => navigate(`/games/${gameTypeId}/achievements/${achievement.id}`)}>
-                      {achievement.updatedAt || "-"}
+                      {new Date(achievement?.updatedAt || "").toLocaleString() }
                     </td>
                     <td className="border px-8 py-4">
                       <Button
