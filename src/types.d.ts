@@ -37,8 +37,14 @@ interface ILeaderboardResult {
   _userId?: number;
   _user?: IUser;
   score: number;
+  _leaderboardResultsMeta?: ILeaderboardResultMeta[]
   createdAt?: string;
   updatedAt?: string;
+}
+
+interface ILeaderboardResultMeta {
+  attribute?: string;
+  value?: string;
 }
 
 interface IAchievement {
