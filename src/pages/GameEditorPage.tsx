@@ -265,7 +265,7 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
                     <td className="border px-8 py-4" onClick={() => navigate(`/games/${gameTypeId}/leaderboards/${leaderboard.id}`)}>
                       {leaderboard.resetStrategy}
                     </td>
-                    <td className="border px-8 py-4" onClick={() => navigate(`/games/${gameTypeId}/leaderboards/${leaderboard.id}`)}>
+                    <td className="border px-8 py-4">
                       <Button
                         onClick={() => {
                           openLeaderboardModal(leaderboard)

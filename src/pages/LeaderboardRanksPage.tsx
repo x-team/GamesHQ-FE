@@ -43,7 +43,7 @@ const LeaderboardsPage = () => {
             <th className="bg-gray-100 border text-left px-8 py-4">
               User
             </th>
-            <th className="bg-gray-100 border text-left px-8 py-4">Meta</th>
+            <th className="bg-gray-100 border text-left px-8 py-4">Meta(JSON)</th>
           </tr>
         </thead>
         <tbody>
