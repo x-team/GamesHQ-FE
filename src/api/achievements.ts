@@ -15,7 +15,7 @@ export const getAchievementsProgress = async (gameTypeId: number , achievementId
 
   const endpoint = gamesHqUrl + `/dashboard/game-dev/games/${gameTypeId}/achievements/${achievementId}/progress`;
   const response = await axios.get(endpoint);
-  const achievements = response.data as IAchievementRank[];
+  const achievements = response.data as IAchievementUnlocked[];
   
   return achievements;
 };
@@ -25,7 +25,7 @@ export const getAchievement = async (gameTypeId: number, achievementId: number) 
 
   const endpoint = gamesHqUrl + `/dashboard/game-dev/games/${gameTypeId}/achievements/${achievementId}`;
   const response = await axios.get(endpoint);
-  const acheivement = response.data.game as IGameType;
+  const acheivement = response.data as IAchievementUnlocked[];
 
   return acheivement;
 };

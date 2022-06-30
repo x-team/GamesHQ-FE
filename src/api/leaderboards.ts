@@ -25,7 +25,7 @@ export const getLeaderboardResults = async (gameTypeId: number, leaderboardId: n
 
   const endpoint = gamesHqUrl + `/dashboard/game-dev/games/${gameTypeId}/leaderboards/${leaderboardId}/results`;
   const response = await axios.get(endpoint);
-  const game = response.data.game as ILeaderboardResult[];
+  const game = response.data as ILeaderboardResult[];
 
   return game;
 };
