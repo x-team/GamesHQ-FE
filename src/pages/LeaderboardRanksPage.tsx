@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import {
   getLeaderboardResults,
 } from "../api/leaderboards";
@@ -7,6 +7,7 @@ import Button from "../ui/Button";
 
 const LeaderboardsPage = () => {
   const [leaderboardResults, setLeaderboardResults] = useState<ILeaderboardResult[] | undefined>();
+  const navigate = useNavigate();
   const { gameTypeId, leaderboardId } = useParams<{
     gameTypeId: string;
     leaderboardId: string;
@@ -34,7 +35,7 @@ const LeaderboardsPage = () => {
     <div>
       <h2 className="text-2xl font-bold italic font-sans mb-8">LEADERBOARD RESULTS</h2>
 
-      <table className="shadow-lg bg-white border-collapse w-full">
+      <table className="shadow-lg bg-white border-collapse w-full mb-8">
         <thead>
           <tr>
             <th className="bg-gray-100 border text-left px-8 py-4">id</th>
@@ -55,18 +56,13 @@ const LeaderboardsPage = () => {
                   {ldr._user?.email}
                 </td>
                 <td className="border px-8 py-4">
-                  <Button
-                    onClick={() => {
-                      console.log("SHOW Leaderboard Meta");
-                    }}
-                  >
-                    Meta
-                  </Button>
+                  {ldr._leaderboardResultsMeta?.map((meta: ILeaderboardResultMeta) => JSON.stringify(meta)+', ')}
                 </td>
               </tr>
             ))}
         </tbody>
       </table>
+      <Button onClick={() => navigate(`/games/${gameTypeId}`)}>Back</Button>
     </div>
   );
 };
