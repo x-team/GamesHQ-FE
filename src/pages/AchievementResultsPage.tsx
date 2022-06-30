@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getAchievementsProgress } from "../api/achievements";
+import Button from "../ui/Button";
 
 
 const AchievementResultsPage = () => {
   const [achievementResults, setAchievementResults] = useState<IAchievementUnlocked[] | undefined>();
+  const navigate = useNavigate();
   const { gameTypeId, achievementId } = useParams<{
     gameTypeId: string;
     achievementId: string;
@@ -32,7 +34,7 @@ const AchievementResultsPage = () => {
     <div>
       <h2 className="text-2xl font-bold italic font-sans mb-8">ACHIEVEMENT RANK</h2>
 
-      <table className="shadow-lg bg-white border-collapse w-full">
+      <table className="shadow-lg bg-white border-collapse w-full mb-8">
         <thead>
           <tr>
             <th className="bg-gray-100 border text-left px-8 py-4">User</th>
@@ -55,6 +57,7 @@ const AchievementResultsPage = () => {
             ))}
         </tbody>
       </table>
+      <Button onClick={() => navigate(`/games/${gameTypeId}`)}>Back</Button>
     </div>
   );
 };
