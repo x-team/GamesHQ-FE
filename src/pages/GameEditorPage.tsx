@@ -253,7 +253,7 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
             <tbody>
               {currentGameType && currentGameType?._leaderboards?.map(
                 (leaderboard: ILeaderboard) => (
-                  <tr key={leaderboard.id}>
+                  <tr key={leaderboard.id} className="hover:bg-coolGray-50">
                     <td className="border px-8 py-4" >
                       <Link to={`/games/${gameTypeId}/leaderboards/${leaderboard.id}`}>{leaderboard.id}</Link>
                     </td>
@@ -315,7 +315,7 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
             </thead>
             <tbody>
               {achievements && achievements?.map((achievement => 
-                <tr key={achievement.id}>
+                <tr key={achievement.id} className="hover:bg-coolGray-50">
                     <td className="border px-8 py-4">
                       <Link to={`/games/${gameTypeId}/achievements/${achievement.id}`}>{achievement.id}</Link>
                     </td>
