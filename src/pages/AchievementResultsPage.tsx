@@ -41,7 +41,6 @@ const AchievementResultsPage = () => {
             <th className="bg-gray-100 border text-left px-8 py-4">
               Rank
             </th>
-            <th className="bg-gray-100 border text-left px-8 py-4">Edit</th>
           </tr>
         </thead>
         <tbody>
@@ -52,15 +51,6 @@ const AchievementResultsPage = () => {
                 <td className="border px-8 py-4">{achievementRank.description}</td>
                 <td className="border px-8 py-4">
                   {achievementRank?.rank}
-                </td>
-                <td className="border px-8 py-4">
-                  <Button
-                    onClick={() => {
-                      console.log("SHOW EDIT achievementRank MODAL");
-                    }}
-                  >
-                    Edit
-                  </Button>
                 </td>
               </tr>
             ))}

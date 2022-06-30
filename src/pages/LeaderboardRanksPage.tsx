@@ -20,7 +20,7 @@ const LeaderboardsPage = () => {
       const leaderboardsRes = await getLeaderboardResults(
         Number(gameTypeId),
         Number(leaderboardId)
-      ); // TODO GET FROM PARAM
+      );
 
       setLeaderboardResults(leaderboardsRes);
       return leaderboardsRes;
@@ -41,7 +41,7 @@ const LeaderboardsPage = () => {
             <th className="bg-gray-100 border text-left px-8 py-4">
               User ID
             </th>
-            <th className="bg-gray-100 border text-left px-8 py-4">Edit</th>
+            <th className="bg-gray-100 border text-left px-8 py-4">Meta</th>
           </tr>
         </thead>
         <tbody>
@@ -56,10 +56,10 @@ const LeaderboardsPage = () => {
                 <td className="border px-8 py-4">
                   <Button
                     onClick={() => {
-                      console.log("SHOW EDIT LEADERBOARD MODAL");
+                      console.log("SHOW Leaderboard Meta");
                     }}
                   >
-                    Edit
+                    Meta
                   </Button>
                 </td>
               </tr>
