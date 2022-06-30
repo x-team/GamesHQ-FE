@@ -1,6 +1,5 @@
 import { FormikHelpers, useFormik } from "formik";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { useParams, useNavigate } from "react-router-dom";
 import { SyncLoader } from "react-spinners";
 import * as Yup from "yup";
@@ -253,20 +252,20 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
             <tbody>
               {currentGameType && currentGameType?._leaderboards?.map(
                 (leaderboard: ILeaderboard) => (
-                  <tr key={leaderboard.id} className="hover:bg-coolGray-50">
-                    <td className="border px-8 py-4" >
-                      <Link to={`/games/${gameTypeId}/leaderboards/${leaderboard.id}`}>{leaderboard.id}</Link>
+                  <tr key={leaderboard.id} className="hover:bg-coolGray-50 cursor-pointer" >
+                    <td className="border px-8 py-4" onClick={() => navigate(`/games/${gameTypeId}/leaderboards/${leaderboard.id}`)}>
+                      {leaderboard.id}
                     </td>
-                    <td className="border px-8 py-4">
-                      <Link to={`/games/${gameTypeId}/leaderboards/${leaderboard.id}`}>{leaderboard.name}</Link>
+                    <td className="border px-8 py-4" onClick={() => navigate(`/games/${gameTypeId}/leaderboards/${leaderboard.id}`)}>
+                      {leaderboard.name}
                     </td>
-                    <td className="border px-8 py-4">
-                      <Link to={`/games/${gameTypeId}/leaderboards/${leaderboard.id}`}>{leaderboard.scoreStrategy}</Link>
+                    <td className="border px-8 py-4" onClick={() => navigate(`/games/${gameTypeId}/leaderboards/${leaderboard.id}`)}>
+                      {leaderboard.scoreStrategy}
                     </td>
-                    <td className="border px-8 py-4">
-                      <Link to={`/games/${gameTypeId}/leaderboards/${leaderboard.id}`}>{leaderboard.resetStrategy}</Link>
+                    <td className="border px-8 py-4" onClick={() => navigate(`/games/${gameTypeId}/leaderboards/${leaderboard.id}`)}>
+                      {leaderboard.resetStrategy}
                     </td>
-                    <td className="border px-8 py-4">
+                    <td className="border px-8 py-4" onClick={() => navigate(`/games/${gameTypeId}/leaderboards/${leaderboard.id}`)}>
                       <Button
                         onClick={() => {
                           openLeaderboardModal(leaderboard)
@@ -315,24 +314,24 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
             </thead>
             <tbody>
               {achievements && achievements?.map((achievement => 
-                <tr key={achievement.id} className="hover:bg-coolGray-50">
-                    <td className="border px-8 py-4">
-                      <Link to={`/games/${gameTypeId}/achievements/${achievement.id}`}>{achievement.id}</Link>
+                <tr key={achievement.id} className="hover:bg-coolGray-50 cursor-pointer">
+                    <td className="border px-8 py-4" onClick={() => navigate(`/games/${gameTypeId}/achievements/${achievement.id}`)}>
+                      {achievement.id}
                     </td>
-                    <td className="border px-8 py-4">
-                      <Link to={`/games/${gameTypeId}/achievements/${achievement.id}`}>{achievement.description || "-"}</Link>
+                    <td className="border px-8 py-4" onClick={() => navigate(`/games/${gameTypeId}/achievements/${achievement.id}`)}>
+                      {achievement.description || "-"}
                     </td>
-                    <td className="border px-8 py-4">
-                      <Link to={`/games/${gameTypeId}/achievements/${achievement.id}`}>{achievement.isEnabled ? "✅" : "❌"}</Link>
+                    <td className="border px-8 py-4 text-center" onClick={() => navigate(`/games/${gameTypeId}/achievements/${achievement.id}`)}>
+                      {achievement.isEnabled ? "✅" : "❌"}
                     </td>
-                    <td className="border px-8 py-4">
-                      <Link to={`/games/${gameTypeId}/achievements/${achievement.id}`}>{achievement.targetValue || "-"}</Link>
+                    <td className="border px-8 py-4" onClick={() => navigate(`/games/${gameTypeId}/achievements/${achievement.id}`)}>
+                      {achievement.targetValue || "-"}
                     </td>
-                    <td className="border px-8 py-4">
-                      <Link to={`/games/${gameTypeId}/achievements/${achievement.id}`}>{achievement.createdAt || "-"}</Link>
+                    <td className="border px-8 py-4" onClick={() => navigate(`/games/${gameTypeId}/achievements/${achievement.id}`)}>
+                      {achievement.createdAt || "-"}
                     </td>
-                    <td className="border px-8 py-4">
-                      <Link to={`/games/${gameTypeId}/achievements/${achievement.id}`}>{achievement.updatedAt || "-"}</Link>
+                    <td className="border px-8 py-4" onClick={() => navigate(`/games/${gameTypeId}/achievements/${achievement.id}`)}>
+                      {achievement.updatedAt || "-"}
                     </td>
                     <td className="border px-8 py-4">
                       <Button
