@@ -1,11 +1,10 @@
 import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getAchievementsProgress } from "../api/achievements";
-import Button from "../ui/Button";
 
 
 const AchievementResultsPage = () => {
-  const [achievementResults, setAchievementResults] = useState<IAchievementRank[] | undefined>();
+  const [achievementResults, setAchievementResults] = useState<IAchievementUnlocked[] | undefined>();
   const { gameTypeId, achievementId } = useParams<{
     gameTypeId: string;
     achievementId: string;
@@ -36,8 +35,7 @@ const AchievementResultsPage = () => {
       <table className="shadow-lg bg-white border-collapse w-full">
         <thead>
           <tr>
-            <th className="bg-gray-100 border text-left px-8 py-4">Id</th>
-            <th className="bg-gray-100 border text-left px-8 py-4">Description</th>
+            <th className="bg-gray-100 border text-left px-8 py-4">User</th>
             <th className="bg-gray-100 border text-left px-8 py-4">
               Rank
             </th>
@@ -45,12 +43,13 @@ const AchievementResultsPage = () => {
         </thead>
         <tbody>
           {achievementResults &&
-            achievementResults?.map((achievementRank: IAchievementRank) => (
-              <tr key={achievementRank.id}>
-                <td className="border px-8 py-4">{achievementRank.id}</td>
-                <td className="border px-8 py-4">{achievementRank.description}</td>
+            achievementResults?.map((achievementRank: IAchievementUnlocked, index) => (
+              // Despite it's not a good practice using index as a key, it's the only way 
+              // to certify key is unique for every row, since AchievementUnlocked table won't have an id.
+              <tr key={index}>
+                <td className="border px-8 py-4">{achievementRank._user?.email}</td>
                 <td className="border px-8 py-4">
-                  {achievementRank?.rank}
+                  {achievementRank?.progress}
                 </td>
               </tr>
             ))}

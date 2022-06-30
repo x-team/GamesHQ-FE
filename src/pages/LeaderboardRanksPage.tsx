@@ -17,6 +17,7 @@ const LeaderboardsPage = () => {
       if (!gameTypeId || !leaderboardId) {
         return;
       }
+      
       const leaderboardsRes = await getLeaderboardResults(
         Number(gameTypeId),
         Number(leaderboardId)
@@ -39,7 +40,7 @@ const LeaderboardsPage = () => {
             <th className="bg-gray-100 border text-left px-8 py-4">id</th>
             <th className="bg-gray-100 border text-left px-8 py-4">score</th>
             <th className="bg-gray-100 border text-left px-8 py-4">
-              User ID
+              User
             </th>
             <th className="bg-gray-100 border text-left px-8 py-4">Meta</th>
           </tr>
@@ -51,7 +52,7 @@ const LeaderboardsPage = () => {
                 <td className="border px-8 py-4">{ldr.id}</td>
                 <td className="border px-8 py-4">{ldr.score}</td>
                 <td className="border px-8 py-4">
-                  {ldr._userId}
+                  {ldr._user?.email}
                 </td>
                 <td className="border px-8 py-4">
                   <Button
