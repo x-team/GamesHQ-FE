@@ -34,7 +34,8 @@ interface ILeaderboard {
 interface ILeaderboardResult {
   id?: number;
   _leaderboardId: number;
-  _userId: number;
+  _userId?: number;
+  _user?: IUser;
   score: number;
   createdAt?: string;
   updatedAt?: string;
@@ -51,12 +52,11 @@ interface IAchievement {
   updatedAt: string;
 }
 
-interface IAchievementRank {
-  id?: number;
+interface IAchievementUnlocked {
   _achievementId: number;
   _userId: number;
-  rank: number;
-  description?: string;
+  _user?: IUser;
+  progress: number;
   createdAt?: string;
   updatedAt?: string;
 }
