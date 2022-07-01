@@ -3,6 +3,8 @@ import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { SyncLoader } from "react-spinners";
 import * as Yup from "yup";
+import { AiOutlineCheck, AiOutlineClose, AiOutlineCopy } from "react-icons/ai";
+
 import { getAchievements } from "../api/achievements";
 import { getGameType, upsertGameType } from "../api/gamedev";
 import AddOrEditAchievementModal from "../ui/AddOrEditAchievementModal";
@@ -36,6 +38,8 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
   const [selectedLeaderboard, setSelectedLeaderboard] = useState<ILeaderboard>();
   const [showModal, setShowModal] = useState<boolean>(false);
   const [showLeaderboardModal, setShowLeaderboardModal] = useState<boolean>(false);
+  const [hasCopiedSigninSecret, setHasCopiedSigninSecret] = useState<boolean>(false);
+  const [hasCopiedClientSecret, setHasCopiedClientSecret] = useState<boolean>(false);
 
   const [errorMessage, setErrorMessage] = useState(null);
   const navigate = useNavigate();
@@ -180,6 +184,16 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
     setShouldGameType(true)
   }
 
+  const handleCopyBtnClickSigningSecret = (value?: string) => {
+    navigator.clipboard.writeText(value ?? "");
+    setHasCopiedSigninSecret(true);
+  }
+
+  const handleCopyBtnClickClientSecret = (value?: string) => {
+    navigator.clipboard.writeText(value ?? "");
+    setHasCopiedClientSecret(true);
+  }
+
   return (
     <>
       <h2 className="text-2xl font-bold italic font-sans mb-8">
@@ -209,13 +223,20 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
           <div className={`flex  mt-4 ${!editMode && 'hidden'}`}>
             <section className="flex flex-col">
               <strong>Client Secret</strong>
-              <span className="text-xs">{currentGameType?.clientSecret}</span>
+              {/* <span className="text-xs">{currentGameType?.clientSecret}</span> */}
+              <div className="flex gap-1">
+                <span className="text-xs">{currentGameType?.clientSecret} </span>
+                <span className={`cursor-pointer w-4`} onClick={() => handleCopyBtnClickClientSecret(currentGameType?.clientSecret)}>{hasCopiedClientSecret ? <AiOutlineCheck color="green"/> : <AiOutlineCopy/>}</span>
+              </div>
             </section>
           </div>
           <div className={`flex  mt-4 ${!editMode && 'hidden'}`}>
             <section className="flex flex-col">
               <strong>Signing Secret</strong>
-              <span className="text-xs">{currentGameType?.signingSecret}</span>
+              <div className="flex gap-1">
+                <span className="text-xs">{currentGameType?.signingSecret} </span>
+                <span className={`cursor-pointer w-4`} onClick={() => handleCopyBtnClickSigningSecret(currentGameType?.signingSecret)}>{hasCopiedSigninSecret ? <AiOutlineCheck color="green"/> : <AiOutlineCopy/>}</span>
+              </div>
             </section>
           </div>
 
@@ -321,8 +342,8 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
                     <td className="border px-8 py-4" onClick={() => navigate(`/games/${gameTypeId}/achievements/${achievement.id}`)}>
                       {achievement.description || "-"}
                     </td>
-                    <td className="border px-8 py-4 text-center" onClick={() => navigate(`/games/${gameTypeId}/achievements/${achievement.id}`)}>
-                      {achievement.isEnabled ? "✅" : "❌"}
+                    <td className="border px-8 py-4" onClick={() => navigate(`/games/${gameTypeId}/achievements/${achievement.id}`)}>
+                      {achievement.isEnabled ? <AiOutlineCheck color="green"/> : <AiOutlineClose color="red"/>}
                     </td>
                     <td className="border px-8 py-4" onClick={() => navigate(`/games/${gameTypeId}/achievements/${achievement.id}`)}>
                       {achievement.targetValue || "-"}
