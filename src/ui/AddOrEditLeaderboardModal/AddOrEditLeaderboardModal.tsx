@@ -78,12 +78,13 @@ const AddOrEditLeaderboardModal = ({
         <h2 className="text-xteamaccent font-extrabold italic text-xl mb-8">
           { selectedLeaderboard?.id ? 'Edit' : 'New'} Leaderboard
         </h2>
-        <form onSubmit={handleSubmit} className="flex flex-row gap-4">
+        <form onSubmit={handleSubmit} className="flex flex-col gap-6 pb-8 sm:flex-row sm:gap-6 sm:pb-8">
             <div className="w-full">
               <TextInput
                 label="Name"
                 {...getFieldProps("name")}
                 {...getFieldMeta("name")}
+                fullWidth
               />
             </div>
 
