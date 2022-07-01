@@ -15,6 +15,8 @@ import TowerGamePage from "./pages/TowerGamePage";
 import FloorsEditorPage from "./pages/FloorsEditorPage";
 import SignInPage from "./pages/SignInPage";
 import HomePage from "./pages/HomePage";
+import AchievementResultsPage from "./pages/AchievementResultsPage";
+import LeaderboardRanksPage from "./pages/LeaderboardRanksPage";
 
 // import useCurrentUser from "./hooks/useCurrentUser";
 // import { SyncLoader } from "react-spinners";
@@ -22,8 +24,6 @@ import HomePage from "./pages/HomePage";
 // import { UnauthorizedPage } from "./pages/UnauthorizedPage";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { AppMenu } from "./AppMenu";
-import AchievementsPage from "./pages/AchievementsPage";
-import LeaderboardsPage from "./pages/LeaderboardsPage";
 
 export const App = () => {
   // if (isDoingInitialLoading) {
@@ -69,21 +69,21 @@ export const App = () => {
           }
         />
         <Route
-          path="/games/achievements/:achievementId"
+          path="/games/:gameTypeId/achievements/:achievementId"
           element={
             <ProtectedRoute>
               <AppMenu>
-                <AchievementsPage />
+                <AchievementResultsPage />
               </AppMenu>
             </ProtectedRoute>
           }
         />
         <Route
-          path="/games/leaderboards/:leaderboardId"
+          path="/games/:gameTypeId/leaderboards/:leaderboardId"
           element={
             <ProtectedRoute>
               <AppMenu>
-                <LeaderboardsPage />
+                <LeaderboardRanksPage />
               </AppMenu>
             </ProtectedRoute>
           }

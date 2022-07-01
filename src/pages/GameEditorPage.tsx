@@ -1,6 +1,5 @@
 import { FormikHelpers, useFormik } from "formik";
 import { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
 import { useParams, useNavigate } from "react-router-dom";
 import { SyncLoader } from "react-spinners";
 import * as Yup from "yup";
@@ -237,40 +236,48 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
             </Button>
           </div>
           <table className="shadow-lg bg-white border-collapse w-full">
-            <tr>
-              <th className="bg-gray-100 border text-left px-8 py-4">id</th>
-              <th className="bg-gray-100 border text-left px-8 py-4">name</th>
-              <th className="bg-gray-100 border text-left px-8 py-4">
-                scoreStrategy
-              </th>
-              <th className="bg-gray-100 border text-left px-8 py-4">
-                resetStrategy
-              </th>
-              <th className="bg-gray-100 border text-left px-8 py-4">Edit</th>
-            </tr>
-            {currentGameType?._leaderboards?.map(
-              (leaderboard: ILeaderboard) => (
-                <tr key={`leaderboard${leaderboard.id}`}>
-                  <td className="border px-8 py-4" ><Link to={`/games/leaderboards/${leaderboard.id}`}>{leaderboard.id}</Link></td>
-                  <td className="border px-8 py-4"><Link to={`/games/leaderboards/${leaderboard.id}`}>{leaderboard.name}</Link></td>
-                  <td className="border px-8 py-4">
-                    <Link to={`/games/leaderboards/${leaderboard.id}`}>{leaderboard.scoreStrategy}</Link>
-                  </td>
-                  <td className="border px-8 py-4">
-                    <Link to={`/games/leaderboards/${leaderboard.id}`}>{leaderboard.resetStrategy}</Link>
-                  </td>
-                  <td className="border px-8 py-4">
-                    <Button
-                      onClick={() => {
-                        openLeaderboardModal(leaderboard)
-                      }}
-                    >
-                      Edit
-                    </Button>
-                  </td>
-                </tr>
-              )
-            )}
+            <thead>
+              <tr>
+                <th className="bg-gray-100 border text-left px-8 py-4">id</th>
+                <th className="bg-gray-100 border text-left px-8 py-4">name</th>
+                <th className="bg-gray-100 border text-left px-8 py-4">
+                  scoreStrategy
+                </th>
+                <th className="bg-gray-100 border text-left px-8 py-4">
+                  resetStrategy
+                </th>
+                <th className="bg-gray-100 border text-left px-8 py-4">Edit</th>
+              </tr>
+            </thead>
+            <tbody>
+              {currentGameType && currentGameType?._leaderboards?.map(
+                (leaderboard: ILeaderboard) => (
+                  <tr key={leaderboard.id} className="hover:bg-coolGray-50 cursor-pointer" >
+                    <td className="border px-8 py-4" onClick={() => navigate(`/games/${gameTypeId}/leaderboards/${leaderboard.id}`)}>
+                      {leaderboard.id}
+                    </td>
+                    <td className="border px-8 py-4" onClick={() => navigate(`/games/${gameTypeId}/leaderboards/${leaderboard.id}`)}>
+                      {leaderboard.name}
+                    </td>
+                    <td className="border px-8 py-4 capitalize" onClick={() => navigate(`/games/${gameTypeId}/leaderboards/${leaderboard.id}`)}>
+                      {leaderboard.scoreStrategy}
+                    </td>
+                    <td className="border px-8 py-4 capitalize" onClick={() => navigate(`/games/${gameTypeId}/leaderboards/${leaderboard.id}`)}>
+                      {leaderboard.resetStrategy}
+                    </td>
+                    <td className="border px-8 py-4">
+                      <Button
+                        onClick={() => {
+                          openLeaderboardModal(leaderboard)
+                        }}
+                      >
+                        Edit
+                      </Button>
+                    </td>
+                  </tr>
+                )
+              )}
+            </tbody>
           </table>
         </div>
       
@@ -284,33 +291,48 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
             </Button>
             </div>
           <table className="shadow-lg bg-white border-collapse max-w-xs">
-            <tr>
-              <th className="bg-gray-100 border text-left px-8 py-4">id</th>
-              <th className="bg-gray-100 border text-left px-8 py-4">
-                Description
-              </th>
-              <th className="bg-gray-100 border text-left px-8 py-4">
-                isEnabled
-              </th>
-              <th className="bg-gray-100 border text-left px-8 py-4">
-                targetValue
-              </th>
-              <th className="bg-gray-100 border text-left px-8 py-4">
-                createdAt
-              </th>
-              <th className="bg-gray-100 border text-left px-8 py-4">
-                updatedAt
-              </th>
-              <th className="bg-gray-100 border text-left px-8 py-4">Edit</th>
-            </tr>
-              {achievements?.map((achievement => 
-                <tr key={`achievement${achievement.id}`}>
-                    <td className="border px-8 py-4">{achievement.id}</td>
-                    <td className="border px-8 py-4">{achievement.description || "-"}</td>
-                    <td className="border px-8 py-4">{achievement.isEnabled ? "✅" : "❌"}</td>
-                    <td className="border px-8 py-4">{achievement.targetValue || "-"}</td>
-                    <td className="border px-8 py-4">{achievement.createdAt || "-"}</td>
-                    <td className="border px-8 py-4">{achievement.updatedAt || "-"}</td>
+            <thead>
+              <tr>
+                <th className="bg-gray-100 border text-left px-8 py-4">id</th>
+                <th className="bg-gray-100 border text-left px-8 py-4">
+                  Description
+                </th>
+                <th className="bg-gray-100 border text-left px-8 py-4">
+                  isEnabled
+                </th>
+                <th className="bg-gray-100 border text-left px-8 py-4">
+                  targetValue
+                </th>
+                <th className="bg-gray-100 border text-left px-8 py-4">
+                  createdAt
+                </th>
+                <th className="bg-gray-100 border text-left px-8 py-4">
+                  updatedAt
+                </th>
+                <th className="bg-gray-100 border text-left px-8 py-4">Edit</th>
+              </tr>
+            </thead>
+            <tbody>
+              {achievements && achievements?.map((achievement => 
+                <tr key={achievement.id} className="hover:bg-coolGray-50 cursor-pointer">
+                    <td className="border px-8 py-4" onClick={() => navigate(`/games/${gameTypeId}/achievements/${achievement.id}`)}>
+                      {achievement.id}
+                    </td>
+                    <td className="border px-8 py-4" onClick={() => navigate(`/games/${gameTypeId}/achievements/${achievement.id}`)}>
+                      {achievement.description || "-"}
+                    </td>
+                    <td className="border px-8 py-4 text-center" onClick={() => navigate(`/games/${gameTypeId}/achievements/${achievement.id}`)}>
+                      {achievement.isEnabled ? "✅" : "❌"}
+                    </td>
+                    <td className="border px-8 py-4" onClick={() => navigate(`/games/${gameTypeId}/achievements/${achievement.id}`)}>
+                      {achievement.targetValue || "-"}
+                    </td>
+                    <td className="border px-8 py-4" onClick={() => navigate(`/games/${gameTypeId}/achievements/${achievement.id}`)}>
+                      {new Date(achievement?.createdAt || "").toLocaleString() }
+                    </td>
+                    <td className="border px-8 py-4" onClick={() => navigate(`/games/${gameTypeId}/achievements/${achievement.id}`)}>
+                      {new Date(achievement?.updatedAt || "").toLocaleString() }
+                    </td>
                     <td className="border px-8 py-4">
                       <Button
                         onClick={() => {
@@ -320,14 +342,14 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
                         Edit
                       </Button>
                     </td>
-                    
                 </tr>
               ))}
+            </tbody>
           </table>
         </div>
       </div>
-      <AddOrEditAchievementModal show={showModal} onClose={handlePostSubmitAchievement}  selectedAchievement={selectedAchievement}/>
-      <AddOrEditLeaderboardModal show={showLeaderboardModal} onClose={handlePostSubmitLeaderboard}  selectedLeaderboard={selectedLeaderboard}/>
+      {showModal && <AddOrEditAchievementModal show={showModal} onClose={handlePostSubmitAchievement}  selectedAchievement={selectedAchievement}/>}
+      {showLeaderboardModal && <AddOrEditLeaderboardModal show={showLeaderboardModal} onClose={handlePostSubmitLeaderboard}  selectedLeaderboard={selectedLeaderboard}/>}
     </>
   );
 };

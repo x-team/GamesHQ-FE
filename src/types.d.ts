@@ -27,6 +27,24 @@ interface ILeaderboard {
   name: string;
   scoreStrategy: string;
   resetStrategy: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+interface ILeaderboardResult {
+  id?: number;
+  _leaderboardId: number;
+  _userId?: number;
+  _user?: IUser;
+  score: number;
+  _leaderboardResultsMeta?: ILeaderboardResultMeta[]
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+interface ILeaderboardResultMeta {
+  attribute?: string;
+  value?: string;
 }
 
 interface IAchievement {
@@ -38,6 +56,15 @@ interface IAchievement {
   targetValue: number;
   createdAt?: string;
   updatedAt: string;
+}
+
+interface IAchievementUnlocked {
+  _achievementId: number;
+  _userId: number;
+  _user?: IUser;
+  progress: number;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 interface ITeam {
