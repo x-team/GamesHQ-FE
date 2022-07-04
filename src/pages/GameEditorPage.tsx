@@ -223,7 +223,6 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
           <div className={`flex  mt-4 ${!editMode && 'hidden'}`}>
             <section className="flex flex-col">
               <strong>Client Secret</strong>
-              {/* <span className="text-xs">{currentGameType?.clientSecret}</span> */}
               <div className="flex gap-1">
                 <span className="text-xs">{currentGameType?.clientSecret} </span>
                 <span className={`cursor-pointer w-4`} onClick={() => handleCopyBtnClickClientSecret(currentGameType?.clientSecret)}>{hasCopiedClientSecret ? <AiOutlineCheck color="green"/> : <AiOutlineCopy/>}</span>
