@@ -69,6 +69,7 @@ const AddEnemyToFloorModal = ({
                                     <span
                                         className="cursor-pointer"
                                         onClick={handleOnAddEnemyClick(enemy)}
+                                        key={enemy.id}
                                     >
                                         {emojiToImageTag(
                                             enemy.emoji,
@@ -92,6 +93,7 @@ const AddEnemyToFloorModal = ({
                                         onClick={handleOnRemoveEnemyClick(
                                             enemy
                                         )}
+                                        key={enemy.id}
                                     >
                                         {emojiToImageTag(
                                             enemy.emoji,
