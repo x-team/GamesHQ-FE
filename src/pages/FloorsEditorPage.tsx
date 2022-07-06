@@ -14,18 +14,22 @@ import PanelBox from "../ui/PanelBox";
 const FloorsEditorPage = () => {
     const [allEmoji, setAllEmoji] = useState<IAllEmoji>({});
     const [, setIsLoading] = useState(false);
+    const [shouldReload, setShouldReload] = useState(true);
     const [towerGame, setTowerGame] = useState<IGameWithTower | null>(null);
     const [enemies, setEnemies] = useState<IEnemy[]>([]);
 
     useEffect(() => {
         const fetchTowerAndEnemiesData = async () => {
             setIsLoading(true);
+            if(!shouldReload) {
+                return;
+            }
             const [enemies, game, allEmoji] = await Promise.all([
                 getEnemies(),
                 getCurrentTowerGameStatus(),
                 getAllEmoji(),
             ]);
-
+            setShouldReload(false);
             setEnemies(enemies);
             setTowerGame(game);
             setAllEmoji(allEmoji);
@@ -33,7 +37,7 @@ const FloorsEditorPage = () => {
         };
 
         fetchTowerAndEnemiesData();
-    }, [setTowerGame, setEnemies]);
+    }, [setTowerGame, setEnemies, shouldReload]);
 
     if (!towerGame) {
         return (
@@ -69,6 +73,7 @@ const FloorsEditorPage = () => {
                 allEmoji={allEmoji}
                 enemies={enemies}
                 towerGame={towerGame}
+                setShouldReload={setShouldReload}
             />
         </section>
     );
@@ -78,9 +83,10 @@ interface IFloorEditorProps {
     enemies: IEnemy[];
     towerGame: IGameWithTower;
     allEmoji: IAllEmoji;
+    setShouldReload: (reload: boolean) => void;
 }
 
-const FloorsEditor = ({ enemies, towerGame, allEmoji }: IFloorEditorProps) => {
+const FloorsEditor = ({ enemies, towerGame, allEmoji, setShouldReload }: IFloorEditorProps) => {
     const [showAddEnemyModal, setShowAddEnemyModal] = useState(false);
     const [editingFloor, setEditingFloor] = useState<ITowerFloor | null>(null);
 
@@ -105,18 +111,19 @@ const FloorsEditor = ({ enemies, towerGame, allEmoji }: IFloorEditorProps) => {
 
                     <div>
                         <Button onClick={handleOpenEditFloorModal(floor)}>
-                            +
+                            Edit
                         </Button>
                     </div>
                 </div>
 
-                <div className="mt-4">
+                <div className="mt-4 grid grid-cols-4 gap-2">
                     {Object.keys(groupedByEnemies).map((enemyKey) => (
-                        <div>
-                            {groupedByEnemies[enemyKey].length}x{" "}
+                        <div key={enemyKey} className="w-14 border-red-600">
                             {emojiToImageTag(
                                 groupedByEnemies[enemyKey][0].emoji,
-                                allEmoji
+                                allEmoji,
+                                "h-12 w-12",
+                                groupedByEnemies[enemyKey].length,
                             )}
                         </div>
                     ))}
@@ -125,14 +132,20 @@ const FloorsEditor = ({ enemies, towerGame, allEmoji }: IFloorEditorProps) => {
         );
     };
 
-    return (
+
+    const handleCloseEditFloorModalAction = (reload: boolean) => {
+        setShowAddEnemyModal(false);
+        setShouldReload(reload);
+    }
+
+    return ( 
         <div>
             <AddEnemyToFloorModal
                 floor={editingFloor}
                 show={showAddEnemyModal}
                 allEmoji={allEmoji}
                 allEnemies={enemies}
-                onClose={() => setShowAddEnemyModal(false)}
+                onClose={handleCloseEditFloorModalAction}
             />
             <section className="mb-4">
                 {towerGame._tower._floors
