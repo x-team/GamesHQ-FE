@@ -24,8 +24,8 @@ phases:
   build:
     commands:
       - eval $(./aws-env --recursive)
-      - yarn install
-      - NODE_ENV=production yarn build
+      - npm i --legacy-peer-deps
+      - NODE_ENV=production npm run build
 
   post_build:
     commands:
