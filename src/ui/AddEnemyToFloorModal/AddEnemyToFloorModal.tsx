@@ -1,5 +1,6 @@
 import { groupBy } from "lodash";
 import { useEffect, useState } from "react";
+import { AiOutlineDelete } from "react-icons/ai";
 import { updateFloor } from "../../api/admin";
 import { emojiToImageTag } from "../../helpers/emojiHelper";
 import Button from "../Button";
@@ -22,14 +23,14 @@ const AddEnemyToFloorModal = ({
 }: IProps) => {
     const [floorEnemies, setFloorEnemies] = useState<IEnemy[]>([]);
 
-    const handleOnSaveButtonClick = () => {
+    const handleOnSaveButtonClick = async () => {
         const floorId = floor?.id;
         const enemyIds = floorEnemies.map((enemy) => enemy.id) as number[];
 
         if (!floorId || !enemyIds) {
             return;
         }
-        updateFloor(floorId, {
+        await updateFloor(floorId, {
             enemyIds,
         });
         onClose(true);
@@ -97,7 +98,7 @@ const AddEnemyToFloorModal = ({
                             })}
                         </div>
                     </div>
-                    <div className="w-full bg-green-500">
+                    <div className="w-full bg-green-500 relative">
                         <p className="text-xl text-white text-center mb-4 uppercase">
                             Floor Enemies
                         </p>
@@ -117,6 +118,7 @@ const AddEnemyToFloorModal = ({
                                 </span>
                             ))}
                         </div>
+                        <span className="absolute cursor-pointer bottom-2 left-1/2 hover:text-xteamaccent" onClick={() => setFloorEnemies([])}><AiOutlineDelete /></span>
                     </div>
                 </div>
 
