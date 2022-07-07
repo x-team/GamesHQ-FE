@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { groupBy } from "lodash";
+import { useEffect, useState } from "react";
+import { AiOutlineDelete } from "react-icons/ai";
 import { updateFloor } from "../../api/admin";
 import { emojiToImageTag } from "../../helpers/emojiHelper";
 import Button from "../Button";
@@ -6,7 +8,7 @@ import Modal from "../Modal";
 
 interface IProps {
     show: boolean;
-    onClose: () => void;
+    onClose: (reload:boolean) => void;
     floor: ITowerFloor | null;
     allEnemies: IEnemy[];
     allEmoji: IAllEmoji;
@@ -21,20 +23,18 @@ const AddEnemyToFloorModal = ({
 }: IProps) => {
     const [floorEnemies, setFloorEnemies] = useState<IEnemy[]>([]);
 
-    if (!floor) {
-        return null;
-    }
-
-    const handleOnSaveButtonClick = () => {
-        const floorId = floor.id;
+    const handleOnSaveButtonClick = async () => {
+        const floorId = floor?.id;
         const enemyIds = floorEnemies.map((enemy) => enemy.id) as number[];
 
         if (!floorId || !enemyIds) {
             return;
         }
-        updateFloor(floorId, {
+        await updateFloor(floorId, {
             enemyIds,
         });
+        onClose(true);
+        setFloorEnemies([]);
     };
 
     const handleOnAddEnemyClick =
@@ -51,11 +51,28 @@ const AddEnemyToFloorModal = ({
             setFloorEnemies(newFloorEnemiesArray);
         };
 
+    const handleCloseModal = () => {
+        onClose(false);
+        setFloorEnemies([]);
+    }
+    
+    useEffect(() => {
+        if(floor?._floorEnemies) {
+            const floorEnemies = floor._floorEnemies?.map(
+                (floorEnemy) => floorEnemy._enemy
+            );
+            setFloorEnemies(floorEnemies);
+
+        }
+    }, [floor?._floorEnemies]);
+
+    const groupedByEnemies = groupBy(floorEnemies, "name");
+
     return (
         <section>
-            <Modal show={show} onClose={onClose}>
+            <Modal show={show} onClose={handleCloseModal}>
                 <h2 className="text-xteamaccent font-extrabold italic text-xl">
-                    Add Enemy to Floor {floor.number}
+                    Edit Enemies on Floor {floor?.number}
                 </h2>
 
                 <div className="flex space-between w-full mt-4">
@@ -63,12 +80,13 @@ const AddEnemyToFloorModal = ({
                         <p className="text-xl text-white text-center mb-4 uppercase">
                             All enemies
                         </p>
-                        <div className="grid grid-cols-4 gap-3">
+                        <div className="grid grid-cols-4 h-80 pl-10 pt-2">
                             {allEnemies.map((enemy) => {
                                 return (
                                     <span
                                         className="cursor-pointer"
                                         onClick={handleOnAddEnemyClick(enemy)}
+                                        key={enemy.id}
                                     >
                                         {emojiToImageTag(
                                             enemy.emoji,
@@ -80,28 +98,27 @@ const AddEnemyToFloorModal = ({
                             })}
                         </div>
                     </div>
-                    <div className="w-full bg-green-500">
+                    <div className="w-full bg-green-500 relative">
                         <p className="text-xl text-white text-center mb-4 uppercase">
                             Floor Enemies
                         </p>
-                        <div className="grid grid-cols-4 gap-3">
-                            {floorEnemies.map((enemy) => {
-                                return (
-                                    <span
-                                        className="cursor-pointer"
-                                        onClick={handleOnRemoveEnemyClick(
-                                            enemy
-                                        )}
-                                    >
-                                        {emojiToImageTag(
-                                            enemy.emoji,
-                                            allEmoji,
-                                            "h-12 w-12"
-                                        )}
-                                    </span>
-                                );
-                            })}
+                        <div className="grid grid-cols-4 pl-10 pt-2">
+                        {Object.keys(groupedByEnemies).map((enemyKey) => (
+                                <span
+                                    className="cursor-pointer h-[76px]"
+                                    onClick={handleOnRemoveEnemyClick(groupedByEnemies[enemyKey][0])}
+                                    key={groupedByEnemies[enemyKey][0].id}
+                                >
+                                    {emojiToImageTag(
+                                        groupedByEnemies[enemyKey][0].emoji,
+                                        allEmoji,
+                                        "h-12 w-12",
+                                        groupedByEnemies[enemyKey].length,
+                                    )}
+                                </span>
+                            ))}
                         </div>
+                        <span className="absolute cursor-pointer bottom-2 left-1/2 hover:text-xteamaccent" onClick={() => setFloorEnemies([])}><AiOutlineDelete /></span>
                     </div>
                 </div>
 

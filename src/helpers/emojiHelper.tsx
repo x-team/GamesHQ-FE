@@ -64,13 +64,17 @@ export const emojiToImageSrc = (emoji: string, allEmoji: IAllEmoji) => {
 export const emojiToImageTag = (
     emoji: string,
     allEmoji: IAllEmoji,
-    className?: string
+    className?: string,
+    qty?: number,
 ) => {
     return (
-        <img
-            className={`inline ${className || `h-6 w-6`}`}
-            src={emojiToImageSrc(emoji, allEmoji)}
-            alt={emoji + " emoji"}
-        />
+        <div className="flex flex-col text-center w-14">
+            <img
+                className={`${className || `h-6 w-6`}`}
+                src={emojiToImageSrc(emoji, allEmoji)}
+                alt={emoji + " emoji"}
+            />
+            {qty && <span className="text-sm">x{qty}</span>}
+        </div>
     );
 };
