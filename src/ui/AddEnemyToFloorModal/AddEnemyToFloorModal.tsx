@@ -1,6 +1,7 @@
 import { groupBy } from "lodash";
 import { useEffect, useState } from "react";
 import { AiOutlineDelete } from "react-icons/ai";
+import { toast } from "react-toastify";
 import { updateFloor } from "../../api/admin";
 import { emojiToImageTag } from "../../helpers/emojiHelper";
 import Button from "../Button";
@@ -24,17 +25,26 @@ const AddEnemyToFloorModal = ({
     const [floorEnemies, setFloorEnemies] = useState<IEnemy[]>([]);
 
     const handleOnSaveButtonClick = async () => {
-        const floorId = floor?.id;
-        const enemyIds = floorEnemies.map((enemy) => enemy.id) as number[];
-
-        if (!floorId || !enemyIds) {
-            return;
+        try{
+            const floorId = floor?.id;
+            const enemyIds = floorEnemies.map((enemy) => enemy.id) as number[];
+    
+            if (!floorId || !enemyIds) {
+                return;
+            }
+            await updateFloor(floorId, {
+                enemyIds,
+            });
+            onClose(true);
+            setFloorEnemies([]);
+            toast('Floor edited successfuly.', {
+                type: 'success',
+            });
+        } catch(err: any) {
+            toast(`Error adding enemies to floor. ${err?.message} `, {
+                type: 'error',
+            })
         }
-        await updateFloor(floorId, {
-            enemyIds,
-        });
-        onClose(true);
-        setFloorEnemies([]);
     };
 
     const handleOnAddEnemyClick =
@@ -62,7 +72,7 @@ const AddEnemyToFloorModal = ({
                 (floorEnemy) => floorEnemy._enemy
             );
             setFloorEnemies(floorEnemies);
-
+            console.log("🚀 ~ file: AddEnemyToFloorModal.tsx ~ line 65 ~ useEffect ~ floorEnemies", floorEnemies)
         }
     }, [floor?._floorEnemies]);
 
@@ -75,8 +85,8 @@ const AddEnemyToFloorModal = ({
                     Edit Enemies on Floor {floor?.number}
                 </h2>
 
-                <div className="flex space-between w-full mt-4">
-                    <div className="w-full h-96 bg-xteamaccent">
+                <div className="flex space-between w-full mt-4 gap-2">
+                    <div className="w-full h-96 bg-xteamaccent rounded-md">
                         <p className="text-xl text-white text-center mb-4 uppercase">
                             All enemies
                         </p>
@@ -98,7 +108,7 @@ const AddEnemyToFloorModal = ({
                             })}
                         </div>
                     </div>
-                    <div className="w-full bg-green-500 relative">
+                    <div className="w-full bg-green-500 relative rounded-md">
                         <p className="text-xl text-white text-center mb-4 uppercase">
                             Floor Enemies
                         </p>
@@ -118,7 +128,7 @@ const AddEnemyToFloorModal = ({
                                 </span>
                             ))}
                         </div>
-                        <span className="absolute cursor-pointer bottom-2 left-1/2 hover:text-xteamaccent" onClick={() => setFloorEnemies([])}><AiOutlineDelete /></span>
+                        { floorEnemies && floorEnemies.length > 0 && <span className="absolute cursor-pointer bottom-2 left-1/2 hover:text-xteamaccent" onClick={() => setFloorEnemies([])}><AiOutlineDelete /></span> }
                     </div>
                 </div>
 
