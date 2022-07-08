@@ -72,7 +72,6 @@ const AddEnemyToFloorModal = ({
                 (floorEnemy) => floorEnemy._enemy
             );
             setFloorEnemies(floorEnemies);
-            console.log("🚀 ~ file: AddEnemyToFloorModal.tsx ~ line 65 ~ useEffect ~ floorEnemies", floorEnemies)
         }
     }, [floor?._floorEnemies]);
 
