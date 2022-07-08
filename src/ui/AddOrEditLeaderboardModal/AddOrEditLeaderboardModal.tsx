@@ -12,6 +12,7 @@ import {
   resetStrategies,
   scoreStrategies,
 } from "../../utils/leaderboardStrategies";
+import { toast } from "react-toastify";
 
 interface IProps {
   show: boolean;
@@ -34,15 +35,25 @@ const AddOrEditLeaderboardModal = ({
   const { gameTypeId } = useParams<{ gameTypeId: string }>();
 
   const onSubmit = async (values: ILeaderboardForm) => {
-    await upsertLeaderboard({
-      ...(selectedLeaderboard?.id && { id: selectedLeaderboard?.id }),
-      _gameTypeId:
-        selectedLeaderboard?._gameTypeId || parseInt(gameTypeId || ""),
-      name: values.name,
-      scoreStrategy: values.scoreStrategy.toLowerCase(),
-      resetStrategy: values.resetStrategy.toLowerCase(),
-    });
-    onClose();
+    try{
+      await upsertLeaderboard({
+        ...(selectedLeaderboard?.id && { id: selectedLeaderboard?.id }),
+        _gameTypeId:
+          selectedLeaderboard?._gameTypeId || parseInt(gameTypeId || ""),
+        name: values.name,
+        scoreStrategy: values.scoreStrategy.toLowerCase(),
+        resetStrategy: values.resetStrategy.toLowerCase(),
+      });
+      onClose();
+      toast('Leaderboard successfully saved.',{
+        type: 'success',
+      });
+
+    } catch (err: any) {
+      toast(`Error : ${err?.message}`, {
+        type: "error",
+      });
+    }
   };
 
   const validationSchema = Yup.object({
