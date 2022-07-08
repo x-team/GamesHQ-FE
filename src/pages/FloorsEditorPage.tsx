@@ -136,6 +136,7 @@ const FloorsEditor = ({ enemies, towerGame, allEmoji, setShouldReload }: IFloorE
     const handleCloseEditFloorModalAction = (reload: boolean) => {
         setShowAddEnemyModal(false);
         setShouldReload(reload);
+        setEditingFloor(null);
     }
 
     return ( 
