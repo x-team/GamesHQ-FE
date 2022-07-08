@@ -127,7 +127,7 @@ const AddEnemyToFloorModal = ({
                                 </span>
                             ))}
                         </div>
-                        { floorEnemies && floorEnemies.length > 0 && <span className="absolute cursor-pointer bottom-2 left-1/2 hover:text-xteamaccent" onClick={() => setFloorEnemies([])}><AiOutlineDelete /></span> }
+                        {floorEnemies && floorEnemies.length > 0 && <span className="absolute cursor-pointer text-white bottom-2 left-1/2 hover:text-xteamaccent" onClick={() => setFloorEnemies([])}><AiOutlineDelete /></span>}
                     </div>
                 </div>
 
