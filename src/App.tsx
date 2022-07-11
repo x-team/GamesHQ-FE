@@ -24,6 +24,8 @@ import LeaderboardRanksPage from "./pages/LeaderboardRanksPage";
 // import { UnauthorizedPage } from "./pages/UnauthorizedPage";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { AppMenu } from "./AppMenu";
+import { ToastContainer } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 
 export const App = () => {
   // if (isDoingInitialLoading) {
@@ -36,6 +38,7 @@ export const App = () => {
 
   return (
     <Router>
+      <ToastContainer />
       <Routes>
         <Route
           path="/"

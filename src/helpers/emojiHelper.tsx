@@ -74,7 +74,7 @@ export const emojiToImageTag = (
                 src={emojiToImageSrc(emoji, allEmoji)}
                 alt={emoji + " emoji"}
             />
-            {qty && <span className="text-sm">x{qty}</span>}
+            {qty && <div className="rounded-full border-2 border-xteamaccent bg-xteamaccent p-0 w-7 scale-[0.6] translate-x-6 -translate-y-3"><span className="text-md text-white">{qty}</span></div>}
         </div>
     );
 };
