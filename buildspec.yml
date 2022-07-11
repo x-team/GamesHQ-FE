@@ -14,19 +14,16 @@ phases:
     commands:
       - n 16
       - npm update -g npm
-      - npm install -g yarn
       - aws --version
       - node -v
-      - yarn -v
-      - yarn install --frozen-lockfile --production=false
       - wget https://github.com/Droplr/aws-env/raw/master/bin/aws-env-linux-amd64 -O aws-env
       - chmod +x aws-env
+      - ls -la
 
   build:
     commands:
-      - eval $(./aws-env --recursive)
-      - yarn install --frozen-lockfile --production=false
-      - NODE_ENV=production yarn build
+      - npm i --legacy-peer-deps
+      - eval $(./aws-env --recursive) && npm run build
 
   post_build:
     commands:

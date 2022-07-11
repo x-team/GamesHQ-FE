@@ -15,6 +15,8 @@ import TowerGamePage from "./pages/TowerGamePage";
 import FloorsEditorPage from "./pages/FloorsEditorPage";
 import SignInPage from "./pages/SignInPage";
 import HomePage from "./pages/HomePage";
+import AchievementResultsPage from "./pages/AchievementResultsPage";
+import LeaderboardRanksPage from "./pages/LeaderboardRanksPage";
 
 // import useCurrentUser from "./hooks/useCurrentUser";
 // import { SyncLoader } from "react-spinners";
@@ -22,6 +24,8 @@ import HomePage from "./pages/HomePage";
 // import { UnauthorizedPage } from "./pages/UnauthorizedPage";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { AppMenu } from "./AppMenu";
+import { ToastContainer } from 'react-toastify';
+  import 'react-toastify/dist/ReactToastify.css';
 
 export const App = () => {
   // if (isDoingInitialLoading) {
@@ -34,6 +38,7 @@ export const App = () => {
 
   return (
     <Router>
+      <ToastContainer />
       <Routes>
         <Route
           path="/"
@@ -62,6 +67,26 @@ export const App = () => {
             <ProtectedRoute>
               <AppMenu>
                 <GameEditorPage />
+              </AppMenu>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/games/:gameTypeId/achievements/:achievementId"
+          element={
+            <ProtectedRoute>
+              <AppMenu>
+                <AchievementResultsPage />
+              </AppMenu>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/games/:gameTypeId/leaderboards/:leaderboardId"
+          element={
+            <ProtectedRoute>
+              <AppMenu>
+                <LeaderboardRanksPage />
               </AppMenu>
             </ProtectedRoute>
           }

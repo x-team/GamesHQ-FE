@@ -22,21 +22,49 @@ interface IGameType {
 }
 
 interface ILeaderboard {
-  id: number;
+  id?: number;
+  _gameTypeId: number;
   name: string;
   scoreStrategy: string;
   resetStrategy: string;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
-interface IAchievement extends SignInOut {
-  id: number;
+interface ILeaderboardResult {
+  id?: number;
+  _leaderboardId: number;
+  _userId?: number;
+  _user?: IUser;
+  score: number;
+  _leaderboardResultsMeta?: ILeaderboardResultMeta[]
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+interface ILeaderboardResultMeta {
+  attribute?: string;
+  value?: string;
+}
+
+interface IAchievement {
+  id?: number;
   _gameTypeId: number;
   description: string;
-  gameType: IGameType;
+  gameType?: IGameType;
   isEnabled: boolean;
   targetValue: number;
-  createdAt: string;
+  createdAt?: string;
   updatedAt: string;
+}
+
+interface IAchievementUnlocked {
+  _achievementId: number;
+  _userId: number;
+  _user?: IUser;
+  progress: number;
+  createdAt?: string;
+  updatedAt?: string;
 }
 
 interface ITeam {
