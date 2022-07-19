@@ -4,6 +4,7 @@ import { useParams, useNavigate } from "react-router-dom";
 import { SyncLoader } from "react-spinners";
 import * as Yup from "yup";
 import { AiOutlineCheck, AiOutlineClose, AiOutlineCopy } from "react-icons/ai";
+import { toast } from "react-toastify";
 
 import { getAchievements } from "../api/achievements";
 import { getGameType, upsertGameType } from "../api/gamedev";
@@ -66,7 +67,13 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
     try {
       await upsertGameType(upserGameTypeParams);
       navigate("/games");
+      toast('Game successfully saved.',{
+        type: 'success',
+      });
     } catch (error: any) {
+      toast(`Error saving game : ${error?.message}`, {
+        type: "error",
+      });
       console.log({ error });
       setIsLoading(false);
       setErrorMessage(error.message);
@@ -118,6 +125,9 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
         return gameType;
       } catch (error: any) {
         console.log({ error });
+        toast(`Error : ${error?.message}`, {
+          type: "error",
+        });
         setIsLoading(false);
         setErrorMessage(error.message);
       }
@@ -223,7 +233,6 @@ const GameEditorPage = function GameEditorPage({ editMode }: IProps) {
           <div className={`flex  mt-4 ${!editMode && 'hidden'}`}>
             <section className="flex flex-col">
               <strong>Client Secret</strong>
-              {/* <span className="text-xs">{currentGameType?.clientSecret}</span> */}
               <div className="flex gap-1">
                 <span className="text-xs">{currentGameType?.clientSecret} </span>
                 <span className={`cursor-pointer w-4`} onClick={() => handleCopyBtnClickClientSecret(currentGameType?.clientSecret)}>{hasCopiedClientSecret ? <AiOutlineCheck color="green"/> : <AiOutlineCopy/>}</span>

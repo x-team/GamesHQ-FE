@@ -2,6 +2,7 @@ import { useFormik } from "formik";
 import { useEffect } from "react";
 import * as Yup from "yup";
 import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 import { upsertAchievement } from "../../api/achievements";
 import Button from "../Button";
@@ -30,16 +31,25 @@ const AddOrEditAchievementModal = ({
     const { gameTypeId } = useParams<{ gameTypeId: string }>();
 
     const onSubmit = async (values: IAchievementForm) => {
-        await upsertAchievement({
-            ...(selectedAchievement?.id && { id: selectedAchievement?.id }),
-            _gameTypeId: selectedAchievement?._gameTypeId || parseInt(gameTypeId || ""),
-            ...(selectedAchievement?.createdAt && { createdAt: selectedAchievement?.createdAt }),
-            description: values.description,
-            targetValue: values.targetValue,
-            isEnabled: values.isEnabled,
-            updatedAt: new Date().toString(),
-          });
-        onClose();
+        try{
+            await upsertAchievement({
+                ...(selectedAchievement?.id && { id: selectedAchievement?.id }),
+                _gameTypeId: selectedAchievement?._gameTypeId || parseInt(gameTypeId || ""),
+                ...(selectedAchievement?.createdAt && { createdAt: selectedAchievement?.createdAt }),
+                description: values.description,
+                targetValue: values.targetValue,
+                isEnabled: values.isEnabled,
+                updatedAt: new Date().toString(),
+              });
+            onClose();
+            toast('Achievement successfully saved.',{
+                type: 'success',
+              });
+        } catch (err: any) {
+            toast(`Error : ${err.message}`, {
+              type: "error",
+            });
+          }
     }
 
     const validationSchema = Yup.object({
