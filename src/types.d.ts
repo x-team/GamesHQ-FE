@@ -280,6 +280,7 @@ interface GamesAPIUSer {
   profilePictureUrl: string;
   role: number;
   isAdmin: boolean;
+  capabilities: string[];
 }
 
 interface GamesAPISession {

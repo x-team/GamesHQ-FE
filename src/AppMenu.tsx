@@ -1,6 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
+import useCurrentUser from "./hooks/useCurrentUser";
+
 import playerSvg from "./assets/icons/player.svg";
 import skull from "./assets/icons/skull.svg";
 import sword from "./assets/icons/sword.svg";
@@ -14,6 +16,8 @@ interface GamesHQRouteOption {
   to: string;
 }
 export const AppMenu = ({ children }: { children: JSX.Element }) => {
+  const { currentUser } = useCurrentUser();
+
   const inspectRoutes = [
     { name: "Inspect Arena", to: "/inspect/arena", icon: playerSvg },
   ];
@@ -35,6 +39,7 @@ export const AppMenu = ({ children }: { children: JSX.Element }) => {
   const gameDevRoutes = [{ name: "Games", to: "/games", icon: games }];
 
   const generateRouteList = (route: GamesHQRouteOption[]) => {
+
     return route.map((route, i) => (
       <ul className="pt-4" key={i}>
         <Link to={route.to} className="items-center">
@@ -54,34 +59,52 @@ export const AppMenu = ({ children }: { children: JSX.Element }) => {
         </div>
         <div className="px-8 flex-col flex">
           <span className="pt-4" />
-          <span className="uppercase py-1 text-xs text-gray-400 font-semibold">
-            MY GAMES
-          </span>
+          {currentUser?.capabilities.includes('MY_GAME_READ') && (
+            <>
+              <span className="uppercase py-1 text-xs text-gray-400 font-semibold">
+                MY GAMES
+              </span>
+              
+              {generateRouteList(gameDevRoutes)}
+              
+              <span className="uppercase py-1 text-xs text-gray-400 font-semibold mt-12">
+                INSPECT LIVE GAMES
+              </span>
+    
+              {generateRouteList(inspectRoutes)}
+            </>
 
-          {generateRouteList(gameDevRoutes)}
+          )}
+          
+          {currentUser?.capabilities.includes('WEAPONS_READ') && (
+            <>
+              <span className="uppercase py-1 text-xs text-gray-400 font-semibold mt-12">
+                GENERAL
+              </span>
 
-          <span className="uppercase py-1 text-xs text-gray-400 font-semibold mt-12">
-            INSPECT LIVE GAMES
-          </span>
+              {generateRouteList(databaseRoutes)}
+            </>
+          )}
 
-          {generateRouteList(inspectRoutes)}
+          {currentUser?.capabilities.includes('TOWER_READ') && (
+            <>
+              <span className="uppercase py-1 text-xs text-gray-400 font-semibold mt-12">
+                THE TOWER
+              </span>
+    
+              {generateRouteList(towerRoutes)}
+            </>
+          )}
 
-          <span className="uppercase py-1 text-xs text-gray-400 font-semibold mt-12">
-            GENERAL
-          </span>
+          {currentUser?.capabilities.includes('ARENA_READ') && (
+            <>
+              <span className="uppercase py-1 text-xs text-gray-400 font-semibold mt-12">
+                THE ARENA
+              </span>
 
-          {generateRouteList(databaseRoutes)}
-
-          <span className="uppercase py-1 text-xs text-gray-400 font-semibold mt-12">
-            THE TOWER
-          </span>
-
-          {generateRouteList(towerRoutes)}
-          <span className="uppercase py-1 text-xs text-gray-400 font-semibold mt-12">
-            THE ARENA
-          </span>
-
-          {generateRouteList(arenaRoutes)}
+              {generateRouteList(arenaRoutes)}
+            </>
+          )}
         </div>
       </nav>
       <div className="w-full min-w-0 px-16 py-8">{children}</div>
