@@ -14,33 +14,34 @@ interface GamesHQRouteOption {
   name: string;
   icon: string;
   to: string;
+  necessaryCapability: string;
 }
 export const AppMenu = ({ children }: { children: JSX.Element }) => {
   const { currentUser } = useCurrentUser();
 
   const inspectRoutes = [
-    { name: "Inspect Arena", to: "/inspect/arena", icon: playerSvg },
+    { name: "Inspect Arena", to: "/inspect/arena", icon: playerSvg, necessaryCapability: "THE_ARENA_READ" },
   ];
 
   const databaseRoutes = [
     /* { name: "Players", to: "/players", icon: playerSvg }, */
-    { name: "Weapons", to: "/weapons", icon: sword },
+    { name: "Weapons", to: "/weapons", icon: sword, necessaryCapability: "WEAPONS_READ" },
     /* { name: "Traits", to: "/traits", icon: trait }, */
   ];
 
   const towerRoutes = [
-    { name: "Tower Game", to: "/tower/status", icon: playerSvg },
-    { name: "Enemies", to: "/enemies", icon: skull },
-    { name: "Floors", to: "/floors", icon: floor },
+    { name: "Tower Game", to: "/tower/status", icon: playerSvg, necessaryCapability: "THE_TOWER_READ" },
+    { name: "Enemies", to: "/enemies", icon: skull, necessaryCapability: "ENEMY_READ" },
+    { name: "Floors", to: "/floors", icon: floor, necessaryCapability: "THE_TOWER_READ" },
   ];
 
-  const arenaRoutes = [{ name: "Zones", to: "/zones", icon: zone }];
+  const arenaRoutes = [{ name: "Zones", to: "/zones", icon: zone, necessaryCapability: "ZONE_READ" }];
 
-  const gameDevRoutes = [{ name: "Games", to: "/games", icon: games }];
+  const gameDevRoutes = [{ name: "Games", to: "/games", icon: games, necessaryCapability: "MY_GAME_READ" }];
 
   const generateRouteList = (route: GamesHQRouteOption[]) => {
 
-    return route.map((route, i) => (
+    return route.map((route, i) => ( route.necessaryCapability && currentUser?.capabilities.includes(route.necessaryCapability) && 
       <ul className="pt-4" key={i}>
         <Link to={route.to} className="items-center">
           <li className="flex text-gray-400 hover:text-gray-700 items-center">
@@ -51,6 +52,7 @@ export const AppMenu = ({ children }: { children: JSX.Element }) => {
       </ul>
     ));
   };
+  
   return (
     <div className="flex h-screen bg-white">
       <nav className="w-80 font-medium text-base bg-gray-50 h-full py-4">
@@ -86,17 +88,13 @@ export const AppMenu = ({ children }: { children: JSX.Element }) => {
             </>
           )}
 
-          {currentUser?.capabilities.includes('TOWER_READ') && (
-            <>
-              <span className="uppercase py-1 text-xs text-gray-400 font-semibold mt-12">
-                THE TOWER
-              </span>
-    
-              {generateRouteList(towerRoutes)}
-            </>
-          )}
+          <span className="uppercase py-1 text-xs text-gray-400 font-semibold mt-12">
+            THE TOWER
+          </span>
 
-          {currentUser?.capabilities.includes('ARENA_READ') && (
+          {generateRouteList(towerRoutes)}
+
+          {currentUser?.capabilities.includes('THE_ARENA_READ') && (
             <>
               <span className="uppercase py-1 text-xs text-gray-400 font-semibold mt-12">
                 THE ARENA
