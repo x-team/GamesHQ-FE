@@ -19,7 +19,7 @@ const InspectArenaPage = function InspectArenaPage(props: any) {
 
     const arenaPlayers = get(
         arenaGame,
-        "_arena._players",
+        "_arenaPlayers",
         []
     ) as IArenaPlayer[];
 
