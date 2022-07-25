@@ -167,6 +167,7 @@ interface IGame {
   endedAt: string;
   _gameTypeId: number;
   _arena: IArenaGame;
+  _arenaPlayers: [IArenaPlayer];
 }
 
 interface IGameWithTower extends IGame {
@@ -181,7 +182,7 @@ interface IArenaGame {
   currentRingDeactivation: number;
   inactiveZonePenaltyPower: number;
   _gameId: number;
-  _players: [IArenaPlayer];
+
 }
 
 interface IArenaRoundAction {
@@ -280,6 +281,7 @@ interface GamesAPIUSer {
   profilePictureUrl: string;
   role: number;
   isAdmin: boolean;
+  capabilities: string[];
 }
 
 interface GamesAPISession {
