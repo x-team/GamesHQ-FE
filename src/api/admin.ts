@@ -1,4 +1,5 @@
 import { gamesHqUrl, getAxiosInstance } from "./utils";
+import { GameResponse } from "../SlackBlockKit";
 
 export const getAllEmoji = async () => {
   const axios = await getAxiosInstance();
@@ -18,6 +19,18 @@ export const getActiveArenaGame = async () => {
   const arenaGame = response.data.arenaGame as IGame;
 
   return arenaGame;
+};
+
+export const postArenaCommand = async (command: string) => {
+  const axios = await getAxiosInstance();
+
+  const endpoint = gamesHqUrl + "/dashboard/admin/arena/command";
+  const response = await axios.post(endpoint, {
+    command
+  });
+  const gameCommandResponse = response.data as GameResponse;
+
+  return gameCommandResponse;
 };
 
 // 🔫 Weapons

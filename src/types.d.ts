@@ -169,7 +169,6 @@ interface IGame {
   _arena: IArenaGame;
   _arenaPlayers: [IArenaPlayer];
 }
-
 interface IGameWithTower extends IGame {
   _tower: ITowerGame;
 }
