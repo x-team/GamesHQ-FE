@@ -21,7 +21,7 @@ export const getActiveArenaGame = async () => {
   return arenaGame;
 };
 
-export const postArenaCommand = async (command: string) => {
+export const postArenaCommand = async (command: string): Promise<GameResponse> => {
   const axios = await getAxiosInstance();
 
   const endpoint = gamesHqUrl + "/dashboard/admin/arena/command";
@@ -32,6 +32,19 @@ export const postArenaCommand = async (command: string) => {
 
   return gameCommandResponse;
 };
+
+export const postArenaAction = async (action: string): Promise<GameResponse> => {
+  const axios = await getAxiosInstance();
+
+  const endpoint = gamesHqUrl + "/dashboard/admin/arena/action";
+  const response = await axios.post(endpoint, {
+    action
+  });
+  const gameCommandResponse = response.data as GameResponse;
+
+  return gameCommandResponse;
+};
+
 
 // 🔫 Weapons
 

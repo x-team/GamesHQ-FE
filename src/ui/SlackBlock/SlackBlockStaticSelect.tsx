@@ -3,10 +3,14 @@ import { useEffect } from "react";
 import * as Yup from "yup";
 import { SlackBlockKitSelectMenuElement, SlackBlockKitCompositionOption} from "../../SlackBlockKit";
 import Dropdown from "../Dropdown";
+import Button from "../Button";
 import { toast } from "react-toastify";
+import { handleGameResponse } from "../../helpers/slackHelper";
+import { postArenaAction } from "../../api/admin";
 
 interface IProps {
     staticSelectElement: SlackBlockKitSelectMenuElement;
+    onClose: () => void;
 }
 
 interface ISlackBlockOption {
@@ -15,47 +19,40 @@ interface ISlackBlockOption {
 }
 
 const SlackBlockStaticSelect = ({
-    staticSelectElement
+    staticSelectElement,
+    onClose
 }: IProps) => {
     const onSubmit = async (values: ISlackBlockOption) => {
-    // try{
-    //   await upsertLeaderboard({
-    //     ...(selectedLeaderboard?.id && { id: selectedLeaderboard?.id }),
-    //     _gameTypeId:
-    //       selectedLeaderboard?._gameTypeId || parseInt(gameTypeId || ""),
-    //     name: values.name,
-    //     scoreStrategy: values.scoreStrategy.toLowerCase(),
-    //     resetStrategy: values.resetStrategy.toLowerCase(),
-    //   });
-    //   onClose();
-    //   toast('Leaderboard successfully saved.',{
-    //     type: 'success',
-    //   });
-
-    // } catch (err: any) {
-    //   toast(`Error : ${err?.message}`, {
-    //     type: "error",
-    //   });
-    // }
-
-    toast(`OnSubmit TBD ${values}`, {
-        type: "success",
-    });
+      handleGameResponse({
+        adminGameRequest: () => postArenaAction(staticSelectElement.action_id),
+        onSuccessBlocks: (resp) => {
+          toast(`OK: ${resp}`, {
+            type: "success",
+          });
+          onClose();
+        }, 
+        onSuccessText: (resp) => {
+          toast(`OK: ${resp}`, {
+            type: "success",
+          });
+          onClose();
+        },
+        onError: (resp) => {
+          toast(`Error : ${resp.text}`, {
+            type: "error",
+          });
+        } 
+      })
   };
-
-    const validationSchema = Yup.object({
-        options: Yup.string().required().label("Reset Strategy"),
-    });
 
   const initialForm: ISlackBlockOption = {
     options: [],
   };
 
- const { getFieldProps, getFieldMeta, handleSubmit, isValid, setValues } =
+ const { getFieldProps, handleSubmit, setValues } =
     useFormik({
       initialValues: initialForm,
-      onSubmit,
-      validationSchema,
+      onSubmit
     });
 
   useEffect(() => {
@@ -65,6 +62,8 @@ const SlackBlockStaticSelect = ({
   }, [staticSelectElement, setValues]);
 
     return (
+      <section>
+        <form onSubmit={handleSubmit} >
         <Dropdown
             fieldProps={getFieldProps("options")}
             label={staticSelectElement.placeholder.text}
@@ -78,6 +77,14 @@ const SlackBlockStaticSelect = ({
                 />
             ))}
         </Dropdown>
+
+         <div className="mt-8 w-full">
+              <Button type="submit" fullWidth>
+                Send Action
+              </Button>
+          </div>
+      </form>
+      </section>
     );
 };
 

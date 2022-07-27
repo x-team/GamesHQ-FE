@@ -36,3 +36,4 @@ export enum ARENA_SLACK_COMMANDS {
   REPEAT_LAST_CHEER = 'arena-repeatlastcheer',
   CHANGE_LOCATION = 'arena-change-location',
 }
+
