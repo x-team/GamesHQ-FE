@@ -109,6 +109,7 @@ interface IWeapon {
   emoji: string;
   usageLimit: number | null;
   isArchived: boolean;
+  type?: string;
   _itemRarityId: TArenaRarity;
   _weapon: IWeaponData;
   _traits: ITrait[];
