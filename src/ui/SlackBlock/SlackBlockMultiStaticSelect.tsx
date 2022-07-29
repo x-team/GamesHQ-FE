@@ -3,9 +3,10 @@ import { useEffect } from "react";
 import { SlackBlockKitMultiSelectMenuElement, SlackBlockKitCompositionOption} from "../../SlackBlockKit";
 import Button from "../Button";
 import { toast } from "react-toastify";
-import { handleGameResponse } from "../../helpers/slackHelper";
+import { handleGameResponse, separateEmojisFromText } from "../../helpers/slackHelper";
 import { postArenaAction } from "../../api/admin";
 import Checkbox from "../Checkbox";
+import { emojiToImageLabel } from "../../helpers/emojiHelper";
 
 interface IProps {
     multiStaticSelectElement: SlackBlockKitMultiSelectMenuElement;
@@ -20,6 +21,8 @@ const SlackBlockMultiStaticSelect = ({
     multiStaticSelectElement,
     onClose
 }: IProps) => {
+
+  
     const onSubmit = async (values: ISlackBlockOption) => {
       await handleGameResponse({
         adminGameRequest: () => postArenaAction(multiStaticSelectElement.action_id, values.optionIds),
@@ -45,10 +48,18 @@ const SlackBlockMultiStaticSelect = ({
   };
 
   const renderOptionCheckbox = (option: SlackBlockKitCompositionOption) => {
+    const emojisAndTexts = separateEmojisFromText(option.text)
+    
     return (
       <div className="mt-2">
         <Checkbox id={String(option.value)} {...getFieldProps("optionIds")}>
-          {option.text.text}
+          {emojisAndTexts.map(i => {
+              if(i.emoji){
+                return emojiToImageLabel(i.text, {}, "h-5 w-5")
+              }else{
+                return i.text
+              }
+          })} 
         </Checkbox>
       </div>
     );

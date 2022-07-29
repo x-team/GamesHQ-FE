@@ -17,8 +17,7 @@ const InspectArenaPage = function InspectArenaPage(props: any) {
         setArenaGame(game);
     }
 
-    useEffect(() => {
-    
+    useEffect( () => {
         fetchArenaGame();
     }, []);
 
@@ -45,33 +44,29 @@ const InspectArenaPage = function InspectArenaPage(props: any) {
 
                 <>
                     <ArenaStatusCard arenaGame={arenaGame} onUpdate={onArenaUpdate} />
+                    
+                    {arenaGame ? (
+                        <div>
+                            <div className="mt-4 text-lg font-bold">
+                                {arenaPlayers.length} total players
+                            </div>
+                            <div className="text-sm font-thin mb-2">
+                                {alivePlayers.length} alive, {deadPlayers.length} dead,{" "}
+                                {spectators.length} spectators
+                            </div>
 
-                    <div className="mt-4 text-lg font-bold">
-                        {arenaPlayers.length} total players
-                    </div>
-                    <div className="text-sm font-thin mb-2">
-                        {alivePlayers.length} alive, {deadPlayers.length} dead,{" "}
-                        {spectators.length} spectators
-                    </div>
-
-                    <div className="flex flex-wrap">
-                        {arenaPlayers.map((player) => (
-                            <InspectArenaPlayerCard
-                                key={player._userId}
-                                player={player}
-                            />
-                        ))}
-                        {/* {mockArenaPlayers.map((player, index) => (
-                            <InspectArenaPlayerCard key={index} player={player} />
-                        ))}
-                        {mockArenaPlayers.map((player, index) => (
-                            <InspectArenaPlayerCard key={index} player={player} />
-                        ))}
-                        {mockArenaPlayers.map((player, index) => (
-                            <InspectArenaPlayerCard key={index} player={player} />
-                        ))} */}
-                    </div>
+                            <div className="flex flex-wrap">
+                                {arenaPlayers.map((player) => (
+                                    <InspectArenaPlayerCard
+                                        key={player._userId}
+                                        player={player}
+                                    />
+                                ))}
+                            </div>
+                        </div>
+                ): ("") }
                 </>
+               
         </div>
     );
 };

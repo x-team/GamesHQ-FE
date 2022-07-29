@@ -1,11 +1,10 @@
 import { useFormik } from "formik";
 import { useEffect } from "react";
-import * as Yup from "yup";
-import { SlackBlockKitSelectMenuElement, SlackBlockKitCompositionOption} from "../../SlackBlockKit";
+import { SlackBlockKitSelectMenuElement} from "../../SlackBlockKit";
 import Dropdown from "../Dropdown";
 import Button from "../Button";
 import { toast } from "react-toastify";
-import { handleGameResponse,  } from "../../helpers/slackHelper";
+import { handleGameResponse, separateEmojisFromText } from "../../helpers/slackHelper";
 import { postArenaAction } from "../../api/admin";
 
 interface IProps {
@@ -70,13 +69,17 @@ const SlackBlockStaticSelect = ({
             label={staticSelectElement.placeholder.text}
             fullWidth
             >
-            {staticSelectElement.options.map((option) => (
-                <option
-                    key={option.value}
-                    value={option.value}
-                    label={option.text.text}
-                />
-            ))}
+            {staticSelectElement.options.map((option) => {
+              const label = separateEmojisFromText(option.text).filter(i => !i.emoji).map(i => i.text).join(' ')
+              
+              return (
+                    <option
+                        key={option.value}
+                        value={option.value}
+                        label={label}
+                    />
+              )
+            })}
         </Dropdown>
 
          <div className="mt-8 w-full">
