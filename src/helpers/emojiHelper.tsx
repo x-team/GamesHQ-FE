@@ -68,10 +68,11 @@ const emojiToImageSrcMap: { [id: string]: string } = {
 };
 
 export const emojiToImageSrc = (emoji: string, allEmoji: IAllEmoji) => {
-    if (allEmoji[emoji]) {
-        return allEmoji[emoji];
+    let formattedEmoji = emoji.substring(1, emoji.length - 1);
+    if (allEmoji[formattedEmoji]) {
+        return allEmoji[formattedEmoji];
     }
-
+    
     return (
         emojiToImageSrcMap[emoji] ||
         "https://via.placeholder.com/128x128"
