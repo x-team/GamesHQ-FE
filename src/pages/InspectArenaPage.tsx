@@ -55,9 +55,9 @@ const InspectArenaPage = function InspectArenaPage(props: any) {
                     </div>
 
                     <div className="flex flex-wrap">
-                        {arenaPlayers.map((player, index) => (
+                        {arenaPlayers.map((player) => (
                             <InspectArenaPlayerCard
-                                key={index}
+                                key={player._userId}
                                 player={player}
                             />
                         ))}
