@@ -33,12 +33,13 @@ export const postArenaCommand = async (command: string): Promise<GameResponse> =
   return gameCommandResponse;
 };
 
-export const postArenaAction = async (action: string): Promise<GameResponse> => {
+export const postArenaAction = async (action: string, value?: string[]): Promise<GameResponse> => {
   const axios = await getAxiosInstance();
 
   const endpoint = gamesHqUrl + "/dashboard/admin/arena/action";
   const response = await axios.post(endpoint, {
-    action
+    action,
+    value
   });
   const gameCommandResponse = response.data as GameResponse;
 

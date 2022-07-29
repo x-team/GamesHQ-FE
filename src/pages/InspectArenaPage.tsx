@@ -1,49 +1,24 @@
 import { useEffect, useState } from "react";
 import { get } from "lodash";
 
-import Button from "../ui/Button";
 import { getActiveArenaGame } from "../api/admin";
 import ArenaStatusCard from "../ui/ArenaStatusCard";
-import { handleGameResponse } from "../helpers/slackHelper"
-import { postArenaCommand } from "../api/admin";
 import InspectArenaPlayerCard from "../ui/InspectArenaPlayerCard";
-import { ARENA_SLACK_COMMANDS } from "../helpers/arenaHelper"
-import { toast } from "react-toastify";
 
 const InspectArenaPage = function InspectArenaPage(props: any) {
     const [arenaGame, setArenaGame] = useState<IGame | undefined>(undefined);
 
-     const handleArenaCommandOnClick = async (command: string) => {
-        handleGameResponse({
-            adminGameRequest: () => postArenaCommand(command),
-            onSuccessBlocks: (blocks) => {
-                toast(`OK: ${blocks}`, {
-                    type: "success",
-                });
-            }, 
-            onSuccessText: (text) => {
-                toast(`OK: ${text}`, {
-                    type: "success",
-                });
-            },
-            onError: (resp) => {
-                toast(`Error : ${resp.text}`, {
-                    type: "error",
-                });
-            } 
-        })
-    };
+    const onArenaUpdate = () => {
+        fetchArenaGame()
+    }
 
-    const handleNewGameOnClick = async () => {
-        await handleArenaCommandOnClick(ARENA_SLACK_COMMANDS.NEW_GAME)
+    async function fetchArenaGame() {
+        const game = await getActiveArenaGame();
+        setArenaGame(game);
     }
 
     useEffect(() => {
-        async function fetchArenaGame() {
-            const game = await getActiveArenaGame();
-            setArenaGame(game);
-        }
-
+    
         fetchArenaGame();
     }, []);
 
@@ -67,9 +42,9 @@ const InspectArenaPage = function InspectArenaPage(props: any) {
                 INSPECT ARENA
             </h2>
 
-            {arenaGame ? (
+
                 <>
-                    <ArenaStatusCard arenaGame={arenaGame} />
+                    <ArenaStatusCard arenaGame={arenaGame} onUpdate={onArenaUpdate} />
 
                     <div className="mt-4 text-lg font-bold">
                         {arenaPlayers.length} total players
@@ -97,11 +72,6 @@ const InspectArenaPage = function InspectArenaPage(props: any) {
                         ))} */}
                     </div>
                 </>
-            ) : (
-            <Button type="submit" onClick={handleNewGameOnClick}>
-                    NEW GAME
-            </Button>
-        )}
         </div>
     );
 };

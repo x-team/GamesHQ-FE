@@ -1,9 +1,9 @@
-import { SlackBlockKitLayoutElement, SlackBlockKitDividerLayout, SlackBlockKitActionLayout, SlackBlockKitSectionLayout, GameResponse } from '../SlackBlockKit'
+import { SlackBlockKitLayoutElement, SlackBlockKitDividerLayout, SlackBlockKitActionLayout, SlackBlockKitSectionLayout, GameResponse, SlackBlockKitMultiSelectMenuElement } from '../SlackBlockKit'
 import { SlackBlockDivider, SlackBlockSection, SlackBlockActions} from '../ui/SlackBlock'
 
 const slackBlockMap = {
   'divider': (_: SlackBlockKitDividerLayout) => <SlackBlockDivider/>,
-  'section': (block: SlackBlockKitSectionLayout ) => <SlackBlockSection text={block.text.text} />,
+  'section': (block: SlackBlockKitSectionLayout, onClose: () => void ) => <SlackBlockSection text={block.text.text} acessory={block.accessory as SlackBlockKitMultiSelectMenuElement} onClose={onClose} />,
   'actions': (block: SlackBlockKitActionLayout, onClose: () => void) => <SlackBlockActions elements={block.elements} onClose={onClose}/>,
   'context': null,
   'header': null,

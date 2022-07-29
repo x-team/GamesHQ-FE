@@ -5,18 +5,19 @@ import { ARENA_SLACK_COMMANDS } from "../../helpers/arenaHelper"
 import { handleGameResponse } from "../../helpers/slackHelper"
 import { toast } from "react-toastify";
 import ArenaCommandModal from "../ArenaCommandModal"
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SlackBlockKitLayoutElement } from "../../SlackBlockKit";
 interface IProps {
-    arenaGame: IGame;
+    arenaGame?: IGame;
+    onUpdate: () => void
 }
 
-const ArenaStatusCard = function ArenaStatusCard({ arenaGame }: IProps) {
+const ArenaStatusCard = function ArenaStatusCard({ arenaGame, onUpdate }: IProps) {
       const [showArenaCommandModal, setShowArenaCommandModal] = useState<boolean>(false);
       const [slackBlocks, setSlackBlocks] = useState<SlackBlockKitLayoutElement[]>([]);
 
     const handleArenaCommandOnClick = async (command: string) => {
-        handleGameResponse({
+        await handleGameResponse({
             adminGameRequest: () => postArenaCommand(command),
             onSuccessBlocks: (blocks) => {
                 setSlackBlocks(blocks)
@@ -26,6 +27,7 @@ const ArenaStatusCard = function ArenaStatusCard({ arenaGame }: IProps) {
                 toast(`OK: ${text}`, {
                     type: "success",
                 });
+                
             },
             onError: (resp) => {
                 toast(`Error : ${resp.text}`, {
@@ -37,6 +39,7 @@ const ArenaStatusCard = function ArenaStatusCard({ arenaGame }: IProps) {
 
     const handleNewGameOnClick = async () => {
         await handleArenaCommandOnClick(ARENA_SLACK_COMMANDS.NEW_GAME)
+        onUpdate()
     }
 
     const handleStartRoundOnClick = async () => {
@@ -45,6 +48,7 @@ const ArenaStatusCard = function ArenaStatusCard({ arenaGame }: IProps) {
 
     const handleEndGameOnClick = async () => {
         await handleArenaCommandOnClick(ARENA_SLACK_COMMANDS.END_GAME)
+        onUpdate()
     }
 
     const handleListPlayersOnClick = async () => {
@@ -65,8 +69,23 @@ const ArenaStatusCard = function ArenaStatusCard({ arenaGame }: IProps) {
 
     const handleCloseModal = () => {
         setShowArenaCommandModal(false)
+        onUpdate()
     }
 
+    if(!arenaGame){
+        return (
+            <div className="flex gap-4">
+                <Button type="submit" onClick={handleNewGameOnClick}>
+                    NEW GAME
+                </Button>
+                <Button type="submit" onClick={handleRestrictZonesOnClick}>
+                    RESTRICT ZONES
+                </Button>
+                
+                {showArenaCommandModal && <ArenaCommandModal show={showArenaCommandModal} onClose={handleCloseModal} slackBlocks={slackBlocks}/>}
+            </div>
+        )
+    }else{
     return (
         <PanelBox>
             <span className="text-xteamaccent font-bold font-sans text-lg italic uppercase">
@@ -98,14 +117,12 @@ const ArenaStatusCard = function ArenaStatusCard({ arenaGame }: IProps) {
                     <Button type="submit" onClick={handleRestrictWeaponsOnClick}>
                         RESTRICT WEAPONS
                     </Button>
-                    <Button type="submit" onClick={handleRestrictZonesOnClick}>
-                        RESTRICT ZONES
-                    </Button>
                 </div>
             </div>
 
             {showArenaCommandModal && <ArenaCommandModal show={showArenaCommandModal} onClose={handleCloseModal} slackBlocks={slackBlocks}/>}
-        </PanelBox>)
+        </PanelBox>
+    )}
 };
 
 export default ArenaStatusCard;

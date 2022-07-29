@@ -15,7 +15,7 @@ const SlackBlockButton = ({
     onClose
 }: IProps) => {
     const onSubmit = async () => {
-      handleGameResponse({
+      await handleGameResponse({
         adminGameRequest: () => postArenaAction(buttonElement.action_id),
         onSuccessBlocks: (resp) => {
           toast(`OK: ${resp}`, {

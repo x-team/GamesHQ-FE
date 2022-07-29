@@ -1,30 +1,28 @@
 import { useFormik } from "formik";
 import { useEffect } from "react";
-import * as Yup from "yup";
-import { SlackBlockKitSelectMenuElement, SlackBlockKitCompositionOption} from "../../SlackBlockKit";
-import Dropdown from "../Dropdown";
+import { SlackBlockKitMultiSelectMenuElement, SlackBlockKitCompositionOption} from "../../SlackBlockKit";
 import Button from "../Button";
 import { toast } from "react-toastify";
-import { handleGameResponse,  } from "../../helpers/slackHelper";
+import { handleGameResponse } from "../../helpers/slackHelper";
 import { postArenaAction } from "../../api/admin";
+import Checkbox from "../Checkbox";
 
 interface IProps {
-    staticSelectElement: SlackBlockKitSelectMenuElement;
+    multiStaticSelectElement: SlackBlockKitMultiSelectMenuElement;
     onClose: () => void;
 }
 
 interface ISlackBlockOption {
-  selectedOptionId?: string
+  optionIds: string[];
 }
 
-const SlackBlockStaticSelect = ({
-    staticSelectElement,
+const SlackBlockMultiStaticSelect = ({
+    multiStaticSelectElement,
     onClose
 }: IProps) => {
     const onSubmit = async (values: ISlackBlockOption) => {
-
       await handleGameResponse({
-        adminGameRequest: () => postArenaAction(staticSelectElement.action_id, values.selectedOptionId ? [values.selectedOptionId] : []),
+        adminGameRequest: () => postArenaAction(multiStaticSelectElement.action_id, values.optionIds),
         onSuccessBlocks: (resp) => {
           toast(`OK: ${resp}`, {
             type: "success",
@@ -46,11 +44,21 @@ const SlackBlockStaticSelect = ({
       })
   };
 
-  const initialForm: ISlackBlockOption = {
-    selectedOptionId: staticSelectElement.initial_option?.value || ""
+  const renderOptionCheckbox = (option: SlackBlockKitCompositionOption) => {
+    return (
+      <div className="mt-2">
+        <Checkbox id={String(option.value)} {...getFieldProps("optionIds")}>
+          {option.text.text}
+        </Checkbox>
+      </div>
+    );
   };
 
- const { getFieldProps, handleSubmit, setValues} =
+  const initialForm: ISlackBlockOption = {
+    optionIds: [],
+  };
+
+ const { getFieldProps, handleSubmit, setValues } =
     useFormik({
       initialValues: initialForm,
       onSubmit
@@ -58,26 +66,16 @@ const SlackBlockStaticSelect = ({
 
   useEffect(() => {
     setValues({
-      selectedOptionId: staticSelectElement.initial_option?.value || ""
+      optionIds: multiStaticSelectElement.options.map(o => o.value),
     });
-  }, [staticSelectElement, setValues]);
+  }, [multiStaticSelectElement, setValues]);
 
     return (
       <section>
         <form onSubmit={handleSubmit} >
-        <Dropdown
-            fieldProps={getFieldProps("selectedOptionId")}
-            label={staticSelectElement.placeholder.text}
-            fullWidth
-            >
-            {staticSelectElement.options.map((option) => (
-                <option
-                    key={option.value}
-                    value={option.value}
-                    label={option.text.text}
-                />
-            ))}
-        </Dropdown>
+        <div className="mt-2">
+          {multiStaticSelectElement.options.map(renderOptionCheckbox)}
+        </div>
 
          <div className="mt-8 w-full">
               <Button type="submit" fullWidth>
@@ -89,4 +87,4 @@ const SlackBlockStaticSelect = ({
     );
 };
 
-export default SlackBlockStaticSelect;
+export default SlackBlockMultiStaticSelect;
