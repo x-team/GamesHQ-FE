@@ -3,7 +3,7 @@ import { Link } from "react-router-dom";
 import { SyncLoader } from "react-spinners";
 import Swal from "sweetalert2";
 import { deleteWeapon, getWeapons } from "../api/admin";
-import { emojiToImageTag } from "../helpers/emojiHelper";
+import { emojiToImageLabel } from "../helpers/emojiHelper";
 import { rarityToTextColor } from "../helpers/rarityHelper";
 import Button from "../ui/Button";
 
@@ -87,7 +87,7 @@ const ListWeaponsPage = function ListWeaponsPage(props: any) {
                   >
                     <div className="flex">
                       <div>
-                        {emojiToImageTag(weapon.emoji, {}, "h-12 w-12")}
+                        {emojiToImageLabel(weapon.emoji, {}, "h-12 w-12")}
                       </div>
                       <div className={`ml-2 flex flex-col`}>
                         <span>

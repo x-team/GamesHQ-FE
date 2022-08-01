@@ -1,4 +1,5 @@
-import { emojiToImageTag } from "../../helpers/emojiHelper";
+import React from "react";
+import { emojiToImageLabel } from "../../helpers/emojiHelper";
 import { truncateText } from "../../helpers/textHelper";
 
 interface IProps {
@@ -8,6 +9,10 @@ interface IProps {
 const InspectArenaPlayerCard = function InspectArenaPlayerCard({
     player,
 }: IProps) {
+    const medKits = player._weapons.filter(item => item.type === 'medical kit');
+    const armors = player._weapons.filter(item => item.type === 'armor');
+    const weapons = player._weapons.filter(item => item.type === 'weapon');
+
     return (
         <span className="mr-2 mb-2">
             <div
@@ -16,22 +21,22 @@ const InspectArenaPlayerCard = function InspectArenaPlayerCard({
                 }`}
             >
                 <div className="flex">
-                    <div className="w-24 flex flex-col justify-center items-center">
+                    <div className="w-32 flex flex-col justify-center items-center">
                         <img
                             className="w-12 h-12 rounded-full mb-1 "
                             src={player._user.profilePictureUrl}
-                            alt={player._user.displayName}
+                            alt={`${player._user.displayName}'s profile`}
                         />
                         <div className="font-semibold text-center">
-                            {truncateText(player._user.displayName, 9)}
+                            {truncateText(player._user.displayName, 16)}
                         </div>
                         <div className="font-semibold text-lg text-center flex justify-center items-center">
-                            {emojiToImageTag(":health-heart:", {}, "w-4 h-4")}
+                            {emojiToImageLabel(":health-heart:", {}, "w-4 h-4")}
                             <span className="text-base ml-1">
                                 {player.health}
                             </span>
-                            {emojiToImageTag(
-                                ":arena-armor-epic:",
+                            {armors && armors.length > 0 && emojiToImageLabel(
+                                armors.length === 1 ? armors[0].emoji : ":arena-armor-rare:",
                                 {},
                                 "h-5 w-5 ml-2"
                             )}
@@ -39,12 +44,12 @@ const InspectArenaPlayerCard = function InspectArenaPlayerCard({
 
                         <span className="thin font-sans text-center flex items-center justify-center mt-1 gap-1">
                             <span className="flex items-center">
-                                <span className="mr-1">4</span>
-                                {emojiToImageTag(":medkit:", {}, "h-5 w-5")}
+                                <span className="mr-1">{medKits.length}</span>
+                                {emojiToImageLabel(":medkit:", {}, "h-5 w-5")}
                             </span>
                             <span className="flex items-center">
                                 <span className="mr-1">112</span>
-                                {emojiToImageTag(":cheer-star:", {}, "h-5 w-5")}
+                                {emojiToImageLabel(":cheer-star:", {}, "h-5 w-5")}
                             </span>
                         </span>
                     </div>
@@ -53,8 +58,8 @@ const InspectArenaPlayerCard = function InspectArenaPlayerCard({
                         <div className="relative h-full flex flex-col">
                             <div className="absolute mt-2">
                                 <span className="text-gray-400 thin font-sans text-center flex justify-center items-center mb-2 opacity-5">
-                                    {emojiToImageTag(
-                                        ":corgi:",
+                                    {emojiToImageLabel(
+                                        player?._team?.emoji || ":corgi:",
                                         {},
                                         "h-32 w-32"
                                     )}
@@ -63,8 +68,10 @@ const InspectArenaPlayerCard = function InspectArenaPlayerCard({
 
                             <span className="text-gray-400 thin font-sans text-center flex ml-4">
                                 <div className="mt-2 flex flex-wrap">
-                                    {player._weapons.map((weapon) =>
-                                        emojiToImageTag(weapon.emoji, {})
+                                    {weapons.map((weapon) =>
+                                        <React.Fragment key={weapon.id}>
+                                            {emojiToImageLabel(weapon.emoji, {})}
+                                        </React.Fragment>
                                     )}
                                 </div>
                             </span>
