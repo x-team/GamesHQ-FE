@@ -5,7 +5,7 @@ import { ARENA_SLACK_COMMANDS } from "../../helpers/arenaHelper"
 import { handleGameResponse } from "../../helpers/slackHelper"
 import { toast } from "react-toastify";
 import ArenaCommandModal from "../ArenaCommandModal"
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { SlackBlockKitLayoutElement } from "../../SlackBlockKit";
 interface IProps {
     arenaGame?: IGame;
