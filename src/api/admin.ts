@@ -21,31 +21,35 @@ export const getActiveArenaGame = async () => {
   return arenaGame;
 };
 
-export const postArenaCommand = async (command: string): Promise<GameResponse> => {
+export const postArenaCommand = async (
+  command: string
+): Promise<GameResponse> => {
   const axios = await getAxiosInstance();
 
   const endpoint = gamesHqUrl + "/dashboard/admin/arena/command";
   const response = await axios.post(endpoint, {
-    command
+    command,
   });
   const gameCommandResponse = response.data as GameResponse;
 
   return gameCommandResponse;
 };
 
-export const postArenaAction = async (action: string, value?: string[]): Promise<GameResponse> => {
+export const postArenaAction = async (
+  action: string,
+  value?: string[]
+): Promise<GameResponse> => {
   const axios = await getAxiosInstance();
 
   const endpoint = gamesHqUrl + "/dashboard/admin/arena/action";
   const response = await axios.post(endpoint, {
     action,
-    value
+    value,
   });
   const gameCommandResponse = response.data as GameResponse;
 
   return gameCommandResponse;
 };
-
 
 // 🔫 Weapons
 
@@ -192,9 +196,13 @@ export const openOrCloseCurrentTowerGame = async (open: boolean) => {
 
 // 🪜 Floors
 
-export const updateFloor = async (floorId: number, data: IUpdateFloorData) => {
+export const updateFloor = async (
+  floorNumber: number,
+  data: IUpdateFloorData
+) => {
   const axios = await getAxiosInstance();
 
-  const endpoint = gamesHqUrl + `/dashboard/admin/floors/${floorId}/addEnemies`;
+  const endpoint =
+    gamesHqUrl + `/dashboard/admin/floors/${floorNumber}/addEnemies`;
   await axios.post(endpoint, data);
 };

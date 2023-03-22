@@ -26,13 +26,13 @@ const AddEnemyToFloorModal = ({
 
     const handleOnSaveButtonClick = async () => {
         try{
-            const floorId = floor?.id;
+            const floorNumber = floor?.number;
             const enemyIds = floorEnemies.map((enemy) => enemy.id) as number[];
     
-            if (!floorId || !enemyIds) {
+            if (!floorNumber || !enemyIds) {
                 return;
             }
-            await updateFloor(floorId, {
+            await updateFloor(floorNumber, {
                 enemyIds,
             });
             onClose(true);

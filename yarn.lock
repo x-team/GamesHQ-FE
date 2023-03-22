@@ -8333,7 +8333,11 @@
   dependencies:
     "firebaseui" "^6.0.0"
 
+<<<<<<< HEAD
+"react-icons@4.4.0":
+=======
 "react-icons@^4.4.0":
+>>>>>>> b6bb581c5b3fd8ae2247a1077edd2e3796a90614
   "integrity" "sha512-fSbvHeVYo/B5/L4VhB7sBA1i2tS8MkT0Hb9t2H1AVPkwGfVHLJCqyr2Py9dKMxsyM63Eng1GkdZfbWj+Fmv8Rg=="
   "resolved" "https://registry.npmjs.org/react-icons/-/react-icons-4.4.0.tgz"
   "version" "4.4.0"
