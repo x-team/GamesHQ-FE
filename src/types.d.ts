@@ -109,6 +109,7 @@ interface IWeapon {
   emoji: string;
   usageLimit: number | null;
   isArchived: boolean;
+  type?: string;
   _itemRarityId: TArenaRarity;
   _weapon: IWeaponData;
   _traits: ITrait[];
@@ -169,7 +170,6 @@ interface IGame {
   _arena: IArenaGame;
   _arenaPlayers: [IArenaPlayer];
 }
-
 interface IGameWithTower extends IGame {
   _tower: ITowerGame;
 }

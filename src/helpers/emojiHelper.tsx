@@ -6,6 +6,12 @@ const emojiToImageSrcMap: { [id: string]: string } = {
         "https://emoji.slack-edge.com/T0257R0RP/corgi/97ece3358f9f36fa.png",
     ":ragnar:":
         "https://emoji.slack-edge.com/T0257R0RP/ragnar/04e25e482cac6f41.png",
+    ":nascentfire:":
+        "https://emoji.slack-edge.com/T0257R0RP/nascent-fire/a68fb251a226ffa0.png",
+    ":lions-pride:":
+        "https://emoji.slack-edge.com/T0257R0RP/lions-pride/3fd84234325db483.png",
+    ":pandablob:":
+        "https://emoji.slack-edge.com/T0257R0RP/pandablob/7086d4fa683ea539.png",
 
     // WEAPONS
     ":rc06-envisioner:":
@@ -27,6 +33,20 @@ const emojiToImageSrcMap: { [id: string]: string } = {
         "https://emoji.slack-edge.com/T0257R0RP/flare-blasters-m21/1c256e330d689818.png",
     ":kobol's-thunderbolt:":
         "https://emoji.slack-edge.com/T0257R0RP/kobol%2527s-thunderbolt/dbf4814ca8141671.png",
+    ":cetraah's-firehawk:": 
+        "https://emoji.slack-edge.com/T0257R0RP/cetraah%2527s-firehawk/a5d8cb1a8899627b.png",
+    ":dmitrevna's-shotgun:":
+        "https://emoji.slack-edge.com/T0257R0RP/kade%2527s-dualpistols/bcdf7da6e0cffdeb.png",
+    ":kade's-dualpistols:":
+        "https://emoji.slack-edge.com/T0257R0RP/dmitrevna%2527s-shotgun/49abddfecad3820c.png",
+    ":pyro's-doublebarrel:":
+        "https://emoji.slack-edge.com/T0257R0RP/pyro%2527s-doublebarrel/e646382817f08734.png",
+    ":flamer's-firestarters:":
+        "https://emoji.slack-edge.com/T0257R0RP/flamer%2527s-firestarters/47a6b91eed78a86b.png",
+    ":cetraah's-executioner:":
+        "https://emoji.slack-edge.com/T0257R0RP/cetraah%2527s-executioner/a7314dd157b58360.png",
+    ":hellfire-shotgun:":
+        "https://emoji.slack-edge.com/T0257R0RP/hellfire-shotgun/07daccd70d9df07f.png",
 
     // ARMOR
     ":arena-armor-common:":
@@ -37,8 +57,6 @@ const emojiToImageSrcMap: { [id: string]: string } = {
         "https://emoji.slack-edge.com/T0257R0RP/arena-armor-epic/b6f60908f7d1f2c6.png",
     ":arena-armor-legendary:":
         "https://emoji.slack-edge.com/T0257R0RP/arena-armor-legendary/07e16ef899796139.png",
-    ":kade's-dualpistols:":
-        "https://emoji.slack-edge.com/T0257R0RP/kade%2527s-dualpistols/bcdf7da6e0cffdeb.png",
 
     // UI
     ":health-heart:":
@@ -54,9 +72,9 @@ export const emojiToImageSrc = (emoji: string, allEmoji: IAllEmoji) => {
     if (allEmoji[formattedEmoji]) {
         return allEmoji[formattedEmoji];
     }
-
+    
     return (
-        emojiToImageSrcMap[formattedEmoji] ||
+        emojiToImageSrcMap[emoji] ||
         "https://via.placeholder.com/128x128"
     );
 };
@@ -76,5 +94,21 @@ export const emojiToImageTag = (
             />
             {qty && <div className="rounded-full border-2 border-xteamaccent bg-xteamaccent p-0 w-7 scale-[0.6] translate-x-6 -translate-y-3"><span className="text-md text-white">{qty}</span></div>}
         </div>
+    );
+};
+
+
+
+export const emojiToImageLabel = (
+    emoji: string,
+    allEmoji: IAllEmoji,
+    className?: string
+) => {
+    return (
+        <img
+            className={`inline ${className || `h-6 w-6`}`}
+            src={emojiToImageSrc(emoji, allEmoji)}
+            alt={emoji + " emoji"}
+        />
     );
 };
