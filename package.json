@@ -30,12 +30,16 @@
     "start": "craco start",
     "build": "craco build",
     "test": "craco test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "lint": "eslint 'src/**/*.{js,jsx,ts,tsx}'",
+    "lint:fix": "eslint 'src/**/*.{js,jsx,ts,tsx}' --fix",
+    "format": "prettier --write 'src/**/*.{js,jsx,ts,tsx,css,md,json}' --config ./.prettierrc",
+    "prepare": "husky install"
   },
-  "eslintConfig": {
-    "extends": [
-      "react-app",
-      "react-app/jest"
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx}": [
+      "eslint --fix",
+      "prettier --write"
     ]
   },
   "browserslist": {
@@ -57,9 +61,17 @@
     "@types/react": "18.0.12",
     "@types/react-dom": "18.0.5",
     "@types/react-router-dom": "5.3.3",
+    "@typescript-eslint/eslint-plugin": "^8.9.0",
+    "@typescript-eslint/parser": "^8.9.0",
     "autoprefixer": "9.8.6",
+    "eslint": "^9.12.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-react": "^7.37.1",
+    "husky": "^8.0.0",
+    "lint-staged": "^15.2.10",
     "postcss": "8.4.14",
     "postcss-loader": "7.0.0",
+    "prettier": "^3.3.3",
     "tailwindcss": "3.1.3"
   }
 }
