@@ -1,43 +1,44 @@
-import { FormikHelpers, useFormik } from "formik";
-import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { SyncLoader } from "react-spinners";
-import * as Yup from "yup";
+import React from 'react'
+import { useFormik } from 'formik'
+import { useEffect, useState } from 'react'
+import { useNavigate, useParams } from 'react-router-dom'
+import { SyncLoader } from 'react-spinners'
+import * as Yup from 'yup'
 
-import { getEnemy, upsertEnemy } from "../api/admin";
-import Button from "../ui/Button";
-import Checkbox from "../ui/Checkbox";
-import TextInput from "../ui/TextInput";
+import { getEnemy, upsertEnemy } from '../api/admin'
+import Button from '../ui/Button'
+import Checkbox from '../ui/Checkbox'
+import TextInput from '../ui/TextInput'
 
 interface IForm {
-  name: string;
-  emoji: string;
-  gifUrl: string;
-  minorDamageRate: number;
-  majorDamageRate: number;
-  health: number;
-  isBoss: boolean;
-  actionPattern: string;
+  name: string
+  emoji: string
+  gifUrl: string
+  minorDamageRate: number
+  majorDamageRate: number
+  health: number
+  isBoss: boolean
+  actionPattern: string
 }
 
 interface IProps {
-  editMode?: boolean;
+  editMode?: boolean
 }
 
 const EnemyEditorPage = function EnemyEditorPage({ editMode }: IProps) {
-  const [isLoading, setLoading] = useState(false);
-  const [remoteEnemy, setRemoteEnemy] = useState<IEnemy | undefined>(undefined);
+  const [isLoading, setLoading] = useState(false)
+  const [remoteEnemy, setRemoteEnemy] = useState<IEnemy | undefined>(undefined)
 
-  const navigate = useNavigate();
-  const { enemyId } = useParams<{ enemyId: string }>();
+  const navigate = useNavigate()
+  const { enemyId } = useParams<{ enemyId: string }>()
 
   if (editMode && !isLoading && !remoteEnemy) {
-    setLoading(true);
+    setLoading(true)
   }
 
-  const onSubmit = async (values: IForm, actions: FormikHelpers<IForm>) => {
-    setLoading(true);
-    const numericEnemyId = parseInt(enemyId || "");
+  const onSubmit = async (values: IForm) => {
+    setLoading(true)
+    const numericEnemyId = parseInt(enemyId || '')
     await upsertEnemy({
       ...(editMode && numericEnemyId && { id: numericEnemyId }),
       name: values.name,
@@ -48,31 +49,31 @@ const EnemyEditorPage = function EnemyEditorPage({ editMode }: IProps) {
       majorDamageRate: values.majorDamageRate,
       minorDamageRate: values.minorDamageRate,
       abilitiesJson: {},
-      actionPattern: values.actionPattern.toUpperCase(),
-    });
-    navigate("/enemies");
-  };
+      actionPattern: values.actionPattern.toUpperCase()
+    })
+    navigate('/enemies')
+  }
 
   const initialForm: IForm = {
-    name: "",
-    emoji: "",
-    gifUrl: "",
+    name: '',
+    emoji: '',
+    gifUrl: '',
     health: 1,
     isBoss: false,
     majorDamageRate: 0,
     minorDamageRate: 0,
-    actionPattern: "",
-  };
+    actionPattern: ''
+  }
 
   const validationSchema = Yup.object({
-    name: Yup.string().max(30).required().label("Enemy Name"),
-    gifUrl: Yup.string().url().max(512).required().label("GIF Url"),
+    name: Yup.string().max(30).required().label('Enemy Name'),
+    gifUrl: Yup.string().url().max(512).required().label('GIF Url'),
     emoji: Yup.string()
       .max(30)
       .required()
-      .matches(/^:.*:$/, "Must begin and end with :, e.g :my-emoji:")
-      .label("Emoji"),
-    health: Yup.number().required().label("Health"),
+      .matches(/^:.*:$/, 'Must begin and end with :, e.g :my-emoji:')
+      .label('Emoji'),
+    health: Yup.number().required().label('Health'),
     actionPattern: Yup.string()
       .required()
       .min(1)
@@ -81,11 +82,11 @@ const EnemyEditorPage = function EnemyEditorPage({ editMode }: IProps) {
         /^[HAChac]*$/,
         "Must be a combination of 'H', 'A' and 'C' (e.g 'AAHC')"
       )
-      .label("Action Pattern"),
-    minorDamageRate: Yup.number().required().label("Minor Damage Rate"),
-    majorDamageRate: Yup.number().required().label("Major Damage Rate"),
-    isBoss: Yup.boolean().required().label("Is Archived"),
-  });
+      .label('Action Pattern'),
+    minorDamageRate: Yup.number().required().label('Minor Damage Rate'),
+    majorDamageRate: Yup.number().required().label('Major Damage Rate'),
+    isBoss: Yup.boolean().required().label('Is Archived')
+  })
 
   const {
     getFieldProps,
@@ -93,19 +94,19 @@ const EnemyEditorPage = function EnemyEditorPage({ editMode }: IProps) {
     handleSubmit,
     dirty,
     isValid,
-    setValues,
+    setValues
   } = useFormik({
     initialValues: initialForm,
     onSubmit,
-    validationSchema,
-  });
+    validationSchema
+  })
 
   useEffect(() => {
     async function fetchEnemy() {
       if (!enemyId) {
-        return;
+        return
       }
-      const enemy = await getEnemy(parseInt(enemyId));
+      const enemy = await getEnemy(parseInt(enemyId))
       setValues({
         name: enemy.name,
         emoji: enemy.emoji,
@@ -114,27 +115,27 @@ const EnemyEditorPage = function EnemyEditorPage({ editMode }: IProps) {
         isBoss: enemy.isBoss,
         majorDamageRate: enemy.majorDamageRate,
         minorDamageRate: enemy.minorDamageRate,
-        actionPattern: enemy._enemyPatternId,
-      } as IForm);
+        actionPattern: enemy._enemyPatternId
+      } as IForm)
 
-      setRemoteEnemy(enemy);
-      setLoading(false);
-      return enemy;
+      setRemoteEnemy(enemy)
+      setLoading(false)
+      return enemy
     }
 
-    fetchEnemy();
-  }, [enemyId, setValues]);
+    fetchEnemy()
+  }, [enemyId, setValues])
 
   if (isLoading) {
-    return <SyncLoader />;
+    return <SyncLoader />
   }
 
-  const isSubmitDisabled = !dirty || !isValid;
+  const isSubmitDisabled = !dirty || !isValid
 
   return (
     <div>
       <h2 className="text-2xl font-bold italic font-sans mb-8">
-        {editMode ? "UPDATE ENEMY" : "NEW ENEMY"}
+        {editMode ? 'UPDATE ENEMY' : 'NEW ENEMY'}
       </h2>
 
       <form onSubmit={handleSubmit}>
@@ -142,21 +143,21 @@ const EnemyEditorPage = function EnemyEditorPage({ editMode }: IProps) {
           <div>
             <TextInput
               label="Enemy Name"
-              {...getFieldProps("name")}
-              {...getFieldMeta("name")}
+              {...getFieldProps('name')}
+              {...getFieldMeta('name')}
             />
           </div>
 
           <div>
             <TextInput
               label="Emoji"
-              {...getFieldProps("emoji")}
-              {...getFieldMeta("emoji")}
+              {...getFieldProps('emoji')}
+              {...getFieldMeta('emoji')}
             />
           </div>
 
           <div>
-            <Checkbox id="isBoss" {...getFieldProps("isBoss")}>
+            <Checkbox id="isBoss" {...getFieldProps('isBoss')}>
               Boss
             </Checkbox>
           </div>
@@ -167,16 +168,16 @@ const EnemyEditorPage = function EnemyEditorPage({ editMode }: IProps) {
             <TextInput
               label="GIF Url"
               extraClass="w-5/6"
-              {...getFieldProps("gifUrl")}
-              {...getFieldMeta("gifUrl")}
+              {...getFieldProps('gifUrl')}
+              {...getFieldMeta('gifUrl')}
             />
           </div>
 
           <div>
             <TextInput
               label="Action Pattern"
-              {...getFieldProps("actionPattern")}
-              {...getFieldMeta("actionPattern")}
+              {...getFieldProps('actionPattern')}
+              {...getFieldMeta('actionPattern')}
             />
           </div>
         </div>
@@ -185,8 +186,8 @@ const EnemyEditorPage = function EnemyEditorPage({ editMode }: IProps) {
           <div>
             <TextInput
               label="Health"
-              {...getFieldProps("health")}
-              {...getFieldMeta("health")}
+              {...getFieldProps('health')}
+              {...getFieldMeta('health')}
               type="number"
             />
           </div>
@@ -194,8 +195,8 @@ const EnemyEditorPage = function EnemyEditorPage({ editMode }: IProps) {
           <div>
             <TextInput
               label="Minor Damage Rate"
-              {...getFieldProps("minorDamageRate")}
-              {...getFieldMeta("minorDamageRate")}
+              {...getFieldProps('minorDamageRate')}
+              {...getFieldMeta('minorDamageRate')}
               type="number"
             />
           </div>
@@ -203,8 +204,8 @@ const EnemyEditorPage = function EnemyEditorPage({ editMode }: IProps) {
           <div>
             <TextInput
               label="Major Damage Rate"
-              {...getFieldProps("majorDamageRate")}
-              {...getFieldMeta("majorDamageRate")}
+              {...getFieldProps('majorDamageRate')}
+              {...getFieldMeta('majorDamageRate')}
               type="number"
             />
           </div>
@@ -212,12 +213,12 @@ const EnemyEditorPage = function EnemyEditorPage({ editMode }: IProps) {
 
         <div className="mt-8">
           <Button disabled={isSubmitDisabled} type="submit">
-            {editMode ? "Update Enemy" : "Create Enemy"}
+            {editMode ? 'Update Enemy' : 'Create Enemy'}
           </Button>
         </div>
       </form>
     </div>
-  );
-};
+  )
+}
 
-export default EnemyEditorPage;
+export default EnemyEditorPage
