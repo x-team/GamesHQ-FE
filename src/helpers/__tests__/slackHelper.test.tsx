@@ -2,12 +2,12 @@ import {
   convertToSlackBlocksToUI,
   handleGameResponse,
   separateEmojisFromText,
-} from "../helpers/slackHelper";
+} from "../slackHelper";
 import {
   SlackBlockKitLayoutElement,
   GameResponse,
   SlackBlockKitCompositionTextOnly,
-} from "../SlackBlockKit";
+} from "../../SlackBlockKit";
 
 describe("convertToSlackBlocksToUI", () => {
   it("should convert Slack blocks to UI components", () => {

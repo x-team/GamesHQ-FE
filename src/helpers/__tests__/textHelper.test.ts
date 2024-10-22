@@ -1,4 +1,4 @@
-import { truncateText } from "../helpers/textHelper";
+import { truncateText } from "../textHelper";
 
 describe("truncateText", () => {
   it("should return the original text if it is shorter than maxChar", () => {
