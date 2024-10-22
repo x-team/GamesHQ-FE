@@ -18,6 +18,6 @@ RUN apk add --no-cache python3 py-pip py-setuptools groff less openssl ca-certif
 RUN wget https://github.com/Droplr/aws-env/raw/master/bin/aws-env-linux-amd64 -O /bin/aws-env && chmod +x /bin/aws-env
 
 #Install dependencies and build
-RUN yarn install && yarn build && yarn add serve
+RUN npm install && npm run build && npm install serve
 
-CMD eval $(aws-env) && yarn serve build
+CMD eval $(aws-env) && npx serve build
