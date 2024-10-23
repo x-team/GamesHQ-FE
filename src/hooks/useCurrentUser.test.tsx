@@ -1,8 +1,8 @@
 import { renderHook, act } from '@testing-library/react-hooks';
-import { checkSession } from '../../api/signInAndOut';
-import useCurrentUser from '../../hooks/useCurrentUser';
+import { checkSession } from '../api/signInAndOut';
+import useCurrentUser from '../hooks/useCurrentUser';
 
-jest.mock('../../api/signInAndOut');
+jest.mock('../api/signInAndOut');
 
 describe('useCurrentUser', () => {
   beforeEach(() => {
