@@ -1,7 +1,7 @@
-import { handleLogoutClick } from "../signInAndOutHelper";
-import { logOutFromGamesAPI } from "../../api/signInAndOut";
+import { handleLogoutClick } from "./signInAndOutHelper";
+import { logOutFromGamesAPI } from "../api/signInAndOut";
 
-jest.mock("../../api/signInAndOut", () => ({
+jest.mock("../api/signInAndOut", () => ({
   logOutFromGamesAPI: jest.fn(),
 }));
 
