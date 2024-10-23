@@ -26,7 +26,7 @@ const mockLeaderboardResults = [
   }
 ]
 
-const setup = (mockData = mockLeaderboardResults) => {
+const renderComponent = (mockData = mockLeaderboardResults) => {
   ;(getLeaderboardResults as jest.Mock).mockResolvedValue(mockData)
   return render(
     <MemoryRouter initialEntries={[ROUTE]}>
@@ -42,12 +42,12 @@ const setup = (mockData = mockLeaderboardResults) => {
 
 describe('LeaderboardRanksPage', () => {
   it('renders the page title correctly', () => {
-    setup()
+    renderComponent()
     expect(screen.getByText('LEADERBOARD RESULTS')).toBeInTheDocument()
   })
 
   it('renders the table headers correctly', async () => {
-    setup()
+    renderComponent()
     await waitFor(() => {
       ;['id', 'score', 'User', 'Meta(JSON)'].forEach(header => {
         expect(screen.getByText(header)).toBeInTheDocument()
@@ -56,7 +56,7 @@ describe('LeaderboardRanksPage', () => {
   })
 
   it('renders the leaderboard results correctly', async () => {
-    setup()
+    renderComponent()
     await waitFor(() => {
       mockLeaderboardResults.forEach(result => {
         expect(screen.getByText(result._user.email)).toBeInTheDocument()
@@ -66,7 +66,7 @@ describe('LeaderboardRanksPage', () => {
   })
 
   it('calls getLeaderboardResults with correct parameters', async () => {
-    setup()
+    renderComponent()
     await waitFor(() => {
       expect(getLeaderboardResults).toHaveBeenCalledWith(
         Number(GAME_TYPE_ID),
@@ -76,7 +76,7 @@ describe('LeaderboardRanksPage', () => {
   })
 
   it('renders an empty table when no results are available', async () => {
-    setup([])
+    renderComponent([])
     await waitFor(() => {
       expect(screen.getByRole('table')).toBeInTheDocument()
       expect(screen.queryByText('user1@example.com')).not.toBeInTheDocument()
@@ -84,7 +84,7 @@ describe('LeaderboardRanksPage', () => {
   })
 
   it('renders the Back button', () => {
-    setup()
+    renderComponent()
     expect(screen.getByText('Back')).toBeInTheDocument()
   })
 })
