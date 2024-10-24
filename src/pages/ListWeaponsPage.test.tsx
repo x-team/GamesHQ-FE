@@ -1,12 +1,12 @@
 import React from 'react'
 import { render, screen, waitFor, fireEvent } from '@testing-library/react'
 import { MemoryRouter } from 'react-router-dom'
-import ListWeaponsPage from '../ListWeaponsPage'
-import { getWeapons, deleteWeapon } from '../../api/admin'
+import ListWeaponsPage from './ListWeaponsPage'
+import { getWeapons, deleteWeapon } from '../api/admin'
 import Swal from 'sweetalert2'
 
 // Mock the API calls
-jest.mock('../../api/admin')
+jest.mock('../api/admin')
 jest.mock('sweetalert2')
 
 const mockWeapons = [

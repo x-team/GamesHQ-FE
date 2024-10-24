@@ -1,118 +1,118 @@
-import { useFormik } from "formik";
-import { useEffect, useState } from "react";
+import { useFormik } from 'formik'
+import React, { useEffect, useState } from 'react'
 // import { useNavigate } from "react-router";
-import { Link } from "react-router-dom";
-import { SyncLoader } from "react-spinners";
-import Swal from "sweetalert2";
-import * as Yup from "yup";
+import { Link } from 'react-router-dom'
+import { SyncLoader } from 'react-spinners'
+import Swal from 'sweetalert2'
+import * as Yup from 'yup'
 import {
   createTowerGame,
   endCurrentTowerGame,
   getCurrentTowerGameStatus,
-  openOrCloseCurrentTowerGame,
-} from "../api/admin";
-import Button from "../ui/Button";
-import PanelBox from "../ui/PanelBox";
-import TextInput from "../ui/TextInput";
+  openOrCloseCurrentTowerGame
+} from '../api/admin'
+import Button from '../ui/Button'
+import PanelBox from '../ui/PanelBox'
+import TextInput from '../ui/TextInput'
 
 interface IForm {
-  name: string;
-  height: number;
+  name: string
+  height: number
 }
 
 const TowerGamePage = () => {
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState(false)
   const [currentTowerGame, setCurrentTowerGame] =
-    useState<IGameWithTower | null>(null);
+    useState<IGameWithTower | null>(null)
   // const navigate = useNavigate();
 
   const initialValues: IForm = {
-    name: "",
-    height: 10,
-  };
+    name: '',
+    height: 10
+  }
 
   const onSubmit = async (values: IForm) => {
-    setIsLoading(true);
+    setIsLoading(true)
     await createTowerGame({
       name: values.name,
-      height: values.height,
-    });
+      height: values.height
+    })
     // history.go(0);
-  };
+  }
 
   const handleEndGameButtonClick = async () => {
     const swalResult = await Swal.fire({
-      title: "Are you sure you want to end the current tower game?",
-      icon: "warning",
+      title: 'Are you sure you want to end the current tower game?',
+      icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, end it!",
-    });
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, end it!'
+    })
     if (!swalResult.isConfirmed) {
-      return;
+      return
     }
-    setIsLoading(true);
-    await endCurrentTowerGame();
+    setIsLoading(true)
+    await endCurrentTowerGame()
     // history.go(0);
-  };
+  }
 
   const handleOpenTowerButtonClick = async () => {
     const swalResult = await Swal.fire({
-      title: "Open the tower to the people?",
-      icon: "question",
+      title: 'Open the tower to the people?',
+      icon: 'question',
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, open the tower!",
-    });
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, open the tower!'
+    })
     if (!swalResult.isConfirmed) {
-      return;
+      return
     }
-    setIsLoading(true);
-    await openOrCloseCurrentTowerGame(true);
+    setIsLoading(true)
+    await openOrCloseCurrentTowerGame(true)
     // history.go(0);
-  };
+  }
 
   const handleCloseTowerButtonClick = async () => {
     const swalResult = await Swal.fire({
-      title: "Close the tower to the people?",
-      icon: "warning",
+      title: 'Close the tower to the people?',
+      icon: 'warning',
       showCancelButton: true,
-      confirmButtonColor: "#3085d6",
-      cancelButtonColor: "#d33",
-      confirmButtonText: "Yes, CLOSE the tower!",
-    });
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, CLOSE the tower!'
+    })
     if (!swalResult.isConfirmed) {
-      return;
+      return
     }
-    setIsLoading(true);
-    await openOrCloseCurrentTowerGame(false);
+    setIsLoading(true)
+    await openOrCloseCurrentTowerGame(false)
     // history.go(0);
-  };
+  }
 
   const validationSchema = Yup.object({
-    name: Yup.string().max(30).required().label("Name"),
-    height: Yup.number().min(1).required().label("Height (floors)"),
-  });
+    name: Yup.string().max(30).required().label('Name'),
+    height: Yup.number().min(1).required().label('Height (floors)')
+  })
 
   const { getFieldProps, getFieldMeta, handleSubmit, dirty, isValid } =
     useFormik({
       initialValues,
       onSubmit,
-      validationSchema,
-    });
+      validationSchema
+    })
 
   useEffect(() => {
     const fetchCurrentTowerGame = async () => {
-      setIsLoading(true);
-      const towerGame = await getCurrentTowerGameStatus();
-      setCurrentTowerGame(towerGame);
-      setIsLoading(false);
-    };
+      setIsLoading(true)
+      const towerGame = await getCurrentTowerGameStatus()
+      setCurrentTowerGame(towerGame)
+      setIsLoading(false)
+    }
 
-    fetchCurrentTowerGame();
-  }, [setCurrentTowerGame]);
+    fetchCurrentTowerGame()
+  }, [setCurrentTowerGame])
 
   const renderCurrentTowerGame = () => {
     if (!currentTowerGame) {
@@ -123,7 +123,7 @@ const TowerGamePage = () => {
           </span>
           <hr className="my-4" />
         </div>
-      );
+      )
     }
 
     return (
@@ -142,11 +142,11 @@ const TowerGamePage = () => {
             <section>
               <strong>Prizes</strong>
               <div>
-                <span>LunaIcon</span>{" "}
+                <span>LunaIcon</span>{' '}
                 <span>{currentTowerGame._tower.lunaPrize}</span>
               </div>
               <div>
-                <span>CoinIcon</span>{" "}
+                <span>CoinIcon</span>{' '}
                 <span>{currentTowerGame._tower.coinPrize}</span>
               </div>
             </section>
@@ -172,10 +172,10 @@ const TowerGamePage = () => {
         </div>
 
         <div className="mt-2">
-          Why don't you add some floors at the{" "}
+          Why don&apos;t you add some floors at the{' '}
           <Link to="/floors" className="text-xteamaccent italic">
             Floors
-          </Link>{" "}
+          </Link>{' '}
           page?
         </div>
 
@@ -185,14 +185,14 @@ const TowerGamePage = () => {
           End Game
         </Button>
       </div>
-    );
-  };
+    )
+  }
 
   const renderNewTowerGameForm = () => {
     if (currentTowerGame) {
-      return;
+      return
     }
-    const isSubmitDisabled = !isValid || !dirty;
+    const isSubmitDisabled = !isValid || !dirty
 
     return (
       <div className="mt-8">
@@ -203,14 +203,14 @@ const TowerGamePage = () => {
           <div className="flex gap-8">
             <TextInput
               label="Name"
-              {...getFieldProps("name")}
-              {...getFieldMeta("name")}
+              {...getFieldProps('name')}
+              {...getFieldMeta('name')}
             />
 
             <TextInput
               label="Height (number of floors)"
-              {...getFieldProps("height")}
-              {...getFieldMeta("height")}
+              {...getFieldProps('height')}
+              {...getFieldMeta('height')}
               type="number"
             />
           </div>
@@ -221,8 +221,8 @@ const TowerGamePage = () => {
           </div>
         </form>
       </div>
-    );
-  };
+    )
+  }
 
   return (
     <div>
@@ -237,7 +237,7 @@ const TowerGamePage = () => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}
 
-export default TowerGamePage;
+export default TowerGamePage

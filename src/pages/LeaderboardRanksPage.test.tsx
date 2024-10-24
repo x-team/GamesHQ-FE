@@ -1,11 +1,11 @@
 import React from 'react'
 import { render, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
-import LeaderboardRanksPage from '../LeaderboardRanksPage'
-import { getLeaderboardResults } from '../../api/leaderboards'
+import LeaderboardRanksPage from './LeaderboardRanksPage'
+import { getLeaderboardResults } from '../api/leaderboards'
 
 // Mock the API call
-jest.mock('../../api/leaderboards')
+jest.mock('../api/leaderboards')
 
 const GAME_TYPE_ID = '1'
 const LEADERBOARD_ID = '2'

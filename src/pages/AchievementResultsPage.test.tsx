@@ -1,14 +1,14 @@
 import React from 'react'
 import { render, screen, waitFor } from '@testing-library/react'
 import { MemoryRouter, Route, Routes } from 'react-router-dom'
-import AchievementResultsPage from '../AchievementResultsPage'
-import { getAchievementsProgress } from '../../api/achievements'
+import AchievementResultsPage from './AchievementResultsPage'
+import { getAchievementsProgress } from '../api/achievements'
 
 // Mock the api function
-jest.mock('../../api/achievements')
+jest.mock('../api/achievements')
 
 // Mock the Button component
-jest.mock('../../ui/Button', () => {
+jest.mock('../ui/Button', () => {
   const Button = ({
     children,
     onClick
