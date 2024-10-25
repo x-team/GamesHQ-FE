@@ -5,7 +5,6 @@ import TowerGamePage from '../pages/TowerGamePage'
 import * as api from '../api/admin'
 import Swal from 'sweetalert2'
 
-// Mock the API functions
 jest.mock('../api/admin')
 jest.mock('sweetalert2')
 jest.mock('react-spinners', () => ({
@@ -206,5 +205,32 @@ describe('TowerGamePage', () => {
     await waitFor(() => {
       expect(api.endCurrentTowerGame).toHaveBeenCalled()
     })
+  })
+
+  test('create new tower game when form is submitted', async () => {
+    ;(api.createTowerGame as jest.Mock).mockResolvedValue(mockCurrentTowerGame)
+
+    render(
+      <BrowserRouter>
+        <TowerGamePage />
+      </BrowserRouter>
+    )
+
+    await waitFor(() => {
+      fireEvent.change(screen.getByTestId('tower-name'), {
+        target: { value: 'Test Tower' }
+      })
+      fireEvent.change(screen.getByTestId('tower-height'), {
+        target: { value: '15' }
+      })
+
+      const button = screen.getByRole('button', {
+        name: /create new tower game/i
+      })
+
+      fireEvent.click(button)
+    })
+
+    expect(api.createTowerGame).toHaveBeenCalled()
   })
 })

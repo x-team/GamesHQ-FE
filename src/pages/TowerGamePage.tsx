@@ -205,6 +205,7 @@ const TowerGamePage = () => {
               label="Name"
               {...getFieldProps('name')}
               {...getFieldMeta('name')}
+              testId="tower-name"
             />
 
             <TextInput
@@ -212,6 +213,7 @@ const TowerGamePage = () => {
               {...getFieldProps('height')}
               {...getFieldMeta('height')}
               type="number"
+              testId="tower-height"
             />
           </div>
           <div className="mt-8">
