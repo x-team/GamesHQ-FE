@@ -43,12 +43,12 @@ describe('AchievementResultsPage', () => {
     )
   })
 
-  it('renders the achievement rank title', async () => {
+  test('renders the achievement rank title', async () => {
     await renderComponent('/games/1/achievements/2')
     expect(screen.getByText('ACHIEVEMENT RANK')).toBeInTheDocument()
   })
 
-  it('fetches and displays achievement results', async () => {
+  test('fetches and displays achievement results', async () => {
     await renderComponent('/games/1/achievements/2')
 
     await waitFor(() => {
@@ -60,13 +60,13 @@ describe('AchievementResultsPage', () => {
     })
   })
 
-  it('renders the back button', async () => {
+  test('renders the back button', async () => {
     renderComponent('/games/1/achievements/2')
 
     expect(screen.getByText('Back')).toBeInTheDocument()
   })
 
-  it('does not fetch achievements when gameTypeId or achievementId is missing', async () => {
+  test('does not fetch achievements when gameTypeId or achievementId is missing', async () => {
     await renderComponent('/games//achievements/')
 
     expect(getAchievementsProgress).not.toHaveBeenCalled()

@@ -41,12 +41,12 @@ const renderComponent = (mockData = mockLeaderboardResults) => {
 }
 
 describe('LeaderboardRanksPage', () => {
-  it('renders the page title correctly', () => {
+  test('renders the page title correctly', () => {
     renderComponent()
     expect(screen.getByText('LEADERBOARD RESULTS')).toBeInTheDocument()
   })
 
-  it('renders the table headers correctly', async () => {
+  test('renders the table headers correctly', async () => {
     renderComponent()
     await waitFor(() => {
       ;['id', 'score', 'User', 'Meta(JSON)'].forEach(header => {
@@ -55,7 +55,7 @@ describe('LeaderboardRanksPage', () => {
     })
   })
 
-  it('renders the leaderboard results correctly', async () => {
+  test('renders the leaderboard results correctly', async () => {
     renderComponent()
     await waitFor(() => {
       mockLeaderboardResults.forEach(result => {
@@ -65,7 +65,7 @@ describe('LeaderboardRanksPage', () => {
     })
   })
 
-  it('calls getLeaderboardResults with correct parameters', async () => {
+  test('calls getLeaderboardResults with correct parameters', async () => {
     renderComponent()
     await waitFor(() => {
       expect(getLeaderboardResults).toHaveBeenCalledWith(
@@ -75,7 +75,7 @@ describe('LeaderboardRanksPage', () => {
     })
   })
 
-  it('renders an empty table when no results are available', async () => {
+  test('renders an empty table when no results are available', async () => {
     renderComponent([])
     await waitFor(() => {
       expect(screen.getByRole('table')).toBeInTheDocument()
@@ -83,7 +83,7 @@ describe('LeaderboardRanksPage', () => {
     })
   })
 
-  it('renders the Back button', () => {
+  test('renders the Back button', () => {
     renderComponent()
     expect(screen.getByText('Back')).toBeInTheDocument()
   })

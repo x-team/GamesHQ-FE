@@ -47,17 +47,17 @@ describe('ListWeaponsPage', () => {
     ;(getWeapons as jest.Mock).mockResolvedValue(mockWeapons)
   })
 
-  it('renders the page title correctly', async () => {
+  test('renders the page title correctly', async () => {
     renderComponent()
     expect(screen.getByText('WEAPONS')).toBeInTheDocument()
   })
 
-  it('renders the "New Weapon" button', async () => {
+  test('renders the "New Weapon" button', async () => {
     renderComponent()
     expect(screen.getByText('New Weapon')).toBeInTheDocument()
   })
 
-  it('fetches and displays weapons', async () => {
+  test('fetches and displays weapons', async () => {
     renderComponent()
     await waitFor(() => {
       expect(screen.getByText('Sword')).toBeInTheDocument()
@@ -65,7 +65,7 @@ describe('ListWeaponsPage', () => {
     })
   })
 
-  it('displays weapon details correctly', async () => {
+  test('displays weapon details correctly', async () => {
     renderComponent()
     await waitFor(() => {
       expect(screen.getByText('5 ~ 10')).toBeInTheDocument() // Damage for Sword
@@ -76,7 +76,7 @@ describe('ListWeaponsPage', () => {
     })
   })
 
-  it('sorts weapons by rarity', async () => {
+  test('sorts weapons by rarity', async () => {
     renderComponent()
     await waitFor(() => {
       const weapons = screen.getAllByText(/Sword|Bow/)
@@ -85,7 +85,7 @@ describe('ListWeaponsPage', () => {
     })
   })
 
-  it('handles error state', async () => {
+  test('handles error state', async () => {
     const errorMessage = 'Failed to fetch weapons'
     ;(getWeapons as jest.Mock).mockRejectedValue(new Error(errorMessage))
     renderComponent()
@@ -94,7 +94,7 @@ describe('ListWeaponsPage', () => {
     })
   })
 
-  it('calls deleteWeapon when delete button is clicked and confirmed', async () => {
+  test('calls deleteWeapon when delete button is clicked and confirmed', async () => {
     ;(Swal.fire as jest.Mock).mockResolvedValue({ isConfirmed: true })
     renderComponent()
     await waitFor(() => {
@@ -103,7 +103,7 @@ describe('ListWeaponsPage', () => {
     expect(Swal.fire).toHaveBeenCalled()
   })
 
-  it('does not call deleteWeapon when delete is not confirmed', async () => {
+  test('does not call deleteWeapon when delete is not confirmed', async () => {
     ;(Swal.fire as jest.Mock).mockResolvedValue({ isConfirmed: false })
     renderComponent()
     await waitFor(() => {

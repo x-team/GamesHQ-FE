@@ -32,7 +32,7 @@ describe('ListZonesPage', () => {
     ;(Swal.fire as jest.Mock).mockResolvedValue({ isConfirmed: true })
   })
 
-  it('renders the component and fetches zones', async () => {
+  test('renders the component and fetches zones', async () => {
     render(
       <BrowserRouter>
         <ListZonesPage />
@@ -48,7 +48,7 @@ describe('ListZonesPage', () => {
     })
   })
 
-  it('displays loading spinner while fetching zones', async () => {
+  test('displays loading spinner while fetching zones', async () => {
     render(
       <BrowserRouter>
         <ListZonesPage />
@@ -62,7 +62,7 @@ describe('ListZonesPage', () => {
     })
   })
 
-  it('displays archived status for archived zones', async () => {
+  test('displays archived status for archived zones', async () => {
     render(
       <BrowserRouter>
         <ListZonesPage />
@@ -74,7 +74,7 @@ describe('ListZonesPage', () => {
     })
   })
 
-  it('deletes a zone when delete button is clicked and confirmed', async () => {
+  test('deletes a zone when delete button is clicked and confirmed', async () => {
     ;(deleteZone as jest.Mock).mockResolvedValue(undefined)
 
     render(
@@ -103,7 +103,7 @@ describe('ListZonesPage', () => {
     })
   })
 
-  it('does not delete a zone when delete is canceled', async () => {
+  test('does not delete a zone when delete is canceled', async () => {
     ;(Swal.fire as jest.Mock).mockResolvedValue({ isConfirmed: false })
 
     render(
