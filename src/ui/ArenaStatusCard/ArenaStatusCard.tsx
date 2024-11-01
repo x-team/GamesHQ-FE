@@ -7,7 +7,6 @@ import { toast } from 'react-toastify'
 import ArenaCommandModal from '../ArenaCommandModal'
 import React, { useState } from 'react'
 import { SlackBlockKitLayoutElement } from '../../SlackBlockKit'
-
 export interface IProps {
   arenaGame?: IGame
   onUpdate: () => void
