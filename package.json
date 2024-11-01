@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@craco/craco": "6.4.3",
+    "@sentry/react": "8.34.0",
     "@testing-library/jest-dom": "5.16.4",
     "@testing-library/react": "12.1.5",
     "@testing-library/user-event": "14.2.0",
