@@ -1,12 +1,7 @@
-interface IProps {
-    text: string;
-    emoji: boolean
-}
+import React from 'react'
 
 const SlackBlockPlainText = () => {
-    return (
-        <hr className="my-4" />
-    );
-};
+  return <hr className="my-4" />
+}
 
-export default SlackBlockPlainText;
+export default SlackBlockPlainText
