@@ -1,7 +1,21 @@
 {
-  "semi": true,
-  "trailingComma": "es5",
+  "printWidth": 80,
+  "tabWidth": 2,
   "singleQuote": true,
-  "printWidth": 100,
-  "tabWidth": 2
+  "semi": false,
+  "trailingComma": "none",
+  "arrowParens": "avoid",
+  "endOfLine": "lf",
+  "overrides": [
+    {
+      "files": ".prettierrc",
+      "options": { "parser": "json" }
+    },
+    {
+      "files": "*.js",
+      "options": {
+        "parser": "flow"
+      }
+    }
+  ]
 }
