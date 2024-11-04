@@ -1,4 +1,4 @@
-import * as Sentry from "@sentry/react"
+import * as Sentry from '@sentry/react'
 
 const SENTRY_DSN = process.env.REACT_APP_SENTRY_DSN
 const environment = process.env.REACT_APP_SENTRY_ENV
@@ -14,7 +14,7 @@ if (SENTRY_DSN) {
     dsn: SENTRY_DSN,
     integrations: [
       Sentry.browserTracingIntegration(),
-      Sentry.replayIntegration(),
+      Sentry.replayIntegration()
     ],
 
     // Set tracesSampleRate to 1.0 to capture 100%
@@ -29,11 +29,7 @@ if (SENTRY_DSN) {
     environment,
 
     // Session Replay
-    replaysSessionSampleRate: sentryEventRate
-      ? Number(sentryEventRate)
-      : 0.1,
-    replaysOnErrorSampleRate: sentryEventRate
-      ? Number(sentryEventRate)
-      : 1.0,
+    replaysSessionSampleRate: sentryEventRate ? Number(sentryEventRate) : 0.1,
+    replaysOnErrorSampleRate: sentryEventRate ? Number(sentryEventRate) : 1.0
   })
 }
