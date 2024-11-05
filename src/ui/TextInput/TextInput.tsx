@@ -1,5 +1,4 @@
 import React from 'react'
-
 interface IProps {
   error?: string
   name: string
@@ -9,6 +8,7 @@ interface IProps {
   extraClass?: string
   helperText?: string
   fullWidth?: boolean
+  testId?: string
 }
 
 const renderInputError = (error?: string, touched?: boolean) => {
@@ -27,6 +27,7 @@ function TextInput({
   label,
   extraClass,
   fullWidth,
+  testId,
   ...props
 }: IProps) {
   const calculateColors = () => {
@@ -56,6 +57,7 @@ function TextInput({
       </label>
 
       <input
+        data-testid={testId}
         type={type ?? 'text'}
         className={`shadow ${calculateColors()} border rounded py-2 px-3 leading-tight focus:outline-none focus:shadow-outline ${extraClass} ${fullWidth ? 'w-full' : ''}`}
         {...props}

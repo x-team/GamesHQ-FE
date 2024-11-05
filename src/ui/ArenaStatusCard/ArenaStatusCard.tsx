@@ -1,3 +1,5 @@
+import React from 'react'
+
 import PanelBox from '../PanelBox'
 import Button from '../../ui/Button'
 import { postArenaCommand } from '../../api/admin'
@@ -5,9 +7,9 @@ import { ARENA_SLACK_COMMANDS } from '../../helpers/arenaHelper'
 import { handleGameResponse } from '../../helpers/slackHelper'
 import { toast } from 'react-toastify'
 import ArenaCommandModal from '../ArenaCommandModal'
-import React, { useState } from 'react'
+import { useState } from 'react'
 import { SlackBlockKitLayoutElement } from '../../SlackBlockKit'
-export interface IProps {
+interface IProps {
   arenaGame?: IGame
   onUpdate: () => void
 }

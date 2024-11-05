@@ -1,5 +1,6 @@
+import React from 'react'
 import { useFormik } from 'formik'
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 import { SyncLoader } from 'react-spinners'
 import * as Yup from 'yup'
