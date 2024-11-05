@@ -7,7 +7,7 @@ interface IProps {
 }
 
 const Modal = ({ children, onClose, show }: IProps) => {
-  const handleOnCloseClick = (e: any) => {
+  const handleOnCloseClick = (e: React.MouseEvent<HTMLDivElement>) => {
     e.stopPropagation()
     onClose()
   }

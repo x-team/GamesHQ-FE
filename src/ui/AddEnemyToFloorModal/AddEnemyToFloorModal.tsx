@@ -40,26 +40,26 @@ const AddEnemyToFloorModal = ({
       toast('Floor edited successfully.', {
         type: 'success'
       })
-    } catch (err: any) {
-      toast(`Error adding enemies to floor. ${err?.message} `, {
-        type: 'error'
-      })
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        toast(`Error adding enemies to floor. ${err.message} `, {
+          type: 'error'
+        })
+      }
     }
   }
 
-  const handleOnAddEnemyClick =
-    (enemy: IEnemy) => (event: React.MouseEvent<HTMLElement>) => {
-      setFloorEnemies([...floorEnemies, enemy])
-    }
+  const handleOnAddEnemyClick = (enemy: IEnemy) => () => {
+    setFloorEnemies([...floorEnemies, enemy])
+  }
 
-  const handleOnRemoveEnemyClick =
-    (enemyToRemove: IEnemy) => (event: React.MouseEvent<HTMLElement>) => {
-      const newFloorEnemiesArray = [...floorEnemies]
-      const indexOfEnemy = newFloorEnemiesArray.indexOf(enemyToRemove)
-      newFloorEnemiesArray.splice(indexOfEnemy, 1)
+  const handleOnRemoveEnemyClick = (enemyToRemove: IEnemy) => () => {
+    const newFloorEnemiesArray = [...floorEnemies]
+    const indexOfEnemy = newFloorEnemiesArray.indexOf(enemyToRemove)
+    newFloorEnemiesArray.splice(indexOfEnemy, 1)
 
-      setFloorEnemies(newFloorEnemiesArray)
-    }
+    setFloorEnemies(newFloorEnemiesArray)
+  }
 
   const handleCloseModal = () => {
     onClose(false)

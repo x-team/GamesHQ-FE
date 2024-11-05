@@ -2,7 +2,7 @@ import React from 'react'
 
 interface IProps {
   id?: string
-  onChange: (e: React.ChangeEvent<any>) => void
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void
   name: string
   value: string
   error?: string

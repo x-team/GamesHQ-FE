@@ -2,7 +2,7 @@ import React from 'react'
 
 interface IProps {
   children: React.ReactNode
-  className?: any
+  className?: string
 }
 
 function PanelBox(props: IProps) {
