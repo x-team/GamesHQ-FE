@@ -1,7 +1,7 @@
-const SlackBlockPlainText = () => {
-    return (
-        <hr className="my-4" />
-    );
-};
+import React from 'react'
 
-export default SlackBlockPlainText;
+const SlackBlockPlainText = () => {
+  return <hr className="my-4" />
+}
+
+export default SlackBlockPlainText
